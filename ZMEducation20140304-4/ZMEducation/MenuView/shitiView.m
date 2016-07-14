@@ -1,0 +1,258 @@
+#import "shitiView.h"
+#import "RegexKitLite.h"
+
+@implementation shitiView
+@synthesize answerArr = _answerArr;
+@synthesize questionId;
+@synthesize questionType;
+
+
+-(id)initWithQuestion:(NSDictionary *)question frame:(CGRect)frame{
+    
+    if (self = [super initWithFrame:frame]) {
+        
+        questionId = [[question objectForKey:@"questionId"]intValue];
+        questionType = [[question objectForKey:@"questionType"]intValue];
+        
+        _answerInput = [[NSMutableArray alloc]init];
+        _checkBox = [[NSMutableArray alloc]init];
+        
+        if ([[question objectForKey:@"questionType"] intValue] == 0) {//简答题
+             float totalHeight = 0.0f;
+             NSString * questionText = [question objectForKey:@"questionContent"]; // 题目
+             NSString * answerText = @"";
+             for (NSDictionary * item in [question objectForKey:@"userAnswers"]) {
+             NSString * tempStr = [NSString stringWithFormat:@"%@：\n%@\n\n",[item objectForKey:@"userName"],[item objectForKey:@"answer"][0]];
+             answerText = [answerText stringByAppendingString:tempStr];
+             }
+             NSString * label_text = [NSString stringWithFormat:@"%@\n%@",questionText,answerText];
+             totalHeight = [self getTextHeight:label_text];
+             UILabel * lb_title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
+             lb_title.text = label_text;
+             lb_title.backgroundColor = [UIColor clearColor];
+             lb_title.lineBreakMode = UILineBreakModeWordWrap;
+             lb_title.numberOfLines = 0;
+             [lb_title sizeToFit];
+             [self addSubview:lb_title];
+            
+        }else if ([[question objectForKey:@"questionType"] intValue] == 1) {//填空题
+            
+            
+            NSString * questionText = [question objectForKey:@"questionContent"];
+            NSString * answerText = @"";
+            for (NSDictionary * userAnswer in [question objectForKey:@"userAnswers"]) {
+                answerText = [answerText stringByAppendingString:[userAnswer objectForKey:@"userName"]];
+                answerText = [answerText stringByAppendingString:@":\n"];
+                if ([[userAnswer objectForKey:@"answer"] isKindOfClass:[NSArray class]]) {
+                    for (NSString * answerItem in [userAnswer objectForKey:@"answer"]) {
+                        answerText = [answerText stringByAppendingString:[NSString stringWithFormat:@"%@、",answerItem]];
+                    }
+                    answerText = [answerText substringToIndex:(answerText.length - 1)];
+
+                    answerText = [answerText stringByAppendingString:@"\n\n"];
+                }
+                
+            }
+            
+            NSString * label_text = [NSString stringWithFormat:@"%@\n%@",questionText,answerText];
+            float totalHeight = [self getTextHeight:label_text];
+            UILabel * lb_title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
+            lb_title.text = label_text;
+            lb_title.backgroundColor = [UIColor clearColor];
+            lb_title.lineBreakMode = UILineBreakModeWordWrap;
+            lb_title.numberOfLines = 0;
+            [lb_title sizeToFit];
+            [self addSubview:lb_title];
+            
+           
+        }else if ([[question objectForKey:@"questionType"] intValue] == 2 ) // 是非题
+        {
+            NSString * questionText = [question objectForKey:@"questionContent"];
+            questionText = [questionText stringByAppendingString:@"\n"];
+            NSString * label_text = @"";
+            label_text = [label_text stringByAppendingString:questionText];
+            for (NSDictionary * item in [question objectForKey:@"options"]) {
+                NSString * optionContent =[NSString stringWithFormat:@"%@\n",[item objectForKey:@"optionContent"]] ;
+                //NSLog(@"...%@",[item objectForKey:@"isCorrect"]);
+                if ([[item objectForKey:@"isCorrect"] intValue] == 1) {
+                    optionContent = [optionContent stringByAppendingString:@"正确答案：对"];
+                }else{
+                    optionContent = [optionContent stringByAppendingString:@"正确答案：错"];
+                }
+                NSString * answerText = @"答错的学生：";
+                
+                for (NSString * userNameStr in [item objectForKey:@"errorUsers"]) {
+                    //answerText = [answerText stringByAppendingString:userNameStr];
+                    answerText = [answerText stringByAppendingString:[NSString stringWithFormat:@"%@、",userNameStr]];
+                }
+                answerText = [answerText substringToIndex:(answerText.length - 1)];
+                answerText = [answerText stringByAppendingString:@"\n"];
+                label_text = [label_text stringByAppendingString:[NSString stringWithFormat:@"%@\n%@\n",optionContent,answerText]];
+            }
+            float totalHeight = [self getTextHeight:label_text];
+            UILabel * lb_title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
+            lb_title.text = label_text;
+            lb_title.backgroundColor = [UIColor clearColor];
+            lb_title.lineBreakMode = UILineBreakModeWordWrap;
+            lb_title.numberOfLines = 0;
+            [lb_title sizeToFit];
+            [self addSubview:lb_title];
+
+        }
+        else if ([[question objectForKey:@"questionType"] intValue] == 3 )
+        {
+            float totalHeight = 0.0f;
+            NSString *questionText = [question objectForKey:@"questionContent"];
+            NSString * answerText = @"正确答案：\n";
+            for (NSString * answerStr in [question objectForKey:@"correctOptions"]) {
+                //answerText = [answerText stringByAppendingString:answerStr];
+                 answerText = [NSString stringWithFormat:@"%@%@、",answerText,answerStr];
+            }
+            answerText = [answerText substringToIndex:(answerText.length - 1)];
+
+            answerText = [answerText stringByAppendingString:@"\n"];
+            
+            NSString * wrongText = @"答错的学生：\n";
+            for (NSDictionary * item in [question objectForKey:@"options"]) {
+                wrongText = [wrongText stringByAppendingString:[item objectForKey:@"optionContent"]];
+                 wrongText = [wrongText stringByAppendingString:@"：\n"];
+                for (NSString * userNameStr in [item objectForKey:@"errorUsers"]) {
+                    wrongText = [wrongText stringByAppendingString:[NSString stringWithFormat:@"%@、",userNameStr]];
+
+                }
+                wrongText = [wrongText substringToIndex:(wrongText.length - 1)];
+
+                wrongText = [wrongText stringByAppendingString:@"\n"];
+            }
+            
+            NSString * label_text = [NSString stringWithFormat:@"%@\n%@%@",questionText,answerText,wrongText];
+
+            totalHeight = [self getTextHeight:label_text];
+            
+            UILabel * lb_title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
+            lb_title.text = label_text;
+            lb_title.backgroundColor = [UIColor clearColor];
+            lb_title.lineBreakMode = UILineBreakModeWordWrap;
+            lb_title.numberOfLines = 0;
+            [lb_title sizeToFit];
+            [self addSubview:lb_title];
+            
+            
+        }
+        else if ([[question objectForKey:@"questionType"] intValue] == 4)
+        {
+            float totalHeight = 0.0f;
+            NSString *questionText = [question objectForKey:@"questionContent"];
+            NSString * answerText = @"正确答案：\n";
+            for (NSString * answerStr in [question objectForKey:@"correctOptions"]) {
+                 answerText = [NSString stringWithFormat:@"%@%@、",answerText,answerStr];
+            }
+            answerText = [answerText substringToIndex:(answerText.length - 1)];
+
+            answerText = [answerText stringByAppendingString:@"\n"];
+            
+            NSString * wrongText = @"答错的学生：\n";
+            for (NSDictionary * item in [question objectForKey:@"options"]) {
+                wrongText = [wrongText stringByAppendingString:[item objectForKey:@"optionContent"]];
+                 wrongText = [wrongText stringByAppendingString:@"：\n"];
+                
+                for (NSString * userNameStr in [item objectForKey:@"errorUsers"]) {
+                    wrongText = [wrongText stringByAppendingString:[NSString stringWithFormat:@"%@、",userNameStr]];
+                    
+                }
+                wrongText = [wrongText substringToIndex:(wrongText.length - 1)];
+                wrongText = [wrongText stringByAppendingString:@"\n"];
+
+            }
+            
+            NSString * label_text = [NSString stringWithFormat:@"%@\n%@%@",questionText,answerText,wrongText];
+            
+            totalHeight = [self getTextHeight:label_text];
+            
+            UILabel * lb_title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
+            lb_title.text = label_text;
+            lb_title.backgroundColor = [UIColor clearColor];
+            lb_title.lineBreakMode = UILineBreakModeWordWrap;
+            lb_title.numberOfLines = 0;
+            [lb_title sizeToFit];
+            [self addSubview:lb_title];
+        }
+        
+        
+    }
+    
+    return self;
+}
+
+-(NSArray *)answerArr{
+    
+    NSMutableArray * answers = [[NSMutableArray alloc]init];
+    if (self.questionType == 1) {
+        
+        for (UIExpandingTextView * tv in _answerInput) {
+            [answers addObject:tv.text];
+        }
+    }else
+    {
+        
+        for (UIButton * btn in _checkBox) {
+            NSString * selectVal = @"0";
+            if (btn.selected) {
+                selectVal = @"1";
+            }
+            NSDictionary * dict = [[NSDictionary alloc]initWithObjectsAndKeys:[NSString stringWithFormat:@"%d",btn.tag],@"optionId",selectVal,@"flag", nil];
+            [answers addObject:dict];
+        }
+    }
+    
+    
+    _answerArr = [[NSArray alloc]initWithArray:answers];
+    return _answerArr;
+    
+}
+
+-(float)getTextHeight:(NSString *) textStr{
+    
+    
+    UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:17.0];
+    CGSize constraintSize = CGSizeMake(800.0f, MAXFLOAT);
+    CGSize labelSize = [textStr sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+    float height = labelSize.height+20 ;
+    return height;
+}
+
+-(IBAction)shareClick:(id)sender{
+    UIButton* shareBtn = (UIButton*)sender;
+    
+    [shareBtn setSelected:!shareBtn.selected];
+}
+/*
+ - (void)expandingTextViewDidEndEditing:(UIExpandingTextView *)expandingTextView;
+ {
+ 
+ self.answerStr = expandingTextView.text;
+ 
+ }
+ */
+
+/*-(id)initWithFrame:(CGRect)frame{
+ 
+ if (self = [super initWithFrame:frame]) {
+ 
+ UILabel * lb_title = [[UILabel alloc]initWithFrame:CGRectMake(120, 0, 800, 50)];
+ lb_title.text = [shiti objectForKey:@"questionContent"];
+ [self addSubview:lb_title];
+ UILabel * lb_answer = [[UILabel alloc]initWithFrame:CGRectMake(120, 60, 120, 50)];
+ lb_answer.text = @"请在此答题：";
+ UITextField * tf_answer = [[UITextField alloc]initWithFrame:CGRectMake(240, 60, 200, 50)];
+ tf_answer.backgroundColor = [UIColor grayColor];
+ [self addSubview:lb_answer];
+ [self addSubview:tf_answer];
+ 
+ }
+ 
+ return self;
+ 
+ }*/
+
+@end
