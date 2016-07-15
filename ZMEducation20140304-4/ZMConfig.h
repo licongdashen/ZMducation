@@ -11,5 +11,5 @@
 
 #define kDeviceTokenStringKEY @"DeviceTokenString"
 //#define kHttpRequestURL @"http://zmls.moyobar.com"
-#define kHttpRequestURL @"http://192.168.2.100"
+#define kHttpRequestURL @"http://121.40.105.90:8380"
 #endif
