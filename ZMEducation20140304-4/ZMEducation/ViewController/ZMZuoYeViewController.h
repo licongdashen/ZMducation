@@ -23,5 +23,5 @@
 @property (nonatomic, strong)UIButton *luntanBtn;
 @property (nonatomic, strong)UIButton *shijuanBtn;
 @property (nonatomic, strong)UIButton *zuoyeBtn;
-
+@property BOOL ishidden;
 @end

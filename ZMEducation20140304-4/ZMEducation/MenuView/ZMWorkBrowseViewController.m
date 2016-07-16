@@ -28,7 +28,7 @@
 #import "ZMMdlTravelVCtrl.h"
 #import "ZMMdlConceptionVCtrl.h"
 #import "ZMMdlCommentVCtrl.h"
-
+#import "ZMZuoYeViewController.h"
 
 #import "ZMWorkBrowseViewController.h"
 #define kTagCourseSelectBtn 1100
@@ -273,6 +273,21 @@
             viewController.unitDict = unitDict;
             [self.navigationController pushViewController:viewController animated:YES];
             [viewController release];
+        }else if ([articleType intValue] == 98){
+            NSMutableDictionary * userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+            NSMutableDictionary * requestDict = [[NSMutableDictionary alloc]init];
+            
+            [requestDict setValue:@"M069" forKey:@"method"];
+            
+            [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+            [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+            
+            ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+            [httpEngine setDelegate:self];
+            [httpEngine requestWithDict:requestDict];
+            [httpEngine release];
+            [requestDict release];
+        
         }
 
     }
@@ -735,6 +750,23 @@
         
         UITableView* workTableView = (UITableView*)[self.view viewWithTag:kTagWorkTableView];
         [workTableView reloadData];
+    }else if([@"M069" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
+        
+        NSMutableArray * dataSource = [[NSMutableArray alloc]initWithArray:[responseDict valueForKey:@"units"]];
+        if ([dataSource count] > 0) {
+            
+            ZMZuoYeViewController * vc = [[ZMZuoYeViewController alloc] init];
+            //                [vc setDelegate:self];
+            vc.unitArray = dataSource;
+            vc.ishidden = YES;
+            [self presentViewController:vc animated:YES completion:NULL];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"vn" object:nil];
+            
+        }else{
+            
+            [self showTip:@"没有内容！"];
+            
+        }
     }else if(![@"00" isEqualToString:responseCode]){
         [self showTip:@"服务器异常"];
     }

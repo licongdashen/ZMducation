@@ -493,7 +493,7 @@
 	}
 	else 
 	{// landscape
-		innerContainerRect = CGRectMake( 0, _container.frame.size.height - screenFrame.size.width, _container.frame.size.width, screenFrame.size.width );
+        innerContainerRect = CGRectMake( 0, _container.frame.size.height - screenFrame.size.height, _container.frame.size.width, screenFrame.size.height );
 	}
 	
 	_innerContainer.frame = innerContainerRect;
@@ -511,7 +511,7 @@
 	}
 	else
 	{//landscape
-		scrollerRect = CGRectMake( 0, 0, screenFrame.size.height, screenFrame.size.width );
+        scrollerRect = CGRectMake( 0, 0, screenFrame.size.width, screenFrame.size.height );
 	}
 	
 	_scroller.frame = scrollerRect;
