@@ -109,7 +109,7 @@
             titleImagv.userInteractionEnabled = YES;
             [self.scro addSubview:titleImagv];
             
-            self.TV_Bk1 = [[UIExpandingTextView alloc]initWithFrame:CGRectMake(120 + y, 10 , titleImagv.frame.size.width - 120, 40)];
+            self.TV_Bk1 = [[UIExpandingTextView alloc]initWithFrame:CGRectMake(120, 10 , titleImagv.frame.size.width - 120, 40)];
             self.TV_Bk1.font = [UIFont systemFontOfSize:18];
             self.TV_Bk1.backgroundColor = [UIColor clearColor];
             self.TV_Bk1.tag = 999 + i;
@@ -138,7 +138,7 @@
                 [shareBut addTarget:self
                              action:@selector(shareClick:)
                    forControlEvents:UIControlEventTouchUpInside];
-                shareBut.tag = 100;
+                shareBut.tag = 9999999+i;
                 [self.scro addSubview:shareBut];
                 
                 UILabel* shareLabel = [[UILabel alloc] initWithFrame:CGRectMake(830 + y, 710, 80, 20)];
@@ -571,7 +571,7 @@
     }else if ([@"M015" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
         [self showTip:@"提交成功！"];
 
-        UIButton* shareBtn = (UIButton*)[self.view viewWithTag:999];
+        UIButton* shareBtn = (UIButton*)[self.scro viewWithTag:9999999 + _pageControl.currentPage];
         if (shareBtn.selected) {
             NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
             
