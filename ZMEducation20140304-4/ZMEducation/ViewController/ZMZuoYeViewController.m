@@ -113,6 +113,7 @@
             self.TV_Bk1.font = [UIFont systemFontOfSize:18];
             self.TV_Bk1.backgroundColor = [UIColor clearColor];
             self.TV_Bk1.tag = 999 + i;
+            self.TV_Bk1.text = dic[@"title"];
             [titleImagv addSubview:self.TV_Bk1];
 
             self.contentImagv = [[UIImageView alloc]initWithFrame:CGRectMake(100 + y,titleImagv.frame.origin.y + titleImagv.frame.size.height + 20 , self.view.frame.size.width - 200, 500)];
@@ -125,6 +126,7 @@
             self.TV_Bk2.font = [UIFont systemFontOfSize:18];
             self.TV_Bk2.backgroundColor = [UIColor clearColor];
             self.TV_Bk2.tag = 9999 + i;
+            self.TV_Bk2.text = dic[@"articleDraft"];
             [self.contentImagv addSubview:self.TV_Bk2];
             
             
@@ -150,24 +152,24 @@
                 
             }
 
-            NSMutableDictionary * userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
-            
-            NSMutableDictionary * requestDict = [[NSMutableDictionary alloc]init];
-            
-            [requestDict setValue:@"M030" forKey:@"method"];
-            
-            [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
-            [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
-            [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
-            [requestDict setValue:[userDict valueForKey:@"currentModuleId"] forKey:@"moduleId"];
-            [requestDict setValue:[dic valueForKey:@"designId"] forKey:@"unitId"];
-            [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"authorId"];
-            
-            ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
-            [httpEngine setDelegate:self];
-            [httpEngine requestWithDict:requestDict];
-            [httpEngine release];
-            [requestDict release];
+//            NSMutableDictionary * userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+//            
+//            NSMutableDictionary * requestDict = [[NSMutableDictionary alloc]init];
+//            
+//            [requestDict setValue:@"M030" forKey:@"method"];
+//            
+//            [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+//            [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+//            [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+//            [requestDict setValue:[userDict valueForKey:@"currentModuleId"] forKey:@"moduleId"];
+//            [requestDict setValue:[dic valueForKey:@"designId"] forKey:@"unitId"];
+//            [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"authorId"];
+//            
+//            ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+//            [httpEngine setDelegate:self];
+//            [httpEngine requestWithDict:requestDict];
+//            [httpEngine release];
+//            [requestDict release];
 
         }
         
@@ -565,8 +567,8 @@
         
     }else if ([@"M030" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
     
-        self.TV_Bk1.text = responseDict[@"title"];
-        self.TV_Bk2.text = responseDict[@"articleDraft"];
+//        self.TV_Bk1.text = responseDict[@"title"];
+//        self.TV_Bk2.text = responseDict[@"articleDraft"];
     
     }else if ([@"M015" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
         [self showTip:@"提交成功！"];

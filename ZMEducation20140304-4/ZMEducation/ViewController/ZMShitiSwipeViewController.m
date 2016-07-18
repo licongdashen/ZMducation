@@ -199,7 +199,8 @@
     
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
-    
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"authorId"];
+
     ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
     [httpEngine setDelegate:self];
     [httpEngine requestWithDict:requestDict];
