@@ -163,7 +163,7 @@
     
     self.gousiBtn = [[UIButton alloc]init];
     self.gousiBtn.backgroundColor = [UIColor grayColor];
-    [self.gousiBtn setTitle:@"构思图标" forState:UIControlStateNormal];
+    [self.gousiBtn setTitle:@"构思图表" forState:UIControlStateNormal];
     [self.gousiBtn addTarget:self action:@selector(gousi) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:self.gousiBtn];
