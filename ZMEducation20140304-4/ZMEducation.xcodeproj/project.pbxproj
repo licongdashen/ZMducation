@@ -74,6 +74,7 @@
 		21E1D3431839EB90001FC83F /* ZcdQueryPoem.m in Sources */ = {isa = PBXBuildFile; fileRef = 21E1D3421839EB90001FC83F /* ZcdQueryPoem.m */; };
 		2710CF2C1C86D1F300784733 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2710CF2B1C86D1F300784733 /* JSONKit.m */; };
 		50AD99871CFD6BF8000A91CD /* ZMZuoYeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AD99861CFD6BF8000A91CD /* ZMZuoYeViewController.m */; };
+		50FE2F241D45ED5800370468 /* ZMdianyingzuoyeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FE2F231D45ED5800370468 /* ZMdianyingzuoyeViewController.m */; };
 		B716F774174B00E6007B2B2F /* PageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = B716F773174B00E6007B2B2F /* PageControl.m */; };
 		B716F78A174B030F007B2B2F /* PageControl_Dot_Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = B716F788174B030A007B2B2F /* PageControl_Dot_Selected.png */; };
 		B716F78B174B030F007B2B2F /* PageControl_Dot.png in Resources */ = {isa = PBXBuildFile; fileRef = B716F789174B030C007B2B2F /* PageControl_Dot.png */; };
@@ -376,6 +377,8 @@
 		2710CF2B1C86D1F300784733 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		50AD99851CFD6BF8000A91CD /* ZMZuoYeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMZuoYeViewController.h; sourceTree = "<group>"; };
 		50AD99861CFD6BF8000A91CD /* ZMZuoYeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMZuoYeViewController.m; sourceTree = "<group>"; };
+		50FE2F221D45ED5800370468 /* ZMdianyingzuoyeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMdianyingzuoyeViewController.h; sourceTree = "<group>"; };
+		50FE2F231D45ED5800370468 /* ZMdianyingzuoyeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMdianyingzuoyeViewController.m; sourceTree = "<group>"; };
 		B716F772174B00E6007B2B2F /* PageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageControl.h; sourceTree = "<group>"; };
 		B716F773174B00E6007B2B2F /* PageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageControl.m; sourceTree = "<group>"; };
 		B716F788174B030A007B2B2F /* PageControl_Dot_Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PageControl_Dot_Selected.png; sourceTree = "<group>"; };
@@ -1055,6 +1058,8 @@
 				21D6AE3B17EEF42400FBB830 /* ZMMdlTravelVCtrl.m */,
 				21D6AE3C17EEF42400FBB830 /* ZMMdlZcdVCtrl.h */,
 				21D6AE3D17EEF42400FBB830 /* ZMMdlZcdVCtrl.m */,
+				50FE2F221D45ED5800370468 /* ZMdianyingzuoyeViewController.h */,
+				50FE2F231D45ED5800370468 /* ZMdianyingzuoyeViewController.m */,
 				216B28A11838F69700007427 /* ZcdQuery */,
 				21D6AE3E17EEF42400FBB830 /* ZMMdlZykVCtrl.h */,
 				21D6AE3F17EEF42400FBB830 /* ZMMdlZykVCtrl.m */,
@@ -1555,6 +1560,7 @@
 				B79A7F0D173A3245002C291F /* JHPopoverViewController.m in Sources */,
 				B76880021740B30F0087C019 /* ZMBaseViewController.m in Sources */,
 				B76880041740B30F0087C019 /* ZMHomeViewController.m in Sources */,
+				50FE2F241D45ED5800370468 /* ZMdianyingzuoyeViewController.m in Sources */,
 				B76880051740B30F0087C019 /* ZMLoginViewController.m in Sources */,
 				B768800E1740B8640087C019 /* ZMSwipeViewController.m in Sources */,
 				21E1D33D1839E0D8001FC83F /* ZcdQueryWord.m in Sources */,

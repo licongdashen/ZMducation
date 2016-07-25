@@ -29,6 +29,7 @@
 #import "ZMMdlConceptionVCtrl.h"
 #import "ZMMdlCommentVCtrl.h"
 #import "ZMZuoYeViewController.h"
+#import "ZMdianyingzuoyeViewController.h"
 
 #import "ZMWorkBrowseViewController.h"
 #define kTagCourseSelectBtn 1100
@@ -274,20 +275,12 @@
             [self.navigationController pushViewController:viewController animated:YES];
             [viewController release];
         }else if ([articleType intValue] == 98){
-            NSMutableDictionary * userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
-            NSMutableDictionary * requestDict = [[NSMutableDictionary alloc]init];
-            
-            [requestDict setValue:@"M069" forKey:@"method"];
-            
-            [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
-            [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
-            
-            ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
-            [httpEngine setDelegate:self];
-            [httpEngine requestWithDict:requestDict];
-            [httpEngine release];
-            [requestDict release];
-        
+            [unitDict setValue:articleType forKey:@"articleType"];
+            ZMdianyingzuoyeViewController * viewController = [[ZMdianyingzuoyeViewController alloc] init];
+            [viewController setType:3];
+            viewController.unitDict = unitDict;
+            [self.navigationController pushViewController:viewController animated:YES];
+            [viewController release];
         }
 
     }

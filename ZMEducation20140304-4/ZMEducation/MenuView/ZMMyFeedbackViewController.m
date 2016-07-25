@@ -28,6 +28,7 @@
 #import "ZMMdlStoryVCtrl.h"
 #import "ZMMdlTravelVCtrl.h"
 #import "ZMMdlConceptionVCtrl.h"
+#import "ZMdianyingzuoyeViewController.h"
 
 #import "ZMMyFeedbackViewController.h"
 #define kTagCourseSelectBtn 1100
@@ -262,6 +263,15 @@
             viewController.unitDict = unitDict;
             [self.navigationController pushViewController:viewController animated:YES];
             [viewController release];
+        }else if ([articleType intValue] == 98){
+        
+            [unitDict setValue:articleType forKey:@"articleType"];
+            ZMdianyingzuoyeViewController * viewController = [[ZMdianyingzuoyeViewController alloc] init];
+            [viewController setType:2];
+            viewController.unitDict = unitDict;
+            [self.navigationController pushViewController:viewController animated:YES];
+            [viewController release];
+
         }
         
     }
