@@ -21,8 +21,8 @@
 
 @property (nonatomic, strong) UIScrollView *scro;
 
-@property (nonatomic, strong) UIExpandingTextView * TV_Bk1;
-@property (nonatomic, strong) UIExpandingTextView * TV_Bk2;
+@property (nonatomic, strong) UITextView * TV_Bk1;
+@property (nonatomic, strong) UITextView * TV_Bk2;
 @property (nonatomic, strong) NSDictionary * onedic;
 @property (nonatomic, strong) NSDictionary *twodic;
 @property (nonatomic, strong) UIButton* submitBut;
@@ -109,7 +109,7 @@
             titleImagv.userInteractionEnabled = YES;
             [self.scro addSubview:titleImagv];
             
-            self.TV_Bk1 = [[UIExpandingTextView alloc]initWithFrame:CGRectMake(120, 10 , titleImagv.frame.size.width - 120, 40)];
+            self.TV_Bk1 = [[UITextView alloc]initWithFrame:CGRectMake(120, 10 , titleImagv.frame.size.width - 120, 40)];
             self.TV_Bk1.font = [UIFont systemFontOfSize:18];
             self.TV_Bk1.backgroundColor = [UIColor clearColor];
             self.TV_Bk1.tag = 999 + i;
@@ -122,7 +122,7 @@
             self.contentImagv.tag = 300;
             [self.scro addSubview:self.contentImagv];
             
-            self.TV_Bk2 = [[UIExpandingTextView alloc]initWithFrame:CGRectMake(60, 60 , self.contentImagv.frame.size.width - 120, self.contentImagv.frame.size.height - 120)];
+            self.TV_Bk2 = [[UITextView alloc]initWithFrame:CGRectMake(60, 60 , self.contentImagv.frame.size.width - 120, self.contentImagv.frame.size.height - 120)];
             self.TV_Bk2.font = [UIFont systemFontOfSize:18];
             self.TV_Bk2.backgroundColor = [UIColor clearColor];
             self.TV_Bk2.tag = 9999 + i;
@@ -340,42 +340,15 @@
 }
 -(void)submitWorkClick
 {
-    NSLog(@"shishi==%ld",_pageControl.currentPage);
-    
-    UIExpandingTextView *view1 = (UIExpandingTextView *)[self.view viewWithTag:999 + _pageControl.currentPage];
-    UIExpandingTextView *view2 = (UIExpandingTextView *)[self.view viewWithTag:9999 + _pageControl.currentPage];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定提交？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定",nil];
+    [alert setTag:00000];
+    [alert show];
+    [alert release];
 
-    NSMutableDictionary * userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
-    
-    NSMutableDictionary * requestDict = [[NSMutableDictionary alloc]init];
-    
-    [requestDict setValue:@"M015" forKey:@"method"];
-    
-    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
-    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
-    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
-    [requestDict setValue:[userDict valueForKey:@"currentModuleId"] forKey:@"moduleId"];
-    [requestDict setValue:[self.unitArray[_pageControl.currentPage] valueForKey:@"designId"] forKey:@"unitId"];
-    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
-    [requestDict setValue:@"98" forKey:@"articleType"];
-    [requestDict setValue:view1.text forKey:@"articleTitle"];
-    [requestDict setValue:view2.text forKey:@"articleDraft"];
-    NSMutableArray *articleCommentArray = [[NSMutableArray alloc]init];
-    NSDictionary* comment01Dict = [NSDictionary dictionaryWithObjectsAndKeys:@"",@"articleComment", nil];
-    [articleCommentArray addObject:comment01Dict];
-    NSDictionary* comment02Dict = [NSDictionary dictionaryWithObjectsAndKeys:@"",@"articleComment", nil];
-    [articleCommentArray addObject:comment02Dict];
-    NSDictionary* comment03Dict = [NSDictionary dictionaryWithObjectsAndKeys:@"",@"articleComment", nil];
-    [articleCommentArray addObject:comment03Dict];
-    [requestDict setValue:[articleCommentArray JSONString] forKey:@"articleComments"];
-    
-    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
-    [httpEngine setDelegate:self];
-    [httpEngine requestWithDict:requestDict];
-    [httpEngine release];
-    [requestDict release];
 
 }
+
+#pragma mark - UIAlertViewDelegate
 
 -(IBAction)shareClick:(id)sender{
     UIButton* shareBtn = (UIButton*)sender;
@@ -738,6 +711,42 @@
         if (tag == 888) {
             [self addToCollect];
 
+        }
+        if (tag == 00000) {
+            NSLog(@"shishi==%ld",_pageControl.currentPage);
+            
+            UIExpandingTextView *view1 = (UIExpandingTextView *)[self.view viewWithTag:999 + _pageControl.currentPage];
+            UIExpandingTextView *view2 = (UIExpandingTextView *)[self.view viewWithTag:9999 + _pageControl.currentPage];
+            
+            NSMutableDictionary * userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+            
+            NSMutableDictionary * requestDict = [[NSMutableDictionary alloc]init];
+            
+            [requestDict setValue:@"M015" forKey:@"method"];
+            
+            [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+            [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+            [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+            [requestDict setValue:[userDict valueForKey:@"currentModuleId"] forKey:@"moduleId"];
+            [requestDict setValue:[self.unitArray[_pageControl.currentPage] valueForKey:@"designId"] forKey:@"unitId"];
+            [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+            [requestDict setValue:@"98" forKey:@"articleType"];
+            [requestDict setValue:view1.text forKey:@"articleTitle"];
+            [requestDict setValue:view2.text forKey:@"articleDraft"];
+            NSMutableArray *articleCommentArray = [[NSMutableArray alloc]init];
+            NSDictionary* comment01Dict = [NSDictionary dictionaryWithObjectsAndKeys:@"",@"articleComment", nil];
+            [articleCommentArray addObject:comment01Dict];
+            NSDictionary* comment02Dict = [NSDictionary dictionaryWithObjectsAndKeys:@"",@"articleComment", nil];
+            [articleCommentArray addObject:comment02Dict];
+            NSDictionary* comment03Dict = [NSDictionary dictionaryWithObjectsAndKeys:@"",@"articleComment", nil];
+            [articleCommentArray addObject:comment03Dict];
+            [requestDict setValue:[articleCommentArray JSONString] forKey:@"articleComments"];
+            
+            ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+            [httpEngine setDelegate:self];
+            [httpEngine requestWithDict:requestDict];
+            [httpEngine release];
+            [requestDict release];
         }
     }
 }
