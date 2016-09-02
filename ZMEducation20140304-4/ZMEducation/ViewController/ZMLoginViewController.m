@@ -193,6 +193,9 @@
             NSString* role = [responseDict valueForKey:@"role"];
             
             ((ZMAppDelegate*)[UIApplication sharedApplication].delegate).str = role;
+            
+            ((ZMAppDelegate*)[UIApplication sharedApplication].delegate).fileCache = [responseDict valueForKey:@"fileCache"];
+            ((ZMAppDelegate*)[UIApplication sharedApplication].delegate).picCache = [responseDict valueForKey:@"picCache"];
 
             if ([@"02" isEqualToString:role]) {//老师
                 NSString* userId = [responseDict valueForKey:@"userId"];

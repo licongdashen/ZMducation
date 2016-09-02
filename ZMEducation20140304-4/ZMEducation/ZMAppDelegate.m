@@ -45,8 +45,11 @@
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
     
+    self.isdownfinsh = NO;
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     
+    self.fileArray = [[NSMutableArray alloc] initWithCapacity:10];
+
     ZMLoginViewController* loginViewController = [[ZMLoginViewController alloc] init];
     //ZMMdlCmpVCtrl * loginViewController = [[ZMMdlCmpVCtrl alloc]init];
     UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
@@ -54,6 +57,25 @@
     [self.window setRootViewController:navigationController];
     
     self.window.backgroundColor = [UIColor whiteColor];
+    
+    self.currentDownloadArray = [[NSMutableArray alloc]initWithCapacity:20];
+
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if (![userDefaults objectForKey:@"hasDownloadedDictArray"]) {
+        
+        [userDefaults setValue:self.hasDownloadedDictArray forKey:@"hasDownloadedDictArray"];
+    }
+    self.hasDownloadedDictArray = [[NSMutableArray alloc]initWithArray:[userDefaults objectForKey:@"hasDownloadedDictArray"]];
+    
+    ASINetworkQueue *que = [[ASINetworkQueue alloc] init];
+    self.netWorkQueue = que;
+    [que release];
+    [self.netWorkQueue reset];
+    [self.netWorkQueue setShowAccurateProgress:NO];
+
+    
     [self.window makeKeyAndVisible];
 
     [loginViewController release];
@@ -557,6 +579,134 @@
 
 -(void)httpEngine:(ZMHttpEngine *)httpEngine didFailed:(NSString *)failResult{
     NSLog(@"UIApplication ZMHttpEngine:%@",failResult);
+}
+
+-(void)request1
+{
+    if (self.currentDownloadLength > 0) {
+        //NSLog(@"还有文件没有下载完成");
+        return;
+    }else{
+        self.currentDownloadLength = [self.fileArray count];
+        
+        //初始化Documents路径
+        NSString * docPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+        //初始化临时文件路径
+        NSString *tempFolderPath = [docPath stringByAppendingPathComponent:@"temp"];
+        //创建文件管理器
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        //判断temp文件夹是否存在
+        BOOL fileExists = [fileManager fileExistsAtPath:tempFolderPath];
+        if (!fileExists) {//如果不存在则创建,因为下载时,不会自动创建文件夹
+            [fileManager createDirectoryAtPath:tempFolderPath
+                   withIntermediateDirectories:YES
+                                    attributes:nil
+                                         error:nil];
+        }
+        
+        //发送下载请求
+        for (NSDictionary * pdfDict in self.fileArray) {
+            
+            NSLog(@"pdf info : %@",pdfDict);
+            
+            
+            NSString* unitURL = [[[pdfDict valueForKey:@"unitURL"] componentsSeparatedByString:@"/"] lastObject];
+            
+            NSString * pdfID = [[unitURL componentsSeparatedByString:@"."] firstObject];
+            //NSString *filePath = [userDocPath stringByAppendingPathComponent:unitURL];
+            NSString *tempFilePath = [tempFolderPath stringByAppendingPathComponent:unitURL];
+            
+            
+            //NSString *filePath = [[self.downloadArray objectAtIndex:index] objectForKey:@"URL"];
+            NSLog(@"tempFilePath=%@",tempFilePath);
+            //初始下载路径
+            //NSURL *url = [NSURL URLWithString:filePath];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kHttpRequestURL,[pdfDict valueForKey:@"unitURL"]]];
+            //设置下载路径
+            self.request = [[ASIHTTPRequest alloc] initWithURL:url];
+            //设置ASIHTTPRequest代理
+            self.request.delegate = self;
+            //初始化保存ZIP文件路径
+            NSString *savePath = [docPath stringByAppendingPathComponent:unitURL];
+            //初始化临时文件路径
+            NSString *tempPath = [docPath stringByAppendingPathComponent:[NSString stringWithFormat:@"temp/%@.temp",unitURL]];
+            //设置文件保存路径
+            [self.request setDownloadDestinationPath:savePath];
+            //设置临时文件路径
+            [self.request setTemporaryFileDownloadPath:tempPath];
+            //设置进度条的代理,
+            //            [request setDownloadProgressDelegate:progressView];
+            //设置是是否支持断点下载
+            [self.request setAllowResumeForFileDownloads:YES];
+            //设置基本信息
+            [self.request setUserInfo:[NSDictionary dictionaryWithObjectsAndKeys:pdfID,@"pdfID",nil]];
+            NSLog(@"UserInfo=%@",self.request.userInfo);
+            //添加到ASINetworkQueue队列去下载
+            [self.netWorkQueue addOperation:self.request];
+            //收回request
+            //                [self.request release];
+            
+            [self.netWorkQueue go];
+            [self.currentDownloadArray addObject:savePath];
+            
+        }
+        
+        
+    }
+
+}
+
+#pragma mark ASIHTTPRequestDelegate method
+//ASIHTTPRequestDelegate,下载之前获取信息的方法,主要获取下载内容的大小，可以显示下载进度多少字节
+-(void)request:(ASIHTTPRequest *)request didReceiveResponseHeaders:(NSDictionary *)responseHeaders{
+    
+    NSLog(@"didReceiveResponseHeaders-%@",[responseHeaders valueForKey:@"Content-Length"]);
+    
+    
+    NSLog(@"contentlength=%f",request.contentLength/1024.0/1024.0);
+    NSString * pdfID = [request.userInfo objectForKey:@"pdfID"] ;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    float tempConLen = [[userDefaults objectForKey:[NSString stringWithFormat:@"pdf_%@_contentLength",pdfID]] floatValue];
+    NSLog(@"tempConLen=%f",tempConLen);
+    //如果没有保存,则持久化他的内容大小
+    if (tempConLen == 0 ) {//如果没有保存,则持久化他的内容大小
+        [userDefaults setObject:[NSNumber numberWithFloat:request.contentLength/1024.0/1024.0] forKey:[NSString stringWithFormat:@"pdf_%@_contentLength",pdfID]];
+    }
+}
+
+-(void) requestFinished:(ASIHTTPRequest *)request{
+    NSString * pdfID = [request.userInfo objectForKey:@"pdfID"] ;
+    
+    self.currentDownloadLength--;
+    
+    NSLog(@"%@.pdf has been downloaded!",pdfID);
+    NSLog(@"还有%d文件没有下载完成",self.currentDownloadLength);
+    
+    if (self.currentDownloadLength == 0) {
+        //将当前选择的年级和课程加入userDefault中
+        
+        //currentDownloadLength = [fileArray count];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        
+        self.hasDownloadedDictArray = [[NSMutableArray alloc]initWithArray:[userDefaults objectForKey:@"hasDownloadedDictArray"]];
+        
+        NSDictionary * currentGradeAndCourse = [[NSDictionary alloc]initWithObjectsAndKeys:self.grade,@"grade",
+                                                self.course,@"course",self.currentDownloadArray,@"files",[(ZMAppDelegate*)[UIApplication sharedApplication].delegate fileArray],@"filesinfo",self.sort,@"sort",self.courseSort,@"courseSort",nil];
+        for (NSDictionary *dic in self.hasDownloadedDictArray) {
+            if ([dic[@"course"] isEqualToString:currentGradeAndCourse[@"course"]]) {
+                [self.hasDownloadedDictArray removeObject:dic];
+                break;
+            }
+        }
+        
+        [self.hasDownloadedDictArray addObject:currentGradeAndCourse];
+        [userDefaults setValue:self.hasDownloadedDictArray forKey:@"hasDownloadedDictArray"];
+        
+        NSLog(@"%@",[userDefaults objectForKey:@"hasDownloadedDictArray"]);
+        
+        self.isdownfinsh = YES;
+    }
+    
 }
 
 @end

@@ -18,6 +18,9 @@
     
     NSDictionary* gradeDict = [_gradeArray objectAtIndex:index];
     selectGrade = [[gradeDict valueForKey:@"gradeId"] intValue];
+    grade = [gradeDict valueForKey:@"grade"];
+
+    ((ZMAppDelegate *)[UIApplication sharedApplication].delegate).grade = grade;
     
     NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
     
@@ -49,6 +52,14 @@
     
     NSDictionary* courseDict = [courseArray objectAtIndex:index];
     selectCourse = [[courseDict valueForKey:@"courseId"] intValue];
+    course = [courseDict valueForKey:@"course"];
+    sort = [courseDict valueForKey:@"sort"];
+    courseSort = [courseDict valueForKey:@"courseSort"];
+    
+    ((ZMAppDelegate *)[UIApplication sharedApplication].delegate).course = course;
+    ((ZMAppDelegate *)[UIApplication sharedApplication].delegate).sort = sort;
+    ((ZMAppDelegate *)[UIApplication sharedApplication].delegate).courseSort = courseSort;
+    ((ZMAppDelegate *)[UIApplication sharedApplication].delegate).isdownfinsh = NO;
     
     NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
     [requestDict setValue:@"M005" forKey:@"method"];
@@ -61,6 +72,8 @@
     [httpEngine requestWithDict:requestDict];
     [httpEngine release];
     [requestDict release];
+    
+    
 }
 
 -(void)dealloc{
@@ -81,18 +94,27 @@
     
     [moduleArray release];
     
+    [self.request cancel];
+    [self.request setDelegate:nil];
+    [self.netWorkQueue cancelAllOperations];
+    self.netWorkQueue.delegate = nil;
+    
     [super dealloc];
 }
 
 -(void)loadView{
     [super loadView];
     
+
+
     CGRect bgFrame = CGRectMake(0, 0, 1024, 768);
     UIImage* bgImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_bg" ofType:@"png"]];
     UIImageView* bgView = [[UIImageView alloc] initWithFrame:bgFrame];
     [bgView setImage:bgImage];
     [self.view insertSubview:bgView atIndex:0];
     [bgView release];
+    
+    
 }
 
 - (void)viewDidLoad{
@@ -332,9 +354,90 @@
         [homeView setModuleArray:moduleArray];
         [self.navigationController pushViewController:homeView animated:YES];
         [homeView release];
+        
+        NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+        [requestDict setValue:@"M102" forKey:@"method"];
+        [requestDict setValue:[NSNumber numberWithInt:selectGrade] forKey:@"gradeId"];
+        [requestDict setValue:[NSNumber numberWithInt:selectCourse] forKey:@"courseId"];
+        
+        ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+        [httpEngine setDelegate:self];
+        [httpEngine requestWithDict:requestDict];
+        [httpEngine release];
+        [requestDict release];
+
+        
+    }else if([@"M102" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
+    
+        NSMutableArray* fileArray = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate fileArray];
+        [fileArray removeAllObjects];
+        NSArray * _units = [responseDict valueForKey:@"units"];
+        for (int i=0; i<[_units count]; i++) {
+            NSLog(@"course:%@",[_units objectAtIndex:i]);
+            [fileArray addObject:[_units objectAtIndex:i]];
+        }
+
+        NSString *str = ((ZMAppDelegate*)[UIApplication sharedApplication].delegate).fileCache;
+        
+        if ([str isEqualToString:@"01"]) {
+            [(ZMAppDelegate*)[UIApplication sharedApplication].delegate request1];
+        }
+        
     }else if(![@"00" isEqualToString:responseCode]){
         [self showTip:@"服务器异常"];
     }
 }
 
+//#pragma mark ASIHTTPRequestDelegate method
+////ASIHTTPRequestDelegate,下载之前获取信息的方法,主要获取下载内容的大小，可以显示下载进度多少字节
+//-(void)request:(ASIHTTPRequest *)request didReceiveResponseHeaders:(NSDictionary *)responseHeaders{
+//    
+//    NSLog(@"didReceiveResponseHeaders-%@",[responseHeaders valueForKey:@"Content-Length"]);
+//    
+//    
+//    NSLog(@"contentlength=%f",request.contentLength/1024.0/1024.0);
+//    NSString * pdfID = [request.userInfo objectForKey:@"pdfID"] ;
+//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//    float tempConLen = [[userDefaults objectForKey:[NSString stringWithFormat:@"pdf_%@_contentLength",pdfID]] floatValue];
+//    NSLog(@"tempConLen=%f",tempConLen);
+//    //如果没有保存,则持久化他的内容大小
+//    if (tempConLen == 0 ) {//如果没有保存,则持久化他的内容大小
+//        [userDefaults setObject:[NSNumber numberWithFloat:request.contentLength/1024.0/1024.0] forKey:[NSString stringWithFormat:@"pdf_%@_contentLength",pdfID]];
+//    }
+//}
+//
+//-(void) requestFinished:(ASIHTTPRequest *)request{
+//    NSString * pdfID = [request.userInfo objectForKey:@"pdfID"] ;
+//    
+//    currentDownloadLength--;
+//    
+//    NSLog(@"%@.pdf has been downloaded!",pdfID);
+//    NSLog(@"还有%d文件没有下载完成",currentDownloadLength);
+//    
+//    if (currentDownloadLength == 0) {
+//        //将当前选择的年级和课程加入userDefault中
+//        
+//        //currentDownloadLength = [fileArray count];
+//        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//        
+//        hasDownloadedDictArray = [[NSMutableArray alloc]initWithArray:[userDefaults objectForKey:@"hasDownloadedDictArray"]];
+//        
+//        NSDictionary * currentGradeAndCourse = [[NSDictionary alloc]initWithObjectsAndKeys:grade,@"grade",
+//                                                course,@"course",currentDownloadArray,@"files",[(ZMAppDelegate*)[UIApplication sharedApplication].delegate fileArray],@"filesinfo",sort,@"sort",courseSort,@"courseSort",nil];
+//        for (NSDictionary *dic in hasDownloadedDictArray) {
+//            if ([dic[@"course"] isEqualToString:currentGradeAndCourse[@"course"]]) {
+//                [hasDownloadedDictArray removeObject:dic];
+//                break;
+//            }
+//        }
+//        
+//        [hasDownloadedDictArray addObject:currentGradeAndCourse];
+//        [userDefaults setValue:hasDownloadedDictArray forKey:@"hasDownloadedDictArray"];
+//        
+//        NSLog(@"%@",[userDefaults objectForKey:@"hasDownloadedDictArray"]);
+//        
+//        
+//    }
+//
+//}
 @end

@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "ZMConfig.h"
 #import "ZMHttpEngine.h"
-@interface ZMAppDelegate : UIResponder <UIApplicationDelegate,ZMHttpEngineDelegate>{
+#import "ASINetworkQueue.h"
+
+@interface ZMAppDelegate : UIResponder <UIApplicationDelegate,ZMHttpEngineDelegate,ASIHTTPRequestDelegate>{
 
 }
 
@@ -18,5 +20,26 @@
 
 @property(nonatomic, strong) NSString *str;
 
+@property(nonatomic, strong) NSMutableArray* fileArray;
+
+@property(nonatomic, retain) ASINetworkQueue* netWorkQueue;
+@property(nonatomic, retain) ASIHTTPRequest *request;
+@property(nonatomic, retain) NSString * grade;
+@property(nonatomic, retain) NSString * course;
+@property(nonatomic, retain) NSString * sort;
+@property(nonatomic, retain) NSString *courseSort;
+@property(nonatomic, retain) NSMutableArray* currentDownloadArray;
+
+@property(nonatomic, retain) NSMutableArray * hasDownloadedDictArray;
+
+@property int currentDownloadLength;
+
+@property(nonatomic, retain) NSString * fileCache;
+@property(nonatomic, retain) NSString * picCache;
+
+@property BOOL isdownfinsh;
+
 +(ZMAppDelegate *)App;
+
+-(void)request1;
 @end

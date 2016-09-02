@@ -8,11 +8,14 @@
 
 #import "ZMBaseViewController.h"
 #import "JTListView.h"
+#import "ASINetworkQueue.h"
 
-@interface ZMCourseViewController : ZMBaseViewController<JTListViewDataSource,JTListViewDelegate>{
+@interface ZMCourseViewController : ZMBaseViewController<JTListViewDataSource,JTListViewDelegate,ASIHTTPRequestDelegate>{
     NSMutableArray* courseArray;
     NSMutableArray* classArray;
     NSMutableArray* moduleArray;
+    
+    NSMutableArray * hasDownloadedDictArray;
     
     JTListView* gradeView;
     JTListView* classView;
@@ -21,8 +24,21 @@
     int selectGrade;
     int selectClass;
     int selectCourse;
+    
+    int currentDownloadLength;
+    
+    NSMutableArray* currentDownloadArray;
+    
+    NSString * grade;
+    NSString * course;
+    NSString * sort;
+    NSString *courseSort;
+    
+    ;
 }
 
 @property(nonatomic, retain) NSArray* gradeArray;
+@property(nonatomic, retain) ASINetworkQueue* netWorkQueue;
+@property(nonatomic, retain) ASIHTTPRequest *request;
 
 @end

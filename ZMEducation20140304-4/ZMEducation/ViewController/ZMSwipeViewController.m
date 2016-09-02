@@ -112,27 +112,162 @@
     
     selectUnitId =  [[unitDict valueForKey:@"unitId"] intValue];
     
-    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
-    NSString* screenControl = [userDict valueForKey:@"screenControl"];
-    NSString* role = [userDict valueForKey:@"role"];
-    if ([@"02" isEqualToString:role] ||
-        (([@"03" isEqualToString:role] || [@"04" isEqualToString:role]) && [@"01" isEqualToString:screenControl])) {
-        
-        NSString *urlStr = [NSString stringWithFormat:@"%@%@",kHttpRequestURL,[unitDict valueForKey:@"unitURL"]];
-        if (_audioPlayer == nil) {
-            _audioPlayer = [[AudioPlayer alloc] init];
+    
+    if (((ZMAppDelegate *)[UIApplication sharedApplication].delegate).isdownfinsh == YES) {
+        NSString * docPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+        NSString* unitURL = [[[_unitArray[index] valueForKey:@"unitURL"] componentsSeparatedByString:@"/"] lastObject];
+
+        if (_audioPlayer1 == nil) {
+            _audioPlayer1 = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:[docPath stringByAppendingPathComponent:unitURL]] error:nil];
         }
+        if ([_audioPlayer1 isPlaying]) {
+            [_audioPlayer1 pause];
+            [button setBackgroundImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
+            
+        }else{
+            [_audioPlayer1 prepareToPlay];
+            [_audioPlayer1 play];
+            [button setBackgroundImage:[UIImage imageNamed:@"stop.png"] forState:UIControlStateNormal];
+            
+        }
+    }else {
         
-        if ([_audioPlayer.button isEqual:button]) {
-            if ([_audioPlayer isPlaying]) {
-                [_audioPlayer pause];
-            }else{
+        NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+        NSString* screenControl = [userDict valueForKey:@"screenControl"];
+        NSString* role = [userDict valueForKey:@"role"];
+        if ([@"02" isEqualToString:role] ||
+            (([@"03" isEqualToString:role] || [@"04" isEqualToString:role]) && [@"01" isEqualToString:screenControl])) {
+            
+            NSString *urlStr = [NSString stringWithFormat:@"%@%@",kHttpRequestURL,[unitDict valueForKey:@"unitURL"]];
+            if (_audioPlayer == nil) {
+                _audioPlayer = [[AudioPlayer alloc] init];
+            }
+            
+            if ([_audioPlayer.button isEqual:button]) {
+                if ([_audioPlayer isPlaying]) {
+                    [_audioPlayer pause];
+                }else{
+                    [_audioPlayer play];
+                }
+            } else {
+                [_audioPlayer stop];
+                
+                _audioPlayer.button = button;
+                
+                NSFileManager* fileManager =[NSFileManager defaultManager];
+                NSString* userDocPath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES)
+                                       objectAtIndex:0];
+                
+                // 先创建文件 file ，再用 NSFileHandle 打开它
+                NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+                NSString* courseId = [userDict valueForKey:@"currentCourseId"];
+                NSString* classId = [userDict valueForKey:@"currentClassId"];
+                NSString* gradeId = [userDict valueForKey:@"currentGradeId"];
+                NSString* moduleId = [userDict valueForKey:@"currentModuleId"];
+                NSString* unitId = [unitDict valueForKey:@"unitId"];
+                NSString* unitURL = [unitDict valueForKey:@"unitURL"];
+                
+                NSString* file= [NSString stringWithFormat:@"%@_%@_%@_%@_%@.%@",gradeId,classId,courseId,moduleId,unitId,[[unitURL componentsSeparatedByString:@"."] lastObject]];
+                NSString *filePath = [userDocPath stringByAppendingPathComponent:file];
+                NSLog(@"path:%@",filePath);
+                
+                if([fileManager fileExistsAtPath:filePath]){
+                    _audioPlayer.url = [NSURL URLWithString:filePath];
+                }else{
+                    _audioPlayer.url = [NSURL URLWithString:urlStr];
+                }
+                
+                [_audioPlayer initInfo];
                 [_audioPlayer play];
             }
-        } else {
-            [_audioPlayer stop];
             
-            _audioPlayer.button = button;
+            if ([@"02" isEqualToString:role] && [@"00" isEqualToString:screenControl]) {
+                NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+                [requestDict setValue:@"M032" forKey:@"method"];
+                [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+                [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+                [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+                [requestDict setValue:[userDict valueForKey:@"currentModuleId"] forKey:@"moduleId"];
+                
+                NSDictionary* unitDict = [_unitArray objectAtIndex:_swipeView.currentItemIndex];
+                [requestDict setValue:[unitDict valueForKey:@"unitId"] forKey:@"unitId"];
+                if ([_audioPlayer isPaused]) {
+                    NSLog(@"isPaused");
+                    [requestDict setValue:@"02" forKey:@"playControl"];
+                }else if([_audioPlayer isProcessing]){
+                    NSLog(@"isProcessing");
+                    [requestDict setValue:@"01" forKey:@"playControl"];
+                }else if([_audioPlayer isWaiting]){
+                    NSLog(@"isWaiting");
+                }else if([_audioPlayer isFinishing]){
+                    NSLog(@"isFinishing");
+                }else{
+                    NSLog(@"isnot");
+                }
+                
+                ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+                [httpEngine setDelegate:self];
+                [httpEngine requestWithDict:requestDict];
+                [httpEngine release];
+                [requestDict release];
+            }
+        }
+
+    }
+    
+}
+
+-(IBAction)playVideoClick:(id)sender{
+    [self screenLocked];
+    
+    UIButton* button = (UIButton*)sender;
+    NSInteger index = button.tag;
+    NSDictionary *unitDict = [_unitArray objectAtIndex:index];
+    
+    selectUnitId =  [[unitDict valueForKey:@"unitId"] intValue];
+    
+    if (((ZMAppDelegate *)[UIApplication sharedApplication].delegate).isdownfinsh == YES) {
+        
+        NSString * docPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+        NSString* unitURL = [[[_unitArray[index] valueForKey:@"unitURL"] componentsSeparatedByString:@"/"] lastObject];
+        playerViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL fileURLWithPath:[docPath stringByAppendingPathComponent:unitURL]]];
+        playerViewController.moviePlayer.movieSourceType = MPMovieSourceTypeFile;
+        
+        [playerViewController.moviePlayer prepareToPlay];
+        
+        [self presentViewController:playerViewController animated:YES completion:nil];
+
+    }else {
+        
+        NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+        NSString* screenControl = [userDict valueForKey:@"screenControl"];
+        NSString* role = [userDict valueForKey:@"role"];
+        
+        if ([@"02" isEqualToString:role] ||
+            (([@"03" isEqualToString:role] || [@"04" isEqualToString:role]) && [@"01" isEqualToString:screenControl])) {
+            
+            if ([@"02" isEqualToString:role] && [@"00" isEqualToString:screenControl]) {
+                NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+                [requestDict setValue:@"M031" forKey:@"method"];
+                [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+                [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+                [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+                [requestDict setValue:[userDict valueForKey:@"currentModuleId"] forKey:@"moduleId"];
+                [requestDict setValue:[unitDict valueForKey:@"unitId"] forKey:@"unitId"];
+                [requestDict setValue:@"00" forKey:@"playControl"];
+                
+                ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+                [httpEngine setDelegate:self];
+                [httpEngine requestWithDict:requestDict];
+                [httpEngine release];
+                [requestDict release];
+            }
+            
+            UIButton* playButton = (UIButton*)sender;
+            int index = playButton.tag;
+            
+            NSDictionary* unitDict = [_unitArray objectAtIndex:index];
+            NSString *urlStr = [NSString stringWithFormat:@"%@%@",kHttpRequestURL,[unitDict valueForKey:@"unitURL"]];
             
             NSFileManager* fileManager =[NSFileManager defaultManager];
             NSString* userDocPath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES)
@@ -152,128 +287,31 @@
             NSLog(@"path:%@",filePath);
             
             if([fileManager fileExistsAtPath:filePath]){
-                _audioPlayer.url = [NSURL URLWithString:filePath];
+                playerViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:filePath]];
             }else{
-                _audioPlayer.url = [NSURL URLWithString:urlStr];
+                playerViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:urlStr]];
             }
             
-            [_audioPlayer initInfo];
-            [_audioPlayer play];
-        }
-        
-        if ([@"02" isEqualToString:role] && [@"00" isEqualToString:screenControl]) {
-            NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
-            [requestDict setValue:@"M032" forKey:@"method"];
-            [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
-            [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
-            [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
-            [requestDict setValue:[userDict valueForKey:@"currentModuleId"] forKey:@"moduleId"];
+            playerViewController.moviePlayer.movieSourceType = MPMovieSourceTypeFile;
             
-            NSDictionary* unitDict = [_unitArray objectAtIndex:_swipeView.currentItemIndex];
-            [requestDict setValue:[unitDict valueForKey:@"unitId"] forKey:@"unitId"];
-            if ([_audioPlayer isPaused]) {
-                NSLog(@"isPaused");
-               [requestDict setValue:@"02" forKey:@"playControl"]; 
-            }else if([_audioPlayer isProcessing]){
-                NSLog(@"isProcessing");
-                [requestDict setValue:@"01" forKey:@"playControl"];
-            }else if([_audioPlayer isWaiting]){
-                NSLog(@"isWaiting");
-            }else if([_audioPlayer isFinishing]){
-                NSLog(@"isFinishing");
-            }else{
-                NSLog(@"isnot");
-            }
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(movieFinishedCallback:)
+                                                         name:MPMoviePlayerPlaybackDidFinishNotification
+                                                       object:[playerViewController moviePlayer]];
             
-            ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
-            [httpEngine setDelegate:self];
-            [httpEngine requestWithDict:requestDict];
-            [httpEngine release];
-            [requestDict release];
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(playbackStateChanged:)
+                                                         name:MPMoviePlayerPlaybackStateDidChangeNotification
+                                                       object:[playerViewController moviePlayer]];
+            
+            
+            MPMoviePlayerController *player = [playerViewController moviePlayer];
+            [player setShouldAutoplay:NO];
+            
+            [self presentViewController:playerViewController animated:YES completion:nil];
         }
     }
-}
-
--(IBAction)playVideoClick:(id)sender{
-    [self screenLocked];
     
-    UIButton* button = (UIButton*)sender;
-    NSInteger index = button.tag;
-    NSDictionary *unitDict = [_unitArray objectAtIndex:index];
-    
-    selectUnitId =  [[unitDict valueForKey:@"unitId"] intValue];
-    
-    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
-    NSString* screenControl = [userDict valueForKey:@"screenControl"];
-    NSString* role = [userDict valueForKey:@"role"];
-    
-    if ([@"02" isEqualToString:role] ||
-        (([@"03" isEqualToString:role] || [@"04" isEqualToString:role]) && [@"01" isEqualToString:screenControl])) {
-
-        if ([@"02" isEqualToString:role] && [@"00" isEqualToString:screenControl]) {
-            NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
-            [requestDict setValue:@"M031" forKey:@"method"];
-            [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
-            [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
-            [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
-            [requestDict setValue:[userDict valueForKey:@"currentModuleId"] forKey:@"moduleId"];
-            [requestDict setValue:[unitDict valueForKey:@"unitId"] forKey:@"unitId"];
-            [requestDict setValue:@"00" forKey:@"playControl"];
-            
-            ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
-            [httpEngine setDelegate:self];
-            [httpEngine requestWithDict:requestDict];
-            [httpEngine release];
-            [requestDict release];
-        }
-        
-        UIButton* playButton = (UIButton*)sender;
-        int index = playButton.tag;
-        
-        NSDictionary* unitDict = [_unitArray objectAtIndex:index];
-        NSString *urlStr = [NSString stringWithFormat:@"%@%@",kHttpRequestURL,[unitDict valueForKey:@"unitURL"]];
-        
-        NSFileManager* fileManager =[NSFileManager defaultManager];
-        NSString* userDocPath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES)
-                               objectAtIndex:0];
-        
-        // 先创建文件 file ，再用 NSFileHandle 打开它
-        NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
-        NSString* courseId = [userDict valueForKey:@"currentCourseId"];
-        NSString* classId = [userDict valueForKey:@"currentClassId"];
-        NSString* gradeId = [userDict valueForKey:@"currentGradeId"];
-        NSString* moduleId = [userDict valueForKey:@"currentModuleId"];
-        NSString* unitId = [unitDict valueForKey:@"unitId"];
-        NSString* unitURL = [unitDict valueForKey:@"unitURL"];
-        
-        NSString* file= [NSString stringWithFormat:@"%@_%@_%@_%@_%@.%@",gradeId,classId,courseId,moduleId,unitId,[[unitURL componentsSeparatedByString:@"."] lastObject]];
-        NSString *filePath = [userDocPath stringByAppendingPathComponent:file];
-        NSLog(@"path:%@",filePath);
-        
-        if([fileManager fileExistsAtPath:filePath]){
-            playerViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:filePath]];
-        }else{
-            playerViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:urlStr]];
-        }
-
-        playerViewController.moviePlayer.movieSourceType = MPMovieSourceTypeFile;
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(movieFinishedCallback:)
-                                                     name:MPMoviePlayerPlaybackDidFinishNotification
-                                                   object:[playerViewController moviePlayer]];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(playbackStateChanged:)
-                                                     name:MPMoviePlayerPlaybackStateDidChangeNotification
-                                                   object:[playerViewController moviePlayer]];
-        
-                
-        MPMoviePlayerController *player = [playerViewController moviePlayer];
-        [player setShouldAutoplay:NO];
-        
-        [self presentViewController:playerViewController animated:YES completion:nil];
-    }
 }
 
 - (void)playbackStateChanged:(NSNotification*) aNotification {
@@ -567,6 +605,21 @@
     [articleUnitDict release];
 }
 
+- (NSString *)videoCachePath
+{
+    
+    NSString * docPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *diskPath = [docPath stringByAppendingPathComponent:@"ZM_temp"]; // 新建一个文件夹  保存视频
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    if (![fileManager fileExistsAtPath:diskPath])
+    {
+        [fileManager createDirectoryAtPath:diskPath withIntermediateDirectories:YES attributes:nil error:NULL];
+    }
+    return diskPath;
+}
+
 -(IBAction)readClick:(id)sender{
     [self screenLocked];
     
@@ -576,101 +629,120 @@
     NSDictionary* unitDict = [_unitArray objectAtIndex:index];
     NSLog(@"unitDict:%@",unitDict);
     
-    selectUnitId =  [[unitDict valueForKey:@"unitId"] intValue];
-    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
-    NSString* screenControl = [userDict valueForKey:@"screenControl"];
-    NSString* role = [userDict valueForKey:@"role"];
-    if ([@"02" isEqualToString:role] ||
-        (([@"03" isEqualToString:role] || [@"04" isEqualToString:role])&& [@"01" isEqualToString:screenControl])) {
-        if ([@"00" isEqualToString:screenControl]) {
-            NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
-            [requestDict setValue:@"M013" forKey:@"method"];
-            [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
-            [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
-            [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
-            [requestDict setValue:[userDict valueForKey:@"currentModuleId"] forKey:@"moduleId"];
-            
-            NSDictionary* unitDict = [_unitArray objectAtIndex:_swipeView.currentItemIndex];
-            [requestDict setValue:[unitDict valueForKey:@"unitId"] forKey:@"unitId"];
-            
-            [requestDict setValue:@"01" forKey:@"control"];
-            
-            ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
-            [httpEngine setDelegate:self];
-            [httpEngine requestWithDict:requestDict];
-            [httpEngine release];
-            [requestDict release];
-        }
+    if (((ZMAppDelegate *)[UIApplication sharedApplication].delegate).isdownfinsh == YES) {
+        NSString * docPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+        NSString* unitURL = [[[_unitArray[index] valueForKey:@"unitURL"] componentsSeparatedByString:@"/"] lastObject];
         
-        /*NSString *urlStr = [NSString stringWithFormat:@"%@%@",kHttpRequestURL,[unitDict valueForKey:@"unitURL"]];
-        
-        NSURL *documentURL = [NSURL URLWithString:urlStr];
-        PSPDFDocument *document = [PSPDFDocument documentWithURL:documentURL];
-        //[[PSPDFCache sharedCache] clearCache];
-        PSPDFViewController* pdfController = [[PSPDFViewController alloc] initWithDocument:document];
+        ReaderDocument *document = [ReaderDocument withDocumentFilePath:[docPath stringByAppendingPathComponent:unitURL] password:nil];
+        ReaderViewController* pdfController = [[ReaderViewController alloc] initWithReaderDocument:document];
+        [pdfController setShowToolbar:YES];
         [pdfController setDelegate:self];
-        [pdfController setRightBarButtonItems:nil];
-        //[pdfController setScrollingEnabled:NO];
         pdfNavigationController = [[UINavigationController alloc] initWithRootViewController:pdfController];
+        [pdfNavigationController setNavigationBarHidden:YES animated:YES];
         [self presentViewController:pdfNavigationController animated:YES completion:NULL];
         [pdfController release];
-         */
-        
-        NSFileManager* fileManager =[NSFileManager defaultManager];
-        NSString* userDocPath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES)
-                               objectAtIndex:0];
-        
-        NSString* unitURL = [[[unitDict valueForKey:@"unitURL"] componentsSeparatedByString:@"/"] lastObject];
 
-        NSString *filePath = [userDocPath stringByAppendingPathComponent:unitURL];
-        NSLog(@"path:%@",filePath);
+    }else {
+    
         
-        if([fileManager fileExistsAtPath:filePath] ){
-            [fileManager removeItemAtPath:filePath error:nil];
-        }
-        
-        BOOL createFileSuccess = [fileManager createFileAtPath:filePath
-                                                      contents:nil
-                                                    attributes:nil];
-        if (createFileSuccess){
-            NSFileHandle* filehandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
-            
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kHttpRequestURL,[unitDict valueForKey:@"unitURL"]]];
-            ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-            
-            [self showIndicator];
-            [request setUserInfo:[NSDictionary dictionaryWithObject:unitURL forKey:@"TargetPath"]];
-            [request setCompletionBlock :^( void ){
-                NSLog ( @"%@ complete !" ,unitURL);
-                assert (filehandle);
-                [self hideIndicator];
-                [filehandle closeFile ];
+        selectUnitId =  [[unitDict valueForKey:@"unitId"] intValue];
+        NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+        NSString* screenControl = [userDict valueForKey:@"screenControl"];
+        NSString* role = [userDict valueForKey:@"role"];
+        if ([@"02" isEqualToString:role] ||
+            (([@"03" isEqualToString:role] || [@"04" isEqualToString:role])&& [@"01" isEqualToString:screenControl])) {
+            if ([@"00" isEqualToString:screenControl]) {
+                NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+                [requestDict setValue:@"M013" forKey:@"method"];
+                [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+                [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+                [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+                [requestDict setValue:[userDict valueForKey:@"currentModuleId"] forKey:@"moduleId"];
                 
-                ReaderDocument *document = [ReaderDocument withDocumentFilePath:filePath password:nil];
-                ReaderViewController* pdfController = [[ReaderViewController alloc] initWithReaderDocument:document];
-                [pdfController setShowToolbar:YES];
-                [pdfController setDelegate:self];
-                pdfNavigationController = [[UINavigationController alloc] initWithRootViewController:pdfController];
-                [pdfNavigationController setNavigationBarHidden:YES animated:YES];
-                [self presentViewController:pdfNavigationController animated:YES completion:NULL];
-                [pdfController release];
-            }];
+                NSDictionary* unitDict = [_unitArray objectAtIndex:_swipeView.currentItemIndex];
+                [requestDict setValue:[unitDict valueForKey:@"unitId"] forKey:@"unitId"];
+                
+                [requestDict setValue:@"01" forKey:@"control"];
+                
+                ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+                [httpEngine setDelegate:self];
+                [httpEngine requestWithDict:requestDict];
+                [httpEngine release];
+                [requestDict release];
+            }
             
-            [request setFailedBlock :^( void ){
-                NSLog ( @"%@ download failed !" ,unitURL);
-                [self hideIndicator];
-            }];
+            /*NSString *urlStr = [NSString stringWithFormat:@"%@%@",kHttpRequestURL,[unitDict valueForKey:@"unitURL"]];
+             
+             NSURL *documentURL = [NSURL URLWithString:urlStr];
+             PSPDFDocument *document = [PSPDFDocument documentWithURL:documentURL];
+             //[[PSPDFCache sharedCache] clearCache];
+             PSPDFViewController* pdfController = [[PSPDFViewController alloc] initWithDocument:document];
+             [pdfController setDelegate:self];
+             [pdfController setRightBarButtonItems:nil];
+             //[pdfController setScrollingEnabled:NO];
+             pdfNavigationController = [[UINavigationController alloc] initWithRootViewController:pdfController];
+             [self presentViewController:pdfNavigationController animated:YES completion:NULL];
+             [pdfController release];
+             */
             
-            [request setDataReceivedBlock :^( NSData * data){
-                if (filehandle != nil ) {
-                    [filehandle seekToEndOfFile ];
-                    [filehandle writeData :data];
-                }
-            }];
+            NSFileManager* fileManager =[NSFileManager defaultManager];
+            NSString* userDocPath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES)
+                                   objectAtIndex:0];
             
-            [request startAsynchronous];
+            NSString* unitURL = [[[unitDict valueForKey:@"unitURL"] componentsSeparatedByString:@"/"] lastObject];
+            
+            NSString *filePath = [userDocPath stringByAppendingPathComponent:unitURL];
+            NSLog(@"path:%@",filePath);
+            
+            if([fileManager fileExistsAtPath:filePath] ){
+                [fileManager removeItemAtPath:filePath error:nil];
+            }
+            
+            BOOL createFileSuccess = [fileManager createFileAtPath:filePath
+                                                          contents:nil
+                                                        attributes:nil];
+            if (createFileSuccess){
+                NSFileHandle* filehandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
+                
+                NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kHttpRequestURL,[unitDict valueForKey:@"unitURL"]]];
+                ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+                
+                [self showIndicator];
+                [request setUserInfo:[NSDictionary dictionaryWithObject:unitURL forKey:@"TargetPath"]];
+                [request setCompletionBlock :^( void ){
+                    NSLog ( @"%@ complete !" ,unitURL);
+                    assert (filehandle);
+                    [self hideIndicator];
+                    [filehandle closeFile ];
+                    
+                    ReaderDocument *document = [ReaderDocument withDocumentFilePath:filePath password:nil];
+                    ReaderViewController* pdfController = [[ReaderViewController alloc] initWithReaderDocument:document];
+                    [pdfController setShowToolbar:YES];
+                    [pdfController setDelegate:self];
+                    pdfNavigationController = [[UINavigationController alloc] initWithRootViewController:pdfController];
+                    [pdfNavigationController setNavigationBarHidden:YES animated:YES];
+                    [self presentViewController:pdfNavigationController animated:YES completion:NULL];
+                    [pdfController release];
+                }];
+                
+                [request setFailedBlock :^( void ){
+                    NSLog ( @"%@ download failed !" ,unitURL);
+                    [self hideIndicator];
+                }];
+                
+                [request setDataReceivedBlock :^( NSData * data){
+                    if (filehandle != nil ) {
+                        [filehandle seekToEndOfFile ];
+                        [filehandle writeData :data];
+                    }
+                }];
+                
+                [request startAsynchronous];
+            }
         }
+
     }
+   
 }
 
 - (void)movieFinishedCallback:(NSNotification*)aNotification {

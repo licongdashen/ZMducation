@@ -22,6 +22,8 @@
     UINavigationController *pdfNavigationController;
     AudioPlayer *_audioPlayer;
     
+    AVAudioPlayer *_audioPlayer1;
+
     NSMutableArray* photosArray;
     
     int selectUnitId;
