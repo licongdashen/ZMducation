@@ -45,6 +45,7 @@
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
     
+    
     self.isdownfinsh = NO;
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     
@@ -68,6 +69,31 @@
         [userDefaults setValue:self.hasDownloadedDictArray forKey:@"hasDownloadedDictArray"];
     }
     self.hasDownloadedDictArray = [[NSMutableArray alloc]initWithArray:[userDefaults objectForKey:@"hasDownloadedDictArray"]];
+    
+    
+    NSFileManager* fileManager =[NSFileManager defaultManager];
+
+    
+    
+
+
+    NSDate *currentDate = [NSDate date];//获取当前时间，日期
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"YYYYMMdd"];
+    NSString *dateString = [dateFormatter stringFromDate:currentDate];
+
+    for (NSDictionary *dic in self.hasDownloadedDictArray) {
+        if ([dateString intValue] - [dic[@"time"] intValue] >= 15) {
+            for (NSString *str in dic[@"files"]) {
+                
+                BOOL isDelete = [fileManager removeItemAtPath:str error:nil];
+                
+                NSLog(@"%d",isDelete);
+            }
+        }
+    }
+    
+    NSLog(@"...........................%@",self.hasDownloadedDictArray);
     
     ASINetworkQueue *que = [[ASINetworkQueue alloc] init];
     self.netWorkQueue = que;
@@ -540,8 +566,8 @@
     NSString* method = [responseDict valueForKey:@"method"];
     NSString* responseCode = [responseDict valueForKey:@"responseCode"];
     if ([@"M002" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
-        [self setUserDict:nil];
-        [(UINavigationController*)[self.window rootViewController] popToRootViewControllerAnimated:YES];
+//        [self setUserDict:nil];
+//        [(UINavigationController*)[self.window rootViewController] popToRootViewControllerAnimated:YES];
     }else if([@"M005" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
         NSMutableArray* moduleArray = [[NSMutableArray alloc] initWithCapacity:0];
         
@@ -690,7 +716,12 @@
         
         self.hasDownloadedDictArray = [[NSMutableArray alloc]initWithArray:[userDefaults objectForKey:@"hasDownloadedDictArray"]];
         
-        NSDictionary * currentGradeAndCourse = [[NSDictionary alloc]initWithObjectsAndKeys:self.grade,@"grade",
+        NSDate *currentDate = [NSDate date];//获取当前时间，日期
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"YYYYMMdd"];
+        NSString *dateString = [dateFormatter stringFromDate:currentDate];
+        
+        NSDictionary * currentGradeAndCourse = [[NSDictionary alloc]initWithObjectsAndKeys:dateString,@"time",self.grade,@"grade",
                                                 self.course,@"course",self.currentDownloadArray,@"files",[(ZMAppDelegate*)[UIApplication sharedApplication].delegate fileArray],@"filesinfo",self.sort,@"sort",self.courseSort,@"courseSort",nil];
         for (NSDictionary *dic in self.hasDownloadedDictArray) {
             if ([dic[@"course"] isEqualToString:currentGradeAndCourse[@"course"]]) {
