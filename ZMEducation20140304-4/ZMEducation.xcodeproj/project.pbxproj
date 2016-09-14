@@ -74,6 +74,12 @@
 		21E1D3431839EB90001FC83F /* ZcdQueryPoem.m in Sources */ = {isa = PBXBuildFile; fileRef = 21E1D3421839EB90001FC83F /* ZcdQueryPoem.m */; };
 		2710CF2C1C86D1F300784733 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2710CF2B1C86D1F300784733 /* JSONKit.m */; };
 		50AD99871CFD6BF8000A91CD /* ZMZuoYeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AD99861CFD6BF8000A91CD /* ZMZuoYeViewController.m */; };
+		50B28EAD1D88F14C00C18CE6 /* ZMOfflineFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B28EAC1D88F14C00C18CE6 /* ZMOfflineFilesViewController.m */; };
+		50B28EAF1D894B5E00C18CE6 /* border.png in Resources */ = {isa = PBXBuildFile; fileRef = 50B28EAE1D894B5E00C18CE6 /* border.png */; };
+		50B28EB11D894B8200C18CE6 /* bg_offlineFiles.png in Resources */ = {isa = PBXBuildFile; fileRef = 50B28EB01D894B8200C18CE6 /* bg_offlineFiles.png */; };
+		50B28EB31D894BB400C18CE6 /* grade.png in Resources */ = {isa = PBXBuildFile; fileRef = 50B28EB21D894BB400C18CE6 /* grade.png */; };
+		50B28EB51D894BC000C18CE6 /* cursorText.png in Resources */ = {isa = PBXBuildFile; fileRef = 50B28EB41D894BC000C18CE6 /* cursorText.png */; };
+		50B28EB71D894C8200C18CE6 /* deleteBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 50B28EB61D894C8200C18CE6 /* deleteBtn.png */; };
 		50FE2F241D45ED5800370468 /* ZMdianyingzuoyeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FE2F231D45ED5800370468 /* ZMdianyingzuoyeViewController.m */; };
 		B716F774174B00E6007B2B2F /* PageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = B716F773174B00E6007B2B2F /* PageControl.m */; };
 		B716F78A174B030F007B2B2F /* PageControl_Dot_Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = B716F788174B030A007B2B2F /* PageControl_Dot_Selected.png */; };
@@ -377,6 +383,13 @@
 		2710CF2B1C86D1F300784733 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		50AD99851CFD6BF8000A91CD /* ZMZuoYeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMZuoYeViewController.h; sourceTree = "<group>"; };
 		50AD99861CFD6BF8000A91CD /* ZMZuoYeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMZuoYeViewController.m; sourceTree = "<group>"; };
+		50B28EAB1D88F14C00C18CE6 /* ZMOfflineFilesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMOfflineFilesViewController.h; sourceTree = "<group>"; };
+		50B28EAC1D88F14C00C18CE6 /* ZMOfflineFilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMOfflineFilesViewController.m; sourceTree = "<group>"; };
+		50B28EAE1D894B5E00C18CE6 /* border.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = border.png; sourceTree = "<group>"; };
+		50B28EB01D894B8200C18CE6 /* bg_offlineFiles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_offlineFiles.png; sourceTree = "<group>"; };
+		50B28EB21D894BB400C18CE6 /* grade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grade.png; sourceTree = "<group>"; };
+		50B28EB41D894BC000C18CE6 /* cursorText.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cursorText.png; sourceTree = "<group>"; };
+		50B28EB61D894C8200C18CE6 /* deleteBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deleteBtn.png; sourceTree = "<group>"; };
 		50FE2F221D45ED5800370468 /* ZMdianyingzuoyeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMdianyingzuoyeViewController.h; sourceTree = "<group>"; };
 		50FE2F231D45ED5800370468 /* ZMdianyingzuoyeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMdianyingzuoyeViewController.m; sourceTree = "<group>"; };
 		B716F772174B00E6007B2B2F /* PageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageControl.h; sourceTree = "<group>"; };
@@ -1067,6 +1080,8 @@
 				21D6AE2817EEF3F600FBB830 /* ZMMdlCmpVCtrl.m */,
 				B7298C8E175643740050C274 /* ZMCourseViewController.h */,
 				B7298C8F175643740050C274 /* ZMCourseViewController.m */,
+				50B28EAB1D88F14C00C18CE6 /* ZMOfflineFilesViewController.h */,
+				50B28EAC1D88F14C00C18CE6 /* ZMOfflineFilesViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1086,13 +1101,18 @@
 				B718683D176E03AD00268A5D /* Unit_Common_Button.png */,
 				21699AE218467571007B3D2C /* bg_input_shiti.png */,
 				B733DCA9176CA9EA0090C6D7 /* Wrong_Remove_Button.png */,
+				50B28EB01D894B8200C18CE6 /* bg_offlineFiles.png */,
 				21C41E0B188C13DA006E2934 /* bg_interComment_20140119.png */,
+				50B28EB61D894C8200C18CE6 /* deleteBtn.png */,
 				B733DCA7176C929D0090C6D7 /* Camera_Button.png */,
+				50B28EB21D894BB400C18CE6 /* grade.png */,
+				50B28EB41D894BC000C18CE6 /* cursorText.png */,
 				21A79CAD18451FD00078CF13 /* Assist_Btn_Bbs.png */,
 				B733DCA5176C74E00090C6D7 /* ScreenControl_Button.png */,
 				21D4E1731818205500EB3892 /* bg_interComment.png */,
 				21E1D3331839BF7F001FC83F /* Menu_btn_gousi.png */,
 				21E1D3341839BF7F001FC83F /* Menu_btn_shiti.png */,
+				50B28EAE1D894B5E00C18CE6 /* border.png */,
 				21E1D3351839BF7F001FC83F /* Menu_btn_xiaozhushou.png */,
 				21E1D3361839BF7F001FC83F /* Menu_btn_zidian.png */,
 				B733DCA3176AE9510090C6D7 /* Current_Accumulation_Button.png */,
@@ -1370,6 +1390,7 @@
 				B74B2B761745D40500A5EFDB /* LoginBtn.png in Resources */,
 				B74B2B771745D40500A5EFDB /* LoginWrap.png in Resources */,
 				B74B2B781745D40500A5EFDB /* Logo.png in Resources */,
+				50B28EB11D894B8200C18CE6 /* bg_offlineFiles.png in Resources */,
 				B74B2B791745D40500A5EFDB /* LogoName.png in Resources */,
 				B74B2B7A1745D40500A5EFDB /* Textarea.png in Resources */,
 				B74B2B831745F88F00A5EFDB /* Menu_bg.png in Resources */,
@@ -1440,6 +1461,7 @@
 				B716F7D617507EEE007B2B2F /* Article_Item_09.png in Resources */,
 				B716F7D717507EEE007B2B2F /* Article_Item_10.png in Resources */,
 				B716F7DD1750ADE2007B2B2F /* Article_Item_Line_Left.png in Resources */,
+				50B28EB31D894BB400C18CE6 /* grade.png in Resources */,
 				B716F7DE1750ADE2007B2B2F /* Article_Item_Line_Right.png in Resources */,
 				B716F7E41750B3FC007B2B2F /* Article_Item_11.png in Resources */,
 				B716F7E51750B3FC007B2B2F /* Article_Item_12.png in Resources */,
@@ -1481,6 +1503,7 @@
 				B733DCA6176C74E00090C6D7 /* ScreenControl_Button.png in Resources */,
 				B733DCA8176C929D0090C6D7 /* Camera_Button.png in Resources */,
 				B733DCAA176CA9EA0090C6D7 /* Wrong_Remove_Button.png in Resources */,
+				50B28EB71D894C8200C18CE6 /* deleteBtn.png in Resources */,
 				B718683E176E03AD00268A5D /* Unit_Common_Button.png in Resources */,
 				21D6AE6017EEF50900FBB830 /* bg_bbs.png in Resources */,
 				21A79CB0184520960078CF13 /* bg_textfield_120.png in Resources */,
@@ -1499,12 +1522,14 @@
 				21D6AE6C17EEF50900FBB830 /* bg_topic.png in Resources */,
 				21D6AE6D17EEF50900FBB830 /* bg_travel.png in Resources */,
 				21D6AE6E17EEF50900FBB830 /* bg_zcd.png in Resources */,
+				50B28EAF1D894B5E00C18CE6 /* border.png in Resources */,
 				21D6AE6F17EEF50900FBB830 /* bg_ziyuanku.png in Resources */,
 				21D6AE7017EEF50900FBB830 /* icon_butterfly.png in Resources */,
 				21D6AE7117EEF50900FBB830 /* icon_cat.png in Resources */,
 				21D6AE7217EEF50900FBB830 /* icon_huli.png in Resources */,
 				21D6AE7317EEF50900FBB830 /* icon_zicidian.png in Resources */,
 				21D6AE7417EEF50900FBB830 /* icon_zyk.png in Resources */,
+				50B28EB51D894BC000C18CE6 /* cursorText.png in Resources */,
 				2196B80017FD9BF100926DED /* Assist_Btn_Gousi.png in Resources */,
 				21C29A311802BD4E00095E93 /* Assist_Btn_Bbs.png in Resources */,
 			);
@@ -1598,6 +1623,7 @@
 				B77130FE175DD6E60019C49E /* ZMWriteGuideViewController.m in Sources */,
 				B7713101175DD7320019C49E /* ZMCheckItemViewController.m in Sources */,
 				B7713106175E35440019C49E /* ZMStudyAccumulationViewController.m in Sources */,
+				50B28EAD1D88F14C00C18CE6 /* ZMOfflineFilesViewController.m in Sources */,
 				21B4DE0918AB9832007DDC74 /* SwipeView.m in Sources */,
 				B733DCA2176AE7B70090C6D7 /* ZMStudyExperienceViewController.m in Sources */,
 				B733DCB2176CB0F90090C6D7 /* FGalleryPhoto.m in Sources */,

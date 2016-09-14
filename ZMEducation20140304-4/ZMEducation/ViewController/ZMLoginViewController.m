@@ -11,6 +11,7 @@
 #import "ZMHomeViewController.h"
 #import "ZMCourseViewController.h"
 #import "UIExpandingTextView.h"
+#import "ZMOfflineFilesViewController.h"
 
 #define kDeviceTokenStringKEY @"DeviceTokenString"
 @implementation ZMLoginViewController
@@ -168,6 +169,9 @@
         [requestDict setValue:@"M001" forKey:@"method"];
         [requestDict setValue:[nameTF text] forKey:@"userName"];
         [requestDict setValue:[pwTF text] forKey:@"password"];
+        [requestDict setValue:@"zmxzipad" forKey:@"clientType"];
+        [requestDict setValue:@"0.5.0" forKey:@"version"];
+
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         NSString* deviceTokenStr = [userDefaults valueForKey:kDeviceTokenStringKEY];
         //NSString * deviceTokenStr = @"1c0765d62f18470033bfc107d2a49dca922c52d44c0cf52cef9c5ca78a6c9b98";
@@ -197,6 +201,9 @@
             ((ZMAppDelegate*)[UIApplication sharedApplication].delegate).fileCache = [responseDict valueForKey:@"fileCache"];
             ((ZMAppDelegate*)[UIApplication sharedApplication].delegate).picCache = [responseDict valueForKey:@"picCache"];
 
+            ((ZMAppDelegate*)[UIApplication sharedApplication].delegate).M001Dict = responseDict;
+            ((ZMAppDelegate*)[UIApplication sharedApplication].delegate).nametf = [nameTF text];
+            
             if ([@"02" isEqualToString:role]) {//老师
                 NSString* userId = [responseDict valueForKey:@"userId"];
                 NSString* status = [responseDict valueForKey:@"status"];
@@ -223,7 +230,11 @@
                 [(ZMAppDelegate*)[UIApplication sharedApplication].delegate setUserDict:userDict];
                 [userDict release];
                 
-                [self getModules];
+//                [self getModules];
+                ZMOfflineFilesViewController* offlineFilesView = [[ZMOfflineFilesViewController alloc] init];
+                offlineFilesView.dic = responseDict;
+                [self.navigationController pushViewController:offlineFilesView animated:YES];
+                [offlineFilesView release];
             }
         }else{
             NSString* responseMessage = [responseDict valueForKey:@"responseMessage"];

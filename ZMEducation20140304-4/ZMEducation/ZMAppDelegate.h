@@ -32,6 +32,11 @@
 
 @property(nonatomic, retain) NSMutableArray * hasDownloadedDictArray;
 
+
+@property(nonatomic, retain) NSDictionary* M001Dict;
+
+@property(nonatomic, retain) NSString *nametf;
+
 @property int currentDownloadLength;
 
 @property(nonatomic, retain) NSString * fileCache;
