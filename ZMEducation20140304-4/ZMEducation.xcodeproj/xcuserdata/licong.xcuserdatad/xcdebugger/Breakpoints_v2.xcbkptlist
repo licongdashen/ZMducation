@@ -13,5 +13,53 @@
             stopOnStyle = "0">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZMEducation/ViewController/ZMOfflineFilesViewController.m"
+            timestampString = "495632325.950328"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
+            landmarkName = "-deleteFileAtPath:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ZMOfflineFilesViewController deleteFileAtPath:]"
+                  moduleName = "ZMEducation"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/licong/Desktop/ZMducation/ZMEducation20140304-4/ZMEducation/ViewController/ZMOfflineFilesViewController.m"
+                  timestampString = "495632325.979373"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "171"
+                  endingLineNumber = "171"
+                  offsetFromSymbolStart = "806">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ZMOfflineFilesViewController deleteFileAtPath:]"
+                  moduleName = "ZMEducation"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/licong/Desktop/ZMducation/ZMEducation20140304-4/ZMEducation/ViewController/ZMOfflineFilesViewController.m"
+                  timestampString = "495632325.979505"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "171"
+                  endingLineNumber = "171"
+                  offsetFromSymbolStart = "862">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
