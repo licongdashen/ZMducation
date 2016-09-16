@@ -61,7 +61,6 @@
 
     self.downArray = [[NSMutableArray alloc] initWithCapacity:10];
 
-    self.currentDownloadArray = [[NSMutableArray alloc]initWithCapacity:20];
     
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -277,6 +276,9 @@
         //NSLog(@"还有文件没有下载完成");
         return;
     }else{
+        
+        self.currentDownloadArray = [[NSMutableArray alloc]initWithCapacity:20];
+
         self.currentDownloadLength = [self.downArray count];
         
         //初始化Documents路径
@@ -468,11 +470,11 @@
         
         NSDictionary* fileDic = [_fileArray objectAtIndex:index];
         
-//        UILabel * grade = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 110, 50)];
-//        grade.text = [fileDic valueForKey:@"grade"];
-//        grade.textAlignment = UITextAlignmentCenter;
-//        grade.backgroundColor = [UIColor clearColor];
-//        [view addSubview:grade];
+        UILabel * grade = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 110, 50)];
+        grade.text = [NSString stringWithFormat:@"%@",self.dic[@"currentGradeId"]];
+        grade.textAlignment = UITextAlignmentCenter;
+        grade.backgroundColor = [UIColor clearColor];
+        [view addSubview:grade];
         
         UILabel * file = [[UILabel alloc]initWithFrame:CGRectMake(190, 0, 450, 50)];
         file.text = [NSString stringWithFormat:@"第%@单元:%@",[fileDic valueForKey:@"sort"],[fileDic valueForKey:@"course"]];
@@ -492,15 +494,13 @@
         [enterButton3 setTitle:@"未下载" forState:UIControlStateNormal];
         [view addSubview:enterButton3];
 
-
         if ([self.hasDownloadedDictArray count] > 0) {
             for (NSDictionary *dic in self.hasDownloadedDictArray) {
                 if (dic[@"courseId"] == fileDic[@"courseId"]) {
-                    if (fileDic[@"lastUpdateTime"] > dic[@"lastUpdateTime"]) {
+                    if ([fileDic[@"lastUpdateTime"] intValue] > [dic[@"lastUpdateTime"] intValue]) {
                         [enterButton3 setTitle:@"已更新" forState:UIControlStateNormal];
                     }else{
                         [enterButton3 setTitle:@"已下载" forState:UIControlStateNormal];
-
                     }
                 }
             }
@@ -531,15 +531,15 @@
         if ([self.hasDownloadedDictArray count] > 0) {
             for (NSDictionary *dic in self.hasDownloadedDictArray) {
                 if (dic[@"courseId"] == fileDic[@"courseId"]) {
-                    if (fileDic[@"lastUpdateTime"] > dic[@"lastUpdateTime"]) {
-                        enterButton1.userInteractionEnabled = YES;
+                    if ([fileDic[@"lastUpdateTime"] intValue] > [dic[@"lastUpdateTime"] intValue]) {
+                        enterButton1.hidden = NO;
                     }else{
-                        enterButton1.userInteractionEnabled = NO;
+                        enterButton1.hidden = YES;
                     }
                 }
             }
         }else {
-            enterButton1.userInteractionEnabled = YES;
+            enterButton1.hidden = NO;
             
         }
 
@@ -556,7 +556,12 @@
               forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:deleteButton];
         
+        if (enterButton1.hidden == YES) {
+            deleteButton.hidden = NO;
+        }else {
         
+            deleteButton.hidden = YES;
+        }
         
     }
     
