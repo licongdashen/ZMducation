@@ -73,6 +73,10 @@
 		21E1D3401839EB28001FC83F /* ZcdQueryPhrase.m in Sources */ = {isa = PBXBuildFile; fileRef = 21E1D33F1839EB28001FC83F /* ZcdQueryPhrase.m */; };
 		21E1D3431839EB90001FC83F /* ZcdQueryPoem.m in Sources */ = {isa = PBXBuildFile; fileRef = 21E1D3421839EB90001FC83F /* ZcdQueryPoem.m */; };
 		2710CF2C1C86D1F300784733 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2710CF2B1C86D1F300784733 /* JSONKit.m */; };
+		50656F861D9920C50027FD38 /* RNCryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 50656F7F1D9920C50027FD38 /* RNCryptor.m */; };
+		50656F871D9920C50027FD38 /* RNCryptorEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 50656F811D9920C50027FD38 /* RNCryptorEngine.m */; };
+		50656F881D9920C50027FD38 /* RNDecryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 50656F831D9920C50027FD38 /* RNDecryptor.m */; };
+		50656F891D9920C50027FD38 /* RNEncryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 50656F851D9920C50027FD38 /* RNEncryptor.m */; };
 		50AD99871CFD6BF8000A91CD /* ZMZuoYeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AD99861CFD6BF8000A91CD /* ZMZuoYeViewController.m */; };
 		50B28EAD1D88F14C00C18CE6 /* ZMOfflineFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B28EAC1D88F14C00C18CE6 /* ZMOfflineFilesViewController.m */; };
 		50B28EAF1D894B5E00C18CE6 /* border.png in Resources */ = {isa = PBXBuildFile; fileRef = 50B28EAE1D894B5E00C18CE6 /* border.png */; };
@@ -381,6 +385,16 @@
 		21E1D3421839EB90001FC83F /* ZcdQueryPoem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZcdQueryPoem.m; sourceTree = "<group>"; };
 		2710CF2A1C86D1F300784733 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		2710CF2B1C86D1F300784733 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		50656F7C1D9920C50027FD38 /* RNCryptor+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RNCryptor+Private.h"; sourceTree = "<group>"; };
+		50656F7D1D9920C50027FD38 /* RNCryptor-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RNCryptor-Prefix.pch"; sourceTree = "<group>"; };
+		50656F7E1D9920C50027FD38 /* RNCryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNCryptor.h; sourceTree = "<group>"; };
+		50656F7F1D9920C50027FD38 /* RNCryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNCryptor.m; sourceTree = "<group>"; };
+		50656F801D9920C50027FD38 /* RNCryptorEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNCryptorEngine.h; sourceTree = "<group>"; };
+		50656F811D9920C50027FD38 /* RNCryptorEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNCryptorEngine.m; sourceTree = "<group>"; };
+		50656F821D9920C50027FD38 /* RNDecryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNDecryptor.h; sourceTree = "<group>"; };
+		50656F831D9920C50027FD38 /* RNDecryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNDecryptor.m; sourceTree = "<group>"; };
+		50656F841D9920C50027FD38 /* RNEncryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNEncryptor.h; sourceTree = "<group>"; };
+		50656F851D9920C50027FD38 /* RNEncryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNEncryptor.m; sourceTree = "<group>"; };
 		50AD99851CFD6BF8000A91CD /* ZMZuoYeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMZuoYeViewController.h; sourceTree = "<group>"; };
 		50AD99861CFD6BF8000A91CD /* ZMZuoYeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMZuoYeViewController.m; sourceTree = "<group>"; };
 		50B28EAB1D88F14C00C18CE6 /* ZMOfflineFilesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMOfflineFilesViewController.h; sourceTree = "<group>"; };
@@ -760,6 +774,23 @@
 			name = shitiBrowseView;
 			sourceTree = "<group>";
 		};
+		50656F7B1D9920C50027FD38 /* RNCryptor */ = {
+			isa = PBXGroup;
+			children = (
+				50656F7C1D9920C50027FD38 /* RNCryptor+Private.h */,
+				50656F7D1D9920C50027FD38 /* RNCryptor-Prefix.pch */,
+				50656F7E1D9920C50027FD38 /* RNCryptor.h */,
+				50656F7F1D9920C50027FD38 /* RNCryptor.m */,
+				50656F801D9920C50027FD38 /* RNCryptorEngine.h */,
+				50656F811D9920C50027FD38 /* RNCryptorEngine.m */,
+				50656F821D9920C50027FD38 /* RNDecryptor.h */,
+				50656F831D9920C50027FD38 /* RNDecryptor.m */,
+				50656F841D9920C50027FD38 /* RNEncryptor.h */,
+				50656F851D9920C50027FD38 /* RNEncryptor.m */,
+			);
+			path = RNCryptor;
+			sourceTree = "<group>";
+		};
 		B716F771174B00E6007B2B2F /* PageControl */ = {
 			isa = PBXGroup;
 			children = (
@@ -807,6 +838,7 @@
 		B7334A801727A19E0055291F = {
 			isa = PBXGroup;
 			children = (
+				50656F7B1D9920C50027FD38 /* RNCryptor */,
 				216F35A71842923D007EB51D /* RegexKitLite */,
 				B76880111741CF9C0087C019 /* ZMConfig.h */,
 				B7334B371727EE850055291F /* ZMHttpEngine.h */,
@@ -1556,6 +1588,7 @@
 				216F35AA1842923D007EB51D /* RegexKitLite.m in Sources */,
 				B7334ADD1727A3CA0055291F /* ReaderMainPagebar.m in Sources */,
 				216B28A41838F78700007427 /* ZcdQueryCharacter.m in Sources */,
+				50656F891D9920C50027FD38 /* RNEncryptor.m in Sources */,
 				50AD99871CFD6BF8000A91CD /* ZMZuoYeViewController.m in Sources */,
 				B7334ADE1727A3CA0055291F /* ReaderMainToolbar.m in Sources */,
 				B7334ADF1727A3CA0055291F /* ReaderThumbCache.m in Sources */,
@@ -1568,12 +1601,14 @@
 				B7334AE61727A3CA0055291F /* ReaderViewController.m in Sources */,
 				B7334AE71727A3CA0055291F /* ThumbsMainToolbar.m in Sources */,
 				B7334AE81727A3CA0055291F /* ThumbsViewController.m in Sources */,
+				50656F861D9920C50027FD38 /* RNCryptor.m in Sources */,
 				218B05E6183A502F00365FDE /* ZcdQueryTruth.m in Sources */,
 				B7334AE91727A3CA0055291F /* UIXToolbarView.m in Sources */,
 				B7334B2F1727EE610055291F /* ASIAuthenticationDialog.m in Sources */,
 				B7334B301727EE610055291F /* ASIDataCompressor.m in Sources */,
 				B7334B311727EE610055291F /* ASIDataDecompressor.m in Sources */,
 				B7334B321727EE610055291F /* ASIDownloadCache.m in Sources */,
+				50656F871D9920C50027FD38 /* RNCryptorEngine.m in Sources */,
 				B7334B331727EE610055291F /* ASIFormDataRequest.m in Sources */,
 				21A84A6B1865497B006D934B /* ZMShitiBrowseViewController.m in Sources */,
 				B7334B341727EE610055291F /* ASIHTTPRequest.m in Sources */,
@@ -1628,6 +1663,7 @@
 				B733DCA2176AE7B70090C6D7 /* ZMStudyExperienceViewController.m in Sources */,
 				B733DCB2176CB0F90090C6D7 /* FGalleryPhoto.m in Sources */,
 				B733DCB3176CB0F90090C6D7 /* FGalleryPhotoView.m in Sources */,
+				50656F881D9920C50027FD38 /* RNDecryptor.m in Sources */,
 				B733DCB4176CB0F90090C6D7 /* FGalleryViewController.m in Sources */,
 				B7A89DD5177B2B6C00CB8E62 /* ZMFeedbackDetailViewController.m in Sources */,
 				B7A53D4A177FA63000C6AF43 /* UIExpandingTextView.m in Sources */,

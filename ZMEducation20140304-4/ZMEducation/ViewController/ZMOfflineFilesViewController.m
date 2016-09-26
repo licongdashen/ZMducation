@@ -10,6 +10,8 @@
 #import "ZMHomeViewController.h"
 
 
+#import "RNEncryptor.h"
+#import "RNDecryptor.h"
 //#import "ZMOffLineSixModelViewController.h"
 
 //#import "ZMOfflineSwipeViewController.h"
@@ -212,6 +214,8 @@
 //    [self.navigationController pushViewController:swipeView animated:YES];
 //    [swipeView release];
     
+    UIProgressView *prv = [self.view viewWithTag:index + 100];
+    prv.hidden = NO;
 
     NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
     [requestDict setValue:@"M102" forKey:@"method"];
@@ -296,6 +300,10 @@
                                          error:nil];
         }
         
+        UIProgressView *prv = [self.view viewWithTag:index + 100];
+
+        [self.netWorkQueue setDownloadProgressDelegate:prv];
+
         //发送下载请求
         for (NSDictionary * pdfDict in self.downArray) {
             
@@ -327,7 +335,7 @@
             //设置临时文件路径
             [self.request setTemporaryFileDownloadPath:tempPath];
             //设置进度条的代理,
-            //            [request setDownloadProgressDelegate:progressView];
+//            [self.request setDownloadProgressDelegate:progressView];
             //设置是是否支持断点下载
             [self.request setAllowResumeForFileDownloads:YES];
             //设置基本信息
@@ -405,7 +413,12 @@
 
         enterButton.userInteractionEnabled = YES;
         
+        UIProgressView *prv = [self.view viewWithTag:index + 100];
+        prv.hidden = YES;
+
         [fileView reloadData];
+
+//        [self encrypt:0];
 
     }
     
@@ -416,6 +429,8 @@
     
     UIButton* enterButton1 = (UIButton*)sender;
     index1 = enterButton1.tag;
+    
+
     
     for (NSDictionary *dic in self.hasDownloadedDictArray) {
         if (self.dic[@"currentCourseId"] == dic[@"courseId"]) {
@@ -457,7 +472,7 @@
 }
 
 - (UIView *)listView:(JTListView *)listView viewForItemAtIndex:(NSUInteger)index{
-    UIView *view = [listView dequeueReusableView];
+    view = [listView dequeueReusableView];
     for(UIView* subView in [view subviews]){
         [subView removeFromSuperview];
     }
@@ -476,7 +491,7 @@
         grade.backgroundColor = [UIColor clearColor];
         [view addSubview:grade];
         
-        UILabel * file = [[UILabel alloc]initWithFrame:CGRectMake(190, 0, 450, 50)];
+        UILabel * file = [[UILabel alloc]initWithFrame:CGRectMake(150, 0, 200, 50)];
         file.text = [NSString stringWithFormat:@"第%@单元:%@",[fileDic valueForKey:@"sort"],[fileDic valueForKey:@"course"]];
         file.backgroundColor = [UIColor clearColor];
         [view addSubview:file];
@@ -485,9 +500,18 @@
         border.image = [UIImage imageNamed:@"border.png"];
         [view addSubview:border];
         
+        
+        progressView = [[UIProgressView alloc]initWithFrame:CGRectMake(350, 30, 90, 20)];
+        CGAffineTransform transform = CGAffineTransformMakeScale(1.0f, 3.0f);
+        progressView.transform = transform;
+        progressView.hidden = YES;
+        [progressView setTag:index + 100];
+        [view addSubview:progressView];
+        
+        
         UIButton* enterButton3 = [UIButton buttonWithType:UIButtonTypeCustom];
         [enterButton3 setTag:index];
-        [enterButton3 setFrame:CGRectMake(410, 20, 60, 20)];
+        [enterButton3 setFrame:CGRectMake(440, 20, 60, 20)];
         [enterButton3 addTarget:self action:@selector(enterClick2:)
                forControlEvents:UIControlEventTouchUpInside];
         [enterButton3 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -511,7 +535,7 @@
         
         UIButton* enterButton2 = [UIButton buttonWithType:UIButtonTypeCustom];
         [enterButton2 setTag:index];
-        [enterButton2 setFrame:CGRectMake(510, 20, 80, 20)];
+        [enterButton2 setFrame:CGRectMake(540, 20, 80, 20)];
         [enterButton2 addTarget:self action:@selector(enterClick:)
               forControlEvents:UIControlEventTouchUpInside];
         [enterButton2 setTitle:@"进入课程" forState:UIControlStateNormal];
@@ -520,7 +544,7 @@
         
         UIButton* enterButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
         [enterButton1 setTag:index];
-        [enterButton1 setFrame:CGRectMake(630, 20, 60, 20)];
+        [enterButton1 setFrame:CGRectMake(650, 20, 60, 20)];
 
         [enterButton1 setTitle:@"下载" forState:UIControlStateNormal];
         [enterButton1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -597,6 +621,42 @@
     [viewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
-
+- (void)encrypt:(int)index {
+    NSData *data = [NSData dataWithContentsOfFile:[self.currentDownloadArray objectAtIndex:index]];
+    NSError *error = nil;
+    NSData *encryptedData = [RNEncryptor encryptData:data
+                                        withSettings:kRNCryptorAES256Settings
+                                            password:@"1"
+                                               error:&error];
+    //设置密码 使用AES加密读取到的数据
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSURL *url = [NSURL URLWithString:[self.currentDownloadArray objectAtIndex:index]];
+    NSString * pdfID = [[[url lastPathComponent] componentsSeparatedByString:@"."] firstObject];
+    NSString *path = [[url path] stringByReplacingOccurrencesOfString:[url lastPathComponent]  withString:pdfID];
+    
+    //在原文件夹生成加密后的文件
+    if (![fm createFileAtPath:path contents:encryptedData attributes:nil]) {
+        NSLog(@"Error was code: %d - message: %s", errno, strerror(errno));
+        //这样写是因为createFileAtPath这个方法只返回了一个布尔值，并没有具体的错误信息，使用errno可以解决这个问题
+    } else {
+        
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        if([fileManager fileExistsAtPath:[self.currentDownloadArray objectAtIndex:index]])
+        {
+            if ([fileManager removeItemAtPath:[self.currentDownloadArray objectAtIndex:index] error:nil])
+            {
+                NSLog(@"remove success");
+            }
+        }
+        
+        if (index < [self.currentDownloadArray count] - 1) {
+            
+            [self encrypt:++index];
+        }
+    }
+    
+    
+    
+}
 
 @end

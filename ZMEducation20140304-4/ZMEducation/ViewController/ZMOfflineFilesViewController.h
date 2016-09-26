@@ -18,6 +18,9 @@
     int index;
     int index1;
     UIButton* enterButton;
+    
+    UIProgressView *progressView;
+    UIView *view;
 }
 
 @property(nonatomic, retain) NSMutableArray* fileArray;
