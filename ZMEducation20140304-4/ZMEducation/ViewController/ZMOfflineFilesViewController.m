@@ -42,19 +42,23 @@
     [self.view addSubview:bg_files_view ];
     [bg_files_view release];
     
-    UIImage* gradeImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"grade" ofType:@"png"]];
-    UIImageView* gradeView = [[UIImageView alloc] initWithFrame:CGRectMake(163, 245, 38, 17)];
-    [gradeView setImage:gradeImage];
-    [self.view addSubview:gradeView];
-    [gradeView release];
+//    UIImage* gradeImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"grade" ofType:@"png"]];
+//    UIImageView* gradeView = [[UIImageView alloc] initWithFrame:CGRectMake(163, 245, 38, 17)];
+//    [gradeView setImage:gradeImage];
+//    [self.view addSubview:gradeView];
+//    [gradeView release];
     
     UIImage* courseImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"cursorText" ofType:@"png"]];
-    UIImageView* courseView = [[UIImageView alloc] initWithFrame:CGRectMake(385, 245, 38, 17)];
+    UIImageView* courseView = [[UIImageView alloc] initWithFrame:CGRectMake(280, 245, 38, 17)];
     [courseView setImage:courseImage];
     [self.view addSubview:courseView];
     [courseView release];
 
-    
+    UILabel * grade = [[UILabel alloc]initWithFrame:CGRectMake(280, 150, 110, 50)];
+    grade.text = [NSString stringWithFormat:@"年纪:%@",self.dic[@"currentGrade"]];
+    grade.textAlignment = UITextAlignmentCenter;
+    grade.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:grade];
     
 }
 
@@ -485,11 +489,11 @@
         
         NSDictionary* fileDic = [_fileArray objectAtIndex:index];
         
-        UILabel * grade = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 110, 50)];
-        grade.text = [NSString stringWithFormat:@"%@",self.dic[@"currentGradeId"]];
-        grade.textAlignment = UITextAlignmentCenter;
-        grade.backgroundColor = [UIColor clearColor];
-        [view addSubview:grade];
+//        UILabel * grade = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 110, 50)];
+//        grade.text = [NSString stringWithFormat:@"%@",self.dic[@"currentGradeId"]];
+//        grade.textAlignment = UITextAlignmentCenter;
+//        grade.backgroundColor = [UIColor clearColor];
+//        [view addSubview:grade];
         
         UILabel * file = [[UILabel alloc]initWithFrame:CGRectMake(150, 0, 200, 50)];
         file.text = [NSString stringWithFormat:@"第%@单元:%@",[fileDic valueForKey:@"sort"],[fileDic valueForKey:@"course"]];
@@ -582,9 +586,11 @@
         
         if (enterButton1.hidden == YES) {
             deleteButton.hidden = NO;
+            enterButton2.hidden = NO;
         }else {
         
             deleteButton.hidden = YES;
+            enterButton2.hidden = YES;
         }
         
     }

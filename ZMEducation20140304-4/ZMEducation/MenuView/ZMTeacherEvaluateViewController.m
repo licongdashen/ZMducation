@@ -275,7 +275,7 @@
              frame:CGRectMake(390, 10, 120, 30)
               size:16
           intoView:headView];
-    [self addLabel:@"写作重点"
+    [self addLabel:@"学习重点"
              frame:CGRectMake(530, 10, 120, 30)
               size:16
           intoView:headView];

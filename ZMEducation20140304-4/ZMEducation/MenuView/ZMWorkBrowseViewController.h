@@ -13,6 +13,7 @@
 @interface ZMWorkBrowseViewController : ZMBaseOnlineViewController<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray* courseArray;
     NSMutableArray* moduleArray;
+    NSMutableArray* moduleArray1;
     NSMutableArray* studentArray;
     NSMutableArray* workArray;
 

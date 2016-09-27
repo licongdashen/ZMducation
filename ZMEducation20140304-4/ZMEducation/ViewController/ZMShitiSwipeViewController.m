@@ -111,7 +111,7 @@
     
     self.zuoyeBtn = [[UIButton alloc]init];
     self.zuoyeBtn.backgroundColor = [UIColor grayColor];
-    [self.zuoyeBtn setTitle:@"作业" forState:UIControlStateNormal];
+    [self.zuoyeBtn setTitle:@"我的文稿" forState:UIControlStateNormal];
     [self.zuoyeBtn addTarget:self action:@selector(zuoye) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.zuoyeBtn];
     self.zuoyeBtn.hidden = YES;
@@ -125,7 +125,7 @@
     
     self.shijuanBtn = [[UIButton alloc]init];
     self.shijuanBtn.backgroundColor = [UIColor grayColor];
-    [self.shijuanBtn setTitle:@"试卷" forState:UIControlStateNormal];
+    [self.shijuanBtn setTitle:@"习题" forState:UIControlStateNormal];
     [self.shijuanBtn addTarget:self action:@selector(shijuan) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.shijuanBtn];
     self.shijuanBtn.hidden = YES;

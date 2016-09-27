@@ -78,7 +78,7 @@
 -(IBAction)moduleSelectClick:(id)sender{
     UITableViewController *tableViewController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
     
-    CGRect frame = CGRectMake(0, 0, 90, 240);
+    CGRect frame = CGRectMake(0, 0, 200, 240);
     UITableView* moduleTableView = [[UITableView alloc] initWithFrame:frame];
     [moduleTableView setTag:kTagModuleTableView];
     moduleTableView.delegate = self;
@@ -97,7 +97,12 @@
     NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
     [requestDict setValue:@"M016" forKey:@"method"];
     [requestDict setValue:[[courseArray objectAtIndex:selectCourseIndex] valueForKey:@"courseId"] forKey:@"courseId"];
-    [requestDict setValue:[[moduleArray objectAtIndex:selectModuleIndex] valueForKey:@"moduleId"] forKey:@"moduleId"];
+    if (selectModuleIndex == 0) {
+        [requestDict setValue:@"01"forKey:@"moduleId"];
+
+    }else{
+        [requestDict setValue:@"02"forKey:@"moduleId"];
+    }
     
 //    NSString* role = [userDict valueForKey:@"role"];
 //    if ([@"03" isEqualToString:role] || [@"04" isEqualToString:role]) {
@@ -128,7 +133,7 @@
     [unitDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
     [unitDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [unitDict setValue:[[courseArray objectAtIndex:selectCourseIndex] valueForKey:@"courseId"] forKey:@"courseId"];
-    [unitDict setValue:[[moduleArray objectAtIndex:selectModuleIndex] valueForKey:@"moduleId"] forKey:@"moduleId"];
+//    [unitDict setValue:[[moduleArray objectAtIndex:selectModuleIndex] valueForKey:@"moduleId"] forKey:@"moduleId"];
     
 //    NSString* role = [userDict valueForKey:@"role"];
 //    if ([@"03" isEqualToString:role] || [@"04" isEqualToString:role]) {
@@ -311,7 +316,7 @@
               size:16
           intoView:self.view];
     
-  
+    
     UIButton* courseSelectBut = [UIButton buttonWithType:UIButtonTypeCustom];
     [courseSelectBut setTag:kTagCourseSelectBtn];
     [courseSelectBut setFrame:CGRectMake(190, 96, 310, 38)];
@@ -325,22 +330,22 @@
       forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:courseSelectBut];
 
-//    [self addLabel:@"请选择模块名称:"
-//             frame:CGRectMake(510, 100, 140, 30)
-//              size:16
-//          intoView:self.view];
-//    UIButton* moduleSelectBut = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [moduleSelectBut setTag:kTagModuleSelectBtn];
-//    [moduleSelectBut setFrame:CGRectMake(655, 96, 104, 38)];
-//    [moduleSelectBut setTitleEdgeInsets:UIEdgeInsetsMake(0, 0.0, 0.0, 20.0)];
-//    //[moduleSelectBut setTitle:@"阅读" forState:UIControlStateNormal];
-//    [moduleSelectBut setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
-//    [moduleSelectBut setBackgroundImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Work_Browse_Button_02" ofType:@"png"]] forState:UIControlStateNormal];
-//    [moduleSelectBut setBackgroundImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Work_Browse_Button_02" ofType:@"png"]] forState:UIControlStateHighlighted];
-//    [moduleSelectBut addTarget:self
-//                        action:@selector(moduleSelectClick:)
-//              forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:moduleSelectBut];
+    [self addLabel:@"请选择类型:"
+             frame:CGRectMake(510, 100, 140, 30)
+              size:16
+          intoView:self.view];
+    UIButton* moduleSelectBut = [UIButton buttonWithType:UIButtonTypeCustom];
+    [moduleSelectBut setTag:kTagModuleSelectBtn];
+    [moduleSelectBut setFrame:CGRectMake(655, 96, 200, 38)];
+    [moduleSelectBut setTitleEdgeInsets:UIEdgeInsetsMake(0, 0.0, 0.0, 20.0)];
+    [moduleSelectBut setTitle:@"构思图表" forState:UIControlStateNormal];
+    [moduleSelectBut setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
+    [moduleSelectBut setBackgroundImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Work_Browse_Button_02" ofType:@"png"]] forState:UIControlStateNormal];
+    [moduleSelectBut setBackgroundImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Work_Browse_Button_02" ofType:@"png"]] forState:UIControlStateHighlighted];
+    [moduleSelectBut addTarget:self
+                        action:@selector(moduleSelectClick:)
+              forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:moduleSelectBut];
     
     UIButton* query_But = [UIButton buttonWithType:UIButtonTypeCustom];
     [query_But setFrame:CGRectMake(890, 85, 71, 61)];
@@ -408,6 +413,10 @@
     
     moduleArray = [[NSMutableArray alloc] initWithCapacity:0];
     
+    
+    moduleArray1 = [[NSMutableArray alloc] initWithObjects:@"构思图表",@"我的文稿" ,nil];
+    
+
 //    [self addLabel:@"请选择学生:"
 //             frame:CGRectMake(620, 100, 100, 30)
 //              size:16
@@ -471,7 +480,7 @@
              frame:CGRectMake(10, 10, 150, 30)
               size:16
           intoView:headView];
-    [self addLabel:@"试题名称"
+    [self addLabel:@"作业名称"
              frame:CGRectMake(160, 10, 140, 30)
               size:16
           intoView:headView];
@@ -542,7 +551,7 @@
     if (tag == kTagCourseTableView) {
         return [courseArray count];
     }else if(tag == kTagModuleTableView){
-        return [moduleArray count];
+        return [moduleArray1 count];
     }else if(tag == kTagStudentTableView){
         return [studentArray count];
     }else if(tag == kTagWorkTableView){
@@ -570,8 +579,8 @@
         NSDictionary* courseDict = [courseArray objectAtIndex:indexPath.row];
         [cell.textLabel setText:[courseDict valueForKey:@"course"]];
     }else if(tag == kTagModuleTableView){
-        NSDictionary* moduleDict = [moduleArray objectAtIndex:indexPath.row];
-        [cell.textLabel setText:[moduleDict valueForKey:@"module"]];
+        NSString* moduleDict = [moduleArray1 objectAtIndex:indexPath.row];
+        [cell.textLabel setText:moduleDict];
     }else if(tag == kTagStudentTableView){
         NSDictionary* studentDict = [studentArray objectAtIndex:indexPath.row];
         [cell.textLabel setText:[studentDict valueForKey:@"userName"]];
@@ -665,8 +674,8 @@
     }else if(tag == kTagModuleTableView){
         UIButton* moduleBtn = (UIButton*)[self.view viewWithTag:kTagModuleSelectBtn];
         
-        NSDictionary* moduleDict = [moduleArray objectAtIndex:indexPath.row];
-        [moduleBtn setTitle:[moduleDict valueForKey:@"module"] forState:UIControlStateNormal];
+        NSString* moduleDict = [moduleArray1 objectAtIndex:indexPath.row];
+        [moduleBtn setTitle:moduleDict forState:UIControlStateNormal];
         
         selectModuleIndex = indexPath.row;
     }else if(tag == kTagStudentTableView){
@@ -709,18 +718,19 @@
         
         [self getModules];
     }else if([@"M005" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
-        [moduleArray removeAllObjects];
+//        [moduleArray removeAllObjects];
         
-        NSArray* _moduleArray = [responseDict valueForKey:@"modules"];
-        for (int i=0; i<[_moduleArray count]; i++) {
-            NSLog(@"module:%@",[_moduleArray objectAtIndex:i]);
-            [moduleArray addObject:[_moduleArray objectAtIndex:i]];
-        }
+        
+//        NSArray* _moduleArray = [responseDict valueForKey:@"modules"];
+//        for (int i=0; i<[_moduleArray count]; i++) {
+//            NSLog(@"module:%@",[_moduleArray objectAtIndex:i]);
+//            [moduleArray addObject:[_moduleArray objectAtIndex:i]];
+//        }
         
         UIButton* moduleBtn = (UIButton*)[self.view viewWithTag:kTagModuleSelectBtn];
         selectModuleIndex = 0;
-        NSDictionary* moduleDict = [moduleArray objectAtIndex:selectModuleIndex];
-        [moduleBtn setTitle:[moduleDict valueForKey:@"module"] forState:UIControlStateNormal];
+//        NSDictionary* moduleDict = [moduleArray objectAtIndex:selectModuleIndex];
+//        [moduleBtn setTitle:[moduleDict valueForKey:@"module"] forState:UIControlStateNormal];
     }else if([@"M009" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
         NSArray* _studentArray = [responseDict valueForKey:@"students"];
         for (int i=0; i<[_studentArray count]; i++) {

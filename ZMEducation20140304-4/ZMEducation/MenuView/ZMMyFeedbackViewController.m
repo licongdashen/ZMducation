@@ -432,7 +432,7 @@
              frame:CGRectMake(10, 10, 150, 30)
               size:16
           intoView:headView];
-    [self addLabel:@"试题名称"
+    [self addLabel:@"作业名称"
              frame:CGRectMake(160, 10, 140, 30)
               size:16
           intoView:headView];
