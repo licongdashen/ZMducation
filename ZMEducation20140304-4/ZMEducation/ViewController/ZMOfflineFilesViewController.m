@@ -49,13 +49,13 @@
 //    [gradeView release];
     
     UIImage* courseImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"cursorText" ofType:@"png"]];
-    UIImageView* courseView = [[UIImageView alloc] initWithFrame:CGRectMake(280, 245, 38, 17)];
+    UIImageView* courseView = [[UIImageView alloc] initWithFrame:CGRectMake(180, 245, 38, 17)];
     [courseView setImage:courseImage];
     [self.view addSubview:courseView];
     [courseView release];
 
     UILabel * grade = [[UILabel alloc]initWithFrame:CGRectMake(280, 150, 110, 50)];
-    grade.text = [NSString stringWithFormat:@"年纪:%@",self.dic[@"currentGrade"]];
+    grade.text = [NSString stringWithFormat:@"年级：%@",self.dic[@"currentGrade"]];
     grade.textAlignment = UITextAlignmentCenter;
     grade.backgroundColor = [UIColor clearColor];
     [self.view addSubview:grade];
@@ -495,7 +495,7 @@
 //        grade.backgroundColor = [UIColor clearColor];
 //        [view addSubview:grade];
         
-        UILabel * file = [[UILabel alloc]initWithFrame:CGRectMake(150, 0, 200, 50)];
+        UILabel * file = [[UILabel alloc]initWithFrame:CGRectMake(50, 0, 200, 50)];
         file.text = [NSString stringWithFormat:@"第%@单元:%@",[fileDic valueForKey:@"sort"],[fileDic valueForKey:@"course"]];
         file.backgroundColor = [UIColor clearColor];
         [view addSubview:file];
@@ -526,7 +526,7 @@
             for (NSDictionary *dic in self.hasDownloadedDictArray) {
                 if (dic[@"courseId"] == fileDic[@"courseId"]) {
                     if ([fileDic[@"lastUpdateTime"] intValue] > [dic[@"lastUpdateTime"] intValue]) {
-                        [enterButton3 setTitle:@"已更新" forState:UIControlStateNormal];
+                        [enterButton3 setTitle:@"有更新" forState:UIControlStateNormal];
                     }else{
                         [enterButton3 setTitle:@"已下载" forState:UIControlStateNormal];
                     }
@@ -586,12 +586,18 @@
         
         if (enterButton1.hidden == YES) {
             deleteButton.hidden = NO;
-            enterButton2.hidden = NO;
+            if (fileDic[@"courseId"] == _dic[@"currentCourseId"]) {
+                enterButton2.hidden = NO;
+
+            }else{
+                enterButton2.hidden = YES;
+            }
         }else {
         
             deleteButton.hidden = YES;
             enterButton2.hidden = YES;
         }
+        
         
     }
     
