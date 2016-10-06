@@ -27,12 +27,11 @@
              }
              NSString * label_text = [NSString stringWithFormat:@"%@\n%@",questionText,answerText];
              totalHeight = [self getTextHeight:label_text];
-             UILabel * lb_title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
+             UITextView * lb_title = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
              lb_title.text = label_text;
              lb_title.backgroundColor = [UIColor clearColor];
-             lb_title.lineBreakMode = UILineBreakModeWordWrap;
-             lb_title.numberOfLines = 0;
-             [lb_title sizeToFit];
+            lb_title.font = [UIFont systemFontOfSize:18];
+            lb_title.editable = NO;
              [self addSubview:lb_title];
             
         }else if ([[question objectForKey:@"questionType"] intValue] == 1) {//填空题
@@ -56,12 +55,11 @@
             
             NSString * label_text = [NSString stringWithFormat:@"%@\n%@",questionText,answerText];
             float totalHeight = [self getTextHeight:label_text];
-            UILabel * lb_title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
+            UITextView * lb_title = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
             lb_title.text = label_text;
             lb_title.backgroundColor = [UIColor clearColor];
-            lb_title.lineBreakMode = UILineBreakModeWordWrap;
-            lb_title.numberOfLines = 0;
-            [lb_title sizeToFit];
+            lb_title.font = [UIFont systemFontOfSize:18];
+            lb_title.editable = NO;
             [self addSubview:lb_title];
             
            
@@ -90,12 +88,11 @@
                 label_text = [label_text stringByAppendingString:[NSString stringWithFormat:@"%@\n%@\n",optionContent,answerText]];
             }
             float totalHeight = [self getTextHeight:label_text];
-            UILabel * lb_title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
+            UITextView * lb_title = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
             lb_title.text = label_text;
             lb_title.backgroundColor = [UIColor clearColor];
-            lb_title.lineBreakMode = UILineBreakModeWordWrap;
-            lb_title.numberOfLines = 0;
-            [lb_title sizeToFit];
+            lb_title.font = [UIFont systemFontOfSize:18];
+            lb_title.editable = NO;
             [self addSubview:lb_title];
 
         }
@@ -129,12 +126,11 @@
 
             totalHeight = [self getTextHeight:label_text];
             
-            UILabel * lb_title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
+            UITextView * lb_title = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
             lb_title.text = label_text;
             lb_title.backgroundColor = [UIColor clearColor];
-            lb_title.lineBreakMode = UILineBreakModeWordWrap;
-            lb_title.numberOfLines = 0;
-            [lb_title sizeToFit];
+            lb_title.font = [UIFont systemFontOfSize:18];
+            lb_title.editable = NO;
             [self addSubview:lb_title];
             
             
@@ -169,12 +165,11 @@
             
             totalHeight = [self getTextHeight:label_text];
             
-            UILabel * lb_title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
+            UITextView * lb_title = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
             lb_title.text = label_text;
             lb_title.backgroundColor = [UIColor clearColor];
-            lb_title.lineBreakMode = UILineBreakModeWordWrap;
-            lb_title.numberOfLines = 0;
-            [lb_title sizeToFit];
+            lb_title.font = [UIFont systemFontOfSize:18];
+            lb_title.editable = NO;
             [self addSubview:lb_title];
         }
         

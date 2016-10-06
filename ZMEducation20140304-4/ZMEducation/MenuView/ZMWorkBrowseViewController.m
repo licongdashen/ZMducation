@@ -133,7 +133,7 @@
     [unitDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
     [unitDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [unitDict setValue:[[courseArray objectAtIndex:selectCourseIndex] valueForKey:@"courseId"] forKey:@"courseId"];
-//    [unitDict setValue:[[moduleArray objectAtIndex:selectModuleIndex] valueForKey:@"moduleId"] forKey:@"moduleId"];
+    [unitDict setValue:[[moduleArray objectAtIndex:selectModuleIndex] valueForKey:@"moduleId"] forKey:@"moduleId"];
     
 //    NSString* role = [userDict valueForKey:@"role"];
 //    if ([@"03" isEqualToString:role] || [@"04" isEqualToString:role]) {
@@ -718,14 +718,14 @@
         
         [self getModules];
     }else if([@"M005" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
-//        [moduleArray removeAllObjects];
+        [moduleArray removeAllObjects];
         
         
-//        NSArray* _moduleArray = [responseDict valueForKey:@"modules"];
-//        for (int i=0; i<[_moduleArray count]; i++) {
-//            NSLog(@"module:%@",[_moduleArray objectAtIndex:i]);
-//            [moduleArray addObject:[_moduleArray objectAtIndex:i]];
-//        }
+        NSArray* _moduleArray = [responseDict valueForKey:@"modules"];
+        for (int i=0; i<[_moduleArray count]; i++) {
+            NSLog(@"module:%@",[_moduleArray objectAtIndex:i]);
+            [moduleArray addObject:[_moduleArray objectAtIndex:i]];
+        }
         
         UIButton* moduleBtn = (UIButton*)[self.view viewWithTag:kTagModuleSelectBtn];
         selectModuleIndex = 0;

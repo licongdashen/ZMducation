@@ -726,12 +726,18 @@
     }else if(tag == kTagBbsTableView){
         
         NSDictionary * bbsDict = [Bbs_Arr objectAtIndex:indexPath.row];
-        UILabel * LB_Creator = [[UILabel alloc]initWithFrame:CGRectMake(25, 0, 120, 59)];
+        UITextView * LB_Creator = [[UITextView alloc]initWithFrame:CGRectMake(25, 0, 120, 59)];
         LB_Creator.text = [bbsDict valueForKey:@"author"];
+        LB_Creator.delegate = self;
+        LB_Creator.editable = NO;
+        LB_Creator.font = [UIFont systemFontOfSize:18];
         LB_Creator.backgroundColor = [UIColor clearColor];
-        UILabel * LB_Content = [[UILabel alloc]initWithFrame:CGRectMake(135, 0, 360, 75)];
+        
+        UITextView * LB_Content = [[UITextView alloc]initWithFrame:CGRectMake(135, 0, 360, 75)];
         LB_Content.text = [bbsDict valueForKey:@"forumContent"];
-        LB_Content.numberOfLines = 3;
+        LB_Content.delegate = self;
+        LB_Content.editable = NO;
+        LB_Content.font = [UIFont systemFontOfSize:18];
         LB_Content.backgroundColor = [UIColor clearColor];
         
         NSString* commitTime = [bbsDict valueForKey:@"commitTime"];
@@ -743,10 +749,12 @@
         NSString* stringFromDate = [formatter stringFromDate:dateFromString];
         [formatter release];
         
-        UILabel * LB_Time = [[UILabel alloc]initWithFrame:CGRectMake(535, 0, 160, 75)];
+        UITextView * LB_Time = [[UITextView alloc]initWithFrame:CGRectMake(535, 0, 160, 75)];
         LB_Time.text = stringFromDate;
         LB_Time.backgroundColor = [UIColor clearColor];
-        
+        LB_Time.delegate = self;
+        LB_Time.editable = NO;
+        LB_Time.font = [UIFont systemFontOfSize:18];
         UIImage* separater_lineImage1 = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Work_Browse_Button_separater_line" ofType:@"png"]];
         UIImageView* separater_lineView1 = [[UIImageView alloc] initWithFrame:CGRectMake(0, 73, 970, 2)];
         [separater_lineView1 setImage:separater_lineImage1];

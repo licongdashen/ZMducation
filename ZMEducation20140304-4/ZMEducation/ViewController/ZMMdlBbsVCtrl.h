@@ -3,7 +3,7 @@
 #import "JHPopoverViewController.h"
 #import "UIExpandingTextView.h"
 
-@interface ZMMdlBbsVCtrl : ZMBaseViewController<UITableViewDataSource,UITableViewDelegate>
+@interface ZMMdlBbsVCtrl : ZMBaseViewController<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>
 {
     UIExpandingTextView  * TV_Draft_Content ;
     

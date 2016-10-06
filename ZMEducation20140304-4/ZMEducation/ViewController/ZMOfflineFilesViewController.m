@@ -62,6 +62,22 @@
     
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    self.menuButGousi.hidden = YES;
+    self.menuButShiti.hidden = YES;
+    self.menuButZidian.hidden = YES;
+    self.menuButXiaozhushou.hidden = YES;
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    self.menuButGousi.hidden = NO;
+    self.menuButShiti.hidden = NO;
+    self.menuButZidian.hidden = NO;
+    self.menuButXiaozhushou.hidden = NO;
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
 

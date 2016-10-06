@@ -283,10 +283,10 @@
 
 //点击班级论坛
 -(void)menuViewDidBbs:(ZMMenuViewController *)viewController{
-//[viewController dismissViewControllerAnimated:YES completion:^{    
-//    ZMMdlBbsVCtrl * bbsViewCtrl = [[ZMMdlBbsVCtrl alloc]init];
-//    [self.navigationController pushViewController:bbsViewCtrl animated:YES];
-//  }];   
+[viewController dismissViewControllerAnimated:YES completion:^{    
+    ZMMdlBbsVCtrl * bbsViewCtrl = [[ZMMdlBbsVCtrl alloc]init];
+    [self.navigationController pushViewController:bbsViewCtrl animated:YES];
+  }];   
 }
 
 //关闭小助手
@@ -473,6 +473,7 @@
                  action:@selector(menuButGousiClick:)
        forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:menuButGousi];
+    self.menuButGousi = menuButGousi;
     
     UIButton* menuButShiti = [UIButton buttonWithType:UIButtonTypeCustom]; //我的试题
     [menuButShiti setFrame:CGRectMake(770, -5, 44, 68)];
@@ -482,6 +483,7 @@
 //                 action:@selector(menuButShitiClick:)
 //       forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:menuButShiti];
+    self.menuButShiti = menuButShiti;
     
     UIButton* menuButZidian = [UIButton buttonWithType:UIButtonTypeCustom]; //字词典
     [menuButZidian setFrame:CGRectMake(830, -5, 44, 68)];
@@ -491,6 +493,7 @@
                     action:@selector(menuButZidianClick:)
           forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:menuButZidian];
+    self.menuButZidian = menuButZidian;
     
     
     
@@ -502,6 +505,7 @@
                 action:@selector(menuButXiaozhushouClick:)
       forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:menuButXiaozhushou];
+    self.menuButXiaozhushou = menuButXiaozhushou;
     
     UIButton* backBut = [UIButton buttonWithType:UIButtonTypeCustom];
     [backBut setFrame:CGRectMake(950, 10, 47, 47)];

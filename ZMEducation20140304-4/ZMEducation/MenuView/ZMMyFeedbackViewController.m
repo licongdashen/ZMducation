@@ -687,13 +687,13 @@
         
         [self getModules];
     }else if([@"M005" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
-//        [moduleArray removeAllObjects];
-//        
-//        NSArray* _moduleArray = [responseDict valueForKey:@"modules"];
-//        for (int i=0; i<[_moduleArray count]; i++) {
-//            NSLog(@"module:%@",[_moduleArray objectAtIndex:i]);
-//            [moduleArray addObject:[_moduleArray objectAtIndex:i]];
-//        }
+        [moduleArray removeAllObjects];
+        
+        NSArray* _moduleArray = [responseDict valueForKey:@"modules"];
+        for (int i=0; i<[_moduleArray count]; i++) {
+            NSLog(@"module:%@",[_moduleArray objectAtIndex:i]);
+            [moduleArray addObject:[_moduleArray objectAtIndex:i]];
+        }
         
         UIButton* moduleBtn = (UIButton*)[self.view viewWithTag:kTagModuleSelectBtn];
         selectModuleIndex = 0;
