@@ -541,10 +541,15 @@
         if ([self.hasDownloadedDictArray count] > 0) {
             for (NSDictionary *dic in self.hasDownloadedDictArray) {
                 if (dic[@"courseId"] == fileDic[@"courseId"]) {
-                    if ([fileDic[@"lastUpdateTime"] intValue] > [dic[@"lastUpdateTime"] intValue]) {
+                    NSString *a = fileDic[@"lastUpdateTime"];
+                    NSString *b = dic[@"lastUpdateTime"];
+
+                    if (![a isEqualToString:b]) {
                         [enterButton3 setTitle:@"有更新" forState:UIControlStateNormal];
+
                     }else{
                         [enterButton3 setTitle:@"已下载" forState:UIControlStateNormal];
+
                     }
                 }
             }

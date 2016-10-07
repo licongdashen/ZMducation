@@ -30,7 +30,7 @@
              UITextView * lb_title = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
              lb_title.text = label_text;
              lb_title.backgroundColor = [UIColor clearColor];
-            lb_title.font = [UIFont systemFontOfSize:18];
+            lb_title.font = [UIFont systemFontOfSize:16];
             lb_title.editable = NO;
              [self addSubview:lb_title];
             
@@ -58,7 +58,7 @@
             UITextView * lb_title = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
             lb_title.text = label_text;
             lb_title.backgroundColor = [UIColor clearColor];
-            lb_title.font = [UIFont systemFontOfSize:18];
+            lb_title.font = [UIFont systemFontOfSize:16];
             lb_title.editable = NO;
             [self addSubview:lb_title];
             
@@ -91,7 +91,7 @@
             UITextView * lb_title = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
             lb_title.text = label_text;
             lb_title.backgroundColor = [UIColor clearColor];
-            lb_title.font = [UIFont systemFontOfSize:18];
+            lb_title.font = [UIFont systemFontOfSize:16];
             lb_title.editable = NO;
             [self addSubview:lb_title];
 
@@ -129,7 +129,7 @@
             UITextView * lb_title = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
             lb_title.text = label_text;
             lb_title.backgroundColor = [UIColor clearColor];
-            lb_title.font = [UIFont systemFontOfSize:18];
+            lb_title.font = [UIFont systemFontOfSize:16];
             lb_title.editable = NO;
             [self addSubview:lb_title];
             
@@ -168,7 +168,7 @@
             UITextView * lb_title = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
             lb_title.text = label_text;
             lb_title.backgroundColor = [UIColor clearColor];
-            lb_title.font = [UIFont systemFontOfSize:18];
+            lb_title.font = [UIFont systemFontOfSize:16];
             lb_title.editable = NO;
             [self addSubview:lb_title];
         }

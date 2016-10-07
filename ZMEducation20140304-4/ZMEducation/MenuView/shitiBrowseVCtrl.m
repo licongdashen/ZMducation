@@ -330,7 +330,7 @@
 -(float)getTextHeight:(NSString *) textStr{
     
     
-    UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:17.0];
+    UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:18];
     CGSize constraintSize = CGSizeMake(800.0f, MAXFLOAT);
     CGSize labelSize = [textStr sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
     float height = labelSize.height+20 ;
