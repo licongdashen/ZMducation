@@ -580,7 +580,9 @@
         if ([self.hasDownloadedDictArray count] > 0) {
             for (NSDictionary *dic in self.hasDownloadedDictArray) {
                 if (dic[@"courseId"] == fileDic[@"courseId"]) {
-                    if ([fileDic[@"lastUpdateTime"] intValue] > [dic[@"lastUpdateTime"] intValue]) {
+                    NSString *a = fileDic[@"lastUpdateTime"];
+                    NSString *b = dic[@"lastUpdateTime"];
+                    if (![a isEqualToString:b]) {
                         enterButton1.hidden = NO;
                     }else{
                         enterButton1.hidden = YES;
