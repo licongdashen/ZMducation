@@ -628,20 +628,20 @@
             
         }else{
             
-            NSMutableDictionary * userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
-            NSMutableDictionary * requestDict = [[NSMutableDictionary alloc]init];
-            
-            [requestDict setValue:@"M069" forKey:@"method"];
-            
-            [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
-            [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
-            
-            ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
-            [httpEngine setDelegate:self];
-            [httpEngine requestWithDict:requestDict];
-            [httpEngine release];
-            [requestDict release];
-//            [self showTip:@"没有内容！"];
+//            NSMutableDictionary * userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+//            NSMutableDictionary * requestDict = [[NSMutableDictionary alloc]init];
+//            
+//            [requestDict setValue:@"M069" forKey:@"method"];
+//            
+//            [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+//            [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+//            
+//            ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+//            [httpEngine setDelegate:self];
+//            [httpEngine requestWithDict:requestDict];
+//            [httpEngine release];
+//            [requestDict release];
+            [self showTip:@"没有内容！"];
             
         }
     }

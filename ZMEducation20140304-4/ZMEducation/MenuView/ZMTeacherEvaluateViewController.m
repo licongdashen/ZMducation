@@ -54,7 +54,7 @@
 -(IBAction)studentSelectClick:(id)sender{
     UITableViewController *tableViewController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
     
-    CGRect frame = CGRectMake(0, 0, 100, 240);
+    CGRect frame = CGRectMake(0, 0, 200, 240);
     UITableView* studentTableView = [[UITableView alloc] initWithFrame:frame];
     [studentTableView setTag:kTagStudentTableView];
     studentTableView.delegate = self;
@@ -227,7 +227,7 @@
               intoView:self.view];
         UIButton* studentSelectBut = [UIButton buttonWithType:UIButtonTypeCustom];
         [studentSelectBut setTag:kTagStudentSelectBtn];
-        [studentSelectBut setFrame:CGRectMake(700, 96, 104, 38)];
+        [studentSelectBut setFrame:CGRectMake(700, 96, 200, 38)];
         [studentSelectBut setTitleEdgeInsets:UIEdgeInsetsMake(0, 0.0, 0.0, 20.0)];
         //[studentSelectBut setTitle:@"李明" forState:UIControlStateNormal];
         [studentSelectBut setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
