@@ -46,6 +46,7 @@
     NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
     [userDict setObject:@"1" forKey:@"articleMode"];
     [_menuDelegate menuViewDidBrowseShiti:self];
+    ((ZMAppDelegate*)[UIApplication sharedApplication].delegate).isjinru = @"1";
 }
 
 

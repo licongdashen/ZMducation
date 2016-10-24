@@ -419,6 +419,7 @@
     
     //先拿到构思列表，然后加载第一个模板
     
+    [ZMAppDelegate App].isjinru = @"0";
     [[ZMAppDelegate App].userDict setValue:@"02" forKey:@"currentModuleId"];
     NSMutableDictionary * userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
     NSMutableDictionary * requestDict = [[NSMutableDictionary alloc]init];
@@ -628,21 +629,24 @@
             
         }else{
             
-//            NSMutableDictionary * userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
-//            NSMutableDictionary * requestDict = [[NSMutableDictionary alloc]init];
-//            
-//            [requestDict setValue:@"M069" forKey:@"method"];
-//            
-//            [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
-//            [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
-//            
-//            ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
-//            [httpEngine setDelegate:self];
-//            [httpEngine requestWithDict:requestDict];
-//            [httpEngine release];
-//            [requestDict release];
-            [self showTip:@"没有内容！"];
+            NSString * str = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate isjinru];
             
+            if (![str isEqualToString:@"1"]) {
+                NSMutableDictionary * userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+                NSMutableDictionary * requestDict = [[NSMutableDictionary alloc]init];
+                
+                [requestDict setValue:@"M069" forKey:@"method"];
+                
+                [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+                [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+                
+                ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+                [httpEngine setDelegate:self];
+                [httpEngine requestWithDict:requestDict];
+                [httpEngine release];
+                [requestDict release];
+                [self showTip:@"没有内容！"];
+            }
         }
     }
     else if ([@"M066" isEqualToString:method] && [@"00" isEqualToString:responseCode]){

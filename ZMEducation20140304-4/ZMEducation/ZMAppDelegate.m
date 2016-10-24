@@ -45,7 +45,7 @@
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
     
-    
+    self.isjinru = @"0";
     self.isdownfinsh = NO;
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     

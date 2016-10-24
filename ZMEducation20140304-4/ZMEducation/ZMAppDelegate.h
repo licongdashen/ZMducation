@@ -42,6 +42,8 @@
 @property(nonatomic, retain) NSString * fileCache;
 @property(nonatomic, retain) NSString * picCache;
 
+@property (nonatomic, strong) NSString *isjinru;
+
 @property BOOL isdownfinsh;
 
 +(ZMAppDelegate *)App;
