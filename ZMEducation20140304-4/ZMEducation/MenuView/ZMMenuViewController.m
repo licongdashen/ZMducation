@@ -25,7 +25,7 @@
 }*/
 
 -(IBAction)bbsClick:(id)sender{
-    [_menuDelegate menuViewDidBbs:self];
+//    [_menuDelegate menuViewDidBbs:self];
 }
 
 -(IBAction)closeClick:(id)sender{

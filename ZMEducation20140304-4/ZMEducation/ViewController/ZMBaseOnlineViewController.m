@@ -645,8 +645,8 @@
                 [httpEngine requestWithDict:requestDict];
                 [httpEngine release];
                 [requestDict release];
-                [self showTip:@"没有内容！"];
             }
+            [self showTip:@"没有内容！"];
         }
     }
     else if ([@"M066" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
