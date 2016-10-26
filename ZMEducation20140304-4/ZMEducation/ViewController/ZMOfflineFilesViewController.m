@@ -453,8 +453,14 @@
 
     
     for (NSDictionary *dic in self.hasDownloadedDictArray) {
-        if (self.dic[@"currentCourseId"] == dic[@"courseId"]) {
-            if (self.dic[@"currentCourseId"] == _fileArray[index1][@"courseId"]) {
+        
+        NSString *m = [NSString stringWithFormat:@"%@",self.dic[@"currentCourseId"]];
+        NSString *n = [NSString stringWithFormat:@"%@",dic[@"courseId"]];
+        if ( [m isEqualToString:n]) {
+            
+            NSString *a = [NSString stringWithFormat:@"%@",self.dic[@"currentCourseId"]];
+            NSString *b = [NSString stringWithFormat:@"%@",_fileArray[index1][@"courseId"]];
+            if ([a isEqualToString:b]) {
                 NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
                 
                 //NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
@@ -540,11 +546,11 @@
 
         if ([self.hasDownloadedDictArray count] > 0) {
             for (NSDictionary *dic in self.hasDownloadedDictArray) {
-                NSString *m = dic[@"courseId"];
-                NSString *n = fileDic[@"courseId"];
+                NSString *m = [NSString stringWithFormat:@"%@",dic[@"courseId"]];
+                NSString *n = [NSString stringWithFormat:@"%@",fileDic[@"courseId"]];
                 if ([m isEqualToString:n]) {
-                    NSString *a = fileDic[@"lastUpdateTime"];
-                    NSString *b = dic[@"lastUpdateTime"];
+                    NSString *a = [NSString stringWithFormat:@"%@",fileDic[@"lastUpdateTime"]];
+                    NSString *b = [NSString stringWithFormat:@"%@",dic[@"lastUpdateTime"]];
 
                     if (![a isEqualToString:b]) {
                         [enterButton3 setTitle:@"有更新" forState:UIControlStateNormal];
@@ -582,12 +588,12 @@
         if ([self.hasDownloadedDictArray count] > 0) {
             for (NSDictionary *dic in self.hasDownloadedDictArray) {
                 
-                NSString *m = dic[@"courseId"];
-                NSString *n = fileDic[@"courseId"];
+                NSString *m = [NSString stringWithFormat:@"%@",dic[@"courseId"]];
+                NSString *n = [NSString stringWithFormat:@"%@",fileDic[@"courseId"]];
 
                 if ([m isEqualToString:n]) {
-                    NSString *a = fileDic[@"lastUpdateTime"];
-                    NSString *b = dic[@"lastUpdateTime"];
+                    NSString *a = [NSString stringWithFormat:@"%@",fileDic[@"lastUpdateTime"]];
+                    NSString *b = [NSString stringWithFormat:@"%@",dic[@"lastUpdateTime"]];
                     if (![a isEqualToString:b]) {
                         enterButton1.hidden = NO;
                     }else{
@@ -615,7 +621,10 @@
         
         if (enterButton1.hidden == YES) {
             deleteButton.hidden = NO;
-            if (fileDic[@"courseId"] == _dic[@"currentCourseId"]) {
+            
+            NSString *m = [NSString stringWithFormat:@"%@",fileDic[@"courseId"]];
+            NSString *n = [NSString stringWithFormat:@"%@",_dic[@"currentCourseId"]];
+            if ([m isEqualToString:n]) {
                 enterButton2.hidden = NO;
 
             }else{
