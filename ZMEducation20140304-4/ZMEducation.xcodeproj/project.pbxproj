@@ -72,6 +72,9 @@
 		21E1D3401839EB28001FC83F /* ZcdQueryPhrase.m in Sources */ = {isa = PBXBuildFile; fileRef = 21E1D33F1839EB28001FC83F /* ZcdQueryPhrase.m */; };
 		21E1D3431839EB90001FC83F /* ZcdQueryPoem.m in Sources */ = {isa = PBXBuildFile; fileRef = 21E1D3421839EB90001FC83F /* ZcdQueryPoem.m */; };
 		2710CF2C1C86D1F300784733 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2710CF2B1C86D1F300784733 /* JSONKit.m */; };
+		500939A01E51947A00FD9821 /* ZMtoupiaoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5009399F1E51947A00FD9821 /* ZMtoupiaoViewController.m */; };
+		500939A31E5194D400FD9821 /* ZMqiangdaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 500939A21E5194D400FD9821 /* ZMqiangdaViewController.m */; };
+		500939A61E5194F300FD9821 /* ZMhezuoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 500939A51E5194F300FD9821 /* ZMhezuoViewController.m */; };
 		50656F861D9920C50027FD38 /* RNCryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 50656F7F1D9920C50027FD38 /* RNCryptor.m */; };
 		50656F871D9920C50027FD38 /* RNCryptorEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 50656F811D9920C50027FD38 /* RNCryptorEngine.m */; };
 		50656F881D9920C50027FD38 /* RNDecryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 50656F831D9920C50027FD38 /* RNDecryptor.m */; };
@@ -384,6 +387,12 @@
 		21E1D3421839EB90001FC83F /* ZcdQueryPoem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZcdQueryPoem.m; sourceTree = "<group>"; };
 		2710CF2A1C86D1F300784733 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		2710CF2B1C86D1F300784733 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		5009399E1E51947A00FD9821 /* ZMtoupiaoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMtoupiaoViewController.h; sourceTree = "<group>"; };
+		5009399F1E51947A00FD9821 /* ZMtoupiaoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMtoupiaoViewController.m; sourceTree = "<group>"; };
+		500939A11E5194D400FD9821 /* ZMqiangdaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMqiangdaViewController.h; sourceTree = "<group>"; };
+		500939A21E5194D400FD9821 /* ZMqiangdaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMqiangdaViewController.m; sourceTree = "<group>"; };
+		500939A41E5194F300FD9821 /* ZMhezuoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMhezuoViewController.h; sourceTree = "<group>"; };
+		500939A51E5194F300FD9821 /* ZMhezuoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMhezuoViewController.m; sourceTree = "<group>"; };
 		50656F7C1D9920C50027FD38 /* RNCryptor+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RNCryptor+Private.h"; sourceTree = "<group>"; };
 		50656F7D1D9920C50027FD38 /* RNCryptor-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RNCryptor-Prefix.pch"; sourceTree = "<group>"; };
 		50656F7E1D9920C50027FD38 /* RNCryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNCryptor.h; sourceTree = "<group>"; };
@@ -1078,6 +1087,12 @@
 				2179154E18409BA000896E80 /* ZMShitiSwipeViewController.m */,
 				50AD99851CFD6BF8000A91CD /* ZMZuoYeViewController.h */,
 				50AD99861CFD6BF8000A91CD /* ZMZuoYeViewController.m */,
+				5009399E1E51947A00FD9821 /* ZMtoupiaoViewController.h */,
+				5009399F1E51947A00FD9821 /* ZMtoupiaoViewController.m */,
+				500939A11E5194D400FD9821 /* ZMqiangdaViewController.h */,
+				500939A21E5194D400FD9821 /* ZMqiangdaViewController.m */,
+				500939A41E5194F300FD9821 /* ZMhezuoViewController.h */,
+				500939A51E5194F300FD9821 /* ZMhezuoViewController.m */,
 				216834B71840FB53009D7998 /* ZMMdlShiti */,
 				B768800C1740B8640087C019 /* ZMSwipeViewController.h */,
 				B768800D1740B8640087C019 /* ZMSwipeViewController.m */,
@@ -1589,6 +1604,7 @@
 				B7334ADD1727A3CA0055291F /* ReaderMainPagebar.m in Sources */,
 				216B28A41838F78700007427 /* ZcdQueryCharacter.m in Sources */,
 				50656F891D9920C50027FD38 /* RNEncryptor.m in Sources */,
+				500939A61E5194F300FD9821 /* ZMhezuoViewController.m in Sources */,
 				50AD99871CFD6BF8000A91CD /* ZMZuoYeViewController.m in Sources */,
 				B7334ADE1727A3CA0055291F /* ReaderMainToolbar.m in Sources */,
 				B7334ADF1727A3CA0055291F /* ReaderThumbCache.m in Sources */,
@@ -1628,6 +1644,7 @@
 				B77ABC141749D02D005ECF27 /* GMGridViewCell.m in Sources */,
 				B77ABC151749D02D005ECF27 /* GMGridViewLayoutStrategies.m in Sources */,
 				21904F9A188835B00066ADB6 /* ZMMdlCommentVCtrl.m in Sources */,
+				500939A01E51947A00FD9821 /* ZMtoupiaoViewController.m in Sources */,
 				B77ABC161749D02D005ECF27 /* UIGestureRecognizer+GMGridViewAdditions.m in Sources */,
 				B77ABC171749D02D005ECF27 /* UIView+GMGridViewAdditions.m in Sources */,
 				B77ABC181749D02D005ECF27 /* JTListView.m in Sources */,
@@ -1672,6 +1689,7 @@
 				21E1D3431839EB90001FC83F /* ZcdQueryPoem.m in Sources */,
 				2710CF2C1C86D1F300784733 /* JSONKit.m in Sources */,
 				B7AAF2271781224800E321E9 /* UIImage+fixOrientation.m in Sources */,
+				500939A31E5194D400FD9821 /* ZMqiangdaViewController.m in Sources */,
 				21D6AE2917EEF3F600FBB830 /* ZMMdlCmpVCtrl.m in Sources */,
 				21D6AE4017EEF42400FBB830 /* ZMMdlBbsVCtrl.m in Sources */,
 				21D6AE4117EEF42400FBB830 /* ZMMdlConceptionVCtrl.m in Sources */,
