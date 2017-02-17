@@ -8,7 +8,24 @@
 
 #import <UIKit/UIKit.h>
 #import "ZMBaseViewController.h"
+#import "PageControl.h"
 
-@interface ZMhezuoViewController : ZMBaseViewController<ZMHttpEngineDelegate,UIAlertViewDelegate>
+@interface ZMhezuoViewController : ZMBaseViewController<ZMHttpEngineDelegate,UIAlertViewDelegate,UIScrollViewDelegate>
+{
+    PageControl* _pageControl;
+    UISegmentedControl *segment;
+    
+    UIView *backview1;
+    UIView *backview2;
+    UIView *backview3;
+    UIView *backview4;
+
+}
+@property (nonatomic, strong) NSMutableArray *hezuoArr;
+@property (nonatomic, strong) UIScrollView *scro;
+@property int number;
+@property (nonatomic, strong) NSDictionary *dic;
+@property (nonatomic, strong) UIView *backView;
+
 
 @end

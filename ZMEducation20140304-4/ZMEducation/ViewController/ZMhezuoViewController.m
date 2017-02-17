@@ -18,14 +18,7 @@
     
     self.view = view;
     
-    UIButton* closeBut = [UIButton buttonWithType:UIButtonTypeCustom];
-    [closeBut setFrame:CGRectMake(948, 20, 49, 49)];
-    [closeBut setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Close_Btn" ofType:@"png"]] forState:UIControlStateNormal];
-    [closeBut setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Close_Btn" ofType:@"png"]] forState:UIControlStateHighlighted];
-    [closeBut addTarget:self
-                 action:@selector(closeClick)
-       forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:closeBut];
+    self.number = 0;
     
     NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
     NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
@@ -34,11 +27,15 @@
     [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     
+    [self showIndicator];
+
     ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
     [httpEngine setDelegate:self];
     [httpEngine requestWithDict:requestDict];
     [httpEngine release];
     [requestDict release];
+
+
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -56,6 +53,166 @@
     }
 }
 
+-(void)loadSubViews
+{
+    self.scro = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.scro.contentSize = CGSizeMake(self.view.frame.size.width*[self.hezuoArr count], self.view.frame.size.height);
+    self.scro.pagingEnabled = YES;
+    self.scro.delegate = self;
+    [self.view addSubview:self.scro];
+
+    int y = 0;
+    int i = 0;
+    for (NSDictionary *dic in self.hezuoArr) {
+        
+        self.backView = [[UIView alloc]initWithFrame:CGRectMake(y, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        self.backView.tag = 999 + i;
+        [self.scro addSubview:self.backView];
+        UILabel *lable = [[UILabel alloc]initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, 50)];
+        lable.text = dic[@"forumTitle"];
+        lable.textAlignment = NSTextAlignmentCenter;
+        lable.font = [UIFont boldSystemFontOfSize:20];
+        [self.backView addSubview:lable];
+        
+        NSArray *arr = @[@"合作内容填写",@"合作小组浏览",@"合作分项浏览",@"合作文稿生成"];
+        segment = [[UISegmentedControl alloc]initWithItems:arr];
+        segment.frame = CGRectMake(50, 120, 500, 40);
+        segment.selectedSegmentIndex = 0;
+        segment.tag = 9999 + i;
+        [self.backView addSubview:segment];
+        [segment addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
+        
+        backview1 = [[UIView alloc]initWithFrame:CGRectMake(50, 200, self.view.frame.size.width - 100, self.view.frame.size.height - 200)];
+        backview1.backgroundColor = [UIColor yellowColor];
+        backview1.hidden = NO;
+        backview1.tag = 99999 + i;
+        [self.backView addSubview:backview1];
+        
+        backview2 = [[UIView alloc]initWithFrame:CGRectMake(50, 200, self.view.frame.size.width - 100, self.view.frame.size.height - 200)];
+        backview2.backgroundColor = [UIColor greenColor];
+        backview2.hidden = YES;
+        backview2.tag = 999999 + i;
+        [self.backView addSubview:backview2];
+        
+        backview3 = [[UIView alloc]initWithFrame:CGRectMake(50, 200, self.view.frame.size.width - 100, self.view.frame.size.height - 200)];
+        backview3.backgroundColor = [UIColor blueColor];
+        backview3.hidden = YES;
+        backview3.tag = 9999999 + i;
+        [self.backView addSubview:backview3];
+        
+        backview4 = [[UIView alloc]initWithFrame:CGRectMake(50, 200, self.view.frame.size.width - 100, self.view.frame.size.height - 200)];
+        backview4.backgroundColor = [UIColor blackColor];
+        backview4.hidden = YES;
+        backview4.tag = 99999999 + i;
+        [self.backView addSubview:backview4];
+        y += self.view.frame.size.width;
+        i++;
+    }
+    
+    
+    UIButton* closeBut = [UIButton buttonWithType:UIButtonTypeCustom];
+    [closeBut setFrame:CGRectMake(948, 20, 49, 49)];
+    [closeBut setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Close_Btn" ofType:@"png"]] forState:UIControlStateNormal];
+    [closeBut setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Close_Btn" ofType:@"png"]] forState:UIControlStateHighlighted];
+    [closeBut addTarget:self
+                 action:@selector(closeClick)
+       forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:closeBut];
+    
+    _pageControl = [[PageControl alloc] initWithFrame:CGRectMake(0, 700, 1024, 36)];
+    _pageControl.image =  [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PageControl_Dot" ofType:@"png"]];
+    _pageControl.selectedImage =  [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PageControl_Dot_Selected" ofType:@"png"]];;
+    _pageControl.padding = 13.0f;
+    _pageControl.orientation = PageControlOrientationLandscape;
+    _pageControl.numberOfPages = [self.hezuoArr count];
+    [self.view addSubview:_pageControl];
+}
+
+-(void)segmentAction:(UISegmentedControl *)Seg{
+    NSLog(@"vvvvvv%d",Seg.tag - 9999);
+    NSLog(@"wocao%d",Seg.selectedSegmentIndex);
+    
+    if (Seg.selectedSegmentIndex == 0) {
+        
+        UIView *backview = [self.scro viewWithTag:Seg.tag - 9999 + 999];
+        UIView *back1 = [backview viewWithTag:Seg.tag - 9999 + 99999];
+        back1.hidden = NO;
+        
+        UIView *back2 = [backview viewWithTag:Seg.tag - 9999 + 999999];
+        back2.hidden = YES;
+        
+        UIView *back3 = [backview viewWithTag:Seg.tag - 9999 + 9999999];
+        back3.hidden = YES;
+        
+        UIView *back4 = [backview viewWithTag:Seg.tag - 9999 + 99999999];
+        back4.hidden = YES;
+        
+    }else if (Seg.selectedSegmentIndex == 1) {
+        UIView *backview = [self.scro viewWithTag:Seg.tag - 9999 + 999];
+
+        UIView *back1 = [backview viewWithTag:Seg.tag - 9999 + 99999];
+        back1.hidden = YES;
+        
+        UIView *back2 = [backview viewWithTag:Seg.tag - 9999 + 999999];
+        back2.hidden = NO;
+        
+        UIView *back3 = [backview viewWithTag:Seg.tag - 9999 + 9999999];
+        back3.hidden = YES;
+        
+        UIView *back4 = [backview viewWithTag:Seg.tag - 9999 + 99999999];
+        back4.hidden = YES;
+    }else if (Seg.selectedSegmentIndex == 2) {
+        UIView *backview = [self.scro viewWithTag:Seg.tag - 9999 + 999];
+
+        UIView *back1 = [backview viewWithTag:Seg.tag - 9999 + 99999];
+        back1.hidden = YES;
+        
+        UIView *back2 = [backview viewWithTag:Seg.tag - 9999 + 999999];
+        back2.hidden = YES;
+        
+        UIView *back3 = [backview viewWithTag:Seg.tag - 9999 + 9999999];
+        back3.hidden = NO;
+        
+        UIView *back4 = [backview viewWithTag:Seg.tag - 9999 + 99999999];
+        back4.hidden = YES;
+    }else if (Seg.selectedSegmentIndex == 3) {
+        UIView *backview = [self.scro viewWithTag:Seg.tag - 9999 + 999];
+
+        UIView *back1 = [backview viewWithTag:Seg.tag - 9999 + 99999];
+        back1.hidden = YES;
+        
+        UIView *back2 = [backview viewWithTag:Seg.tag - 9999 + 999999];
+        back2.hidden = YES;
+        
+        UIView *back3 = [backview viewWithTag:Seg.tag - 9999 + 9999999];
+        back3.hidden = YES;
+        
+        UIView *back4 = [backview viewWithTag:Seg.tag - 9999 + 99999999];
+        back4.hidden = NO;
+    }
+}
+
+-(void)loadM122
+{
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M122" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    [requestDict setValue:self.hezuoArr[self.number][@"forumTitleId"] forKey:@"forumTitleId"];
+
+    [self showIndicator];
+    
+    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+    [httpEngine setDelegate:self];
+    [httpEngine requestWithDict:requestDict];
+    [httpEngine release];
+    [requestDict release];
+
+}
+
 -(void)closeClick
 {
     
@@ -65,14 +222,30 @@
     [alert release];
 }
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    CGFloat width = self.scro.frame.size.width;
+    NSUInteger currentPage = floor((self.scro.contentOffset.x - width / 2) / width) + 1;
+    _pageControl.currentPage = currentPage;
+    self.number = currentPage;
+    [self loadM122];
+}
+
 -(void)httpEngine:(ZMHttpEngine *)httpEngine didSuccess:(NSDictionary *)responseDict{
     [super httpEngine:httpEngine didSuccess:responseDict];
     
     NSString* method = [responseDict valueForKey:@"method"];
     NSString* responseCode = [responseDict valueForKey:@"responseCode"];
     if ([@"M121" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
-        
-        
+        self.hezuoArr = responseDict[@"forumTitles"];
+        [self loadSubViews];
+        [self hideIndicator];
+        [self loadM122];
+    }else if ([@"M122" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
+        [self hideIndicator];
+        self.dic = responseDict;
+        NSLog(@"hahha%@",responseDict);
     }
 }
+
 @end
