@@ -20,6 +20,15 @@
     UIView *backview3;
     UIView *backview4;
 
+    UILabel *titeleLb1;
+    UILabel *subtitleLb1;
+    
+    UITextView *contentTv;
+    
+    UITextView * contentTv1;
+    
+    UIButton *refishBtn;
+    
 }
 @property (nonatomic, strong) NSMutableArray *hezuoArr;
 @property (nonatomic, strong) UIScrollView *scro;

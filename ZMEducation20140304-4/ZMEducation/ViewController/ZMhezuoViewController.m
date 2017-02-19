@@ -68,10 +68,11 @@
         self.backView = [[UIView alloc]initWithFrame:CGRectMake(y, 0, self.view.frame.size.width, self.view.frame.size.height)];
         self.backView.tag = 999 + i;
         [self.scro addSubview:self.backView];
+        
         UILabel *lable = [[UILabel alloc]initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, 50)];
         lable.text = dic[@"forumTitle"];
         lable.textAlignment = NSTextAlignmentCenter;
-        lable.font = [UIFont boldSystemFontOfSize:20];
+        lable.font = [UIFont boldSystemFontOfSize:25];
         [self.backView addSubview:lable];
         
         NSArray *arr = @[@"合作内容填写",@"合作小组浏览",@"合作分项浏览",@"合作文稿生成"];
@@ -105,6 +106,53 @@
         backview4.hidden = YES;
         backview4.tag = 99999999 + i;
         [self.backView addSubview:backview4];
+        
+        UILabel *titleLb = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 50, 30)];
+        titleLb.text = @"主题:";
+        titleLb.font = [UIFont boldSystemFontOfSize:20];
+        [backview1 addSubview:titleLb];
+        
+        titeleLb1 = [[UILabel alloc]initWithFrame:CGRectMake(60, 0, backview1.frame.size.width - 60, 30)];
+        titeleLb1.font = [UIFont boldSystemFontOfSize:20];
+        titeleLb1.tag = -999 + i;
+        [backview1 addSubview:titeleLb1];
+        
+        UILabel *subtitleLb = [[UILabel alloc]initWithFrame:CGRectMake(0, 60, 50, 30)];
+        subtitleLb.text = @"分项:";
+        subtitleLb.font = [UIFont boldSystemFontOfSize:20];
+        [backview1 addSubview:subtitleLb];
+        
+        subtitleLb1 = [[UILabel alloc]initWithFrame:CGRectMake(60, 60, backview1.frame.size.width - 60, 30)];
+        subtitleLb1.font = [UIFont boldSystemFontOfSize:20];
+        subtitleLb1.tag = -9999 + i;
+        [backview1 addSubview:subtitleLb1];
+        
+        UILabel *contentLb = [[UILabel alloc]initWithFrame:CGRectMake(0, 120, 50, 30)];
+        contentLb.text = @"内容";
+        contentLb.font = [UIFont boldSystemFontOfSize:20];
+        [backview1 addSubview:contentLb];
+        
+        refishBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 170, 40, 30)];
+        [refishBtn setTitle:@"刷新" forState:UIControlStateNormal];
+        [refishBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [refishBtn addTarget:self action:@selector(refish) forControlEvents:UIControlEventTouchUpInside];
+        refishBtn.layer.borderColor = [UIColor blackColor].CGColor;
+        refishBtn.layer.borderWidth = 1;
+        [backview1 addSubview:refishBtn];
+        
+        contentTv = [[UITextView alloc]initWithFrame:CGRectMake(60, 120, backview1.frame.size.width - 60, 150)];
+        contentTv.layer.borderColor = [UIColor blackColor].CGColor;
+        contentTv.layer.borderWidth = 1;
+        contentTv.tag = -99999 + i;
+        [backview1 addSubview:contentTv];
+        
+        contentTv1 = [[UITextView alloc]initWithFrame:CGRectMake(60, 300, backview1.frame.size.width - 60, 150)];
+        contentTv1.layer.borderColor = [UIColor blackColor].CGColor;
+        contentTv1.layer.borderWidth = 1;
+        contentTv1.tag = -999999 + i;
+        contentTv1.hidden = YES;
+        [backview1 addSubview:contentTv1];
+
         y += self.view.frame.size.width;
         i++;
     }
@@ -128,9 +176,14 @@
     [self.view addSubview:_pageControl];
 }
 
+-(void)refish
+{
+    [self loadM122];
+}
+
 -(void)segmentAction:(UISegmentedControl *)Seg{
-    NSLog(@"vvvvvv%d",Seg.tag - 9999);
-    NSLog(@"wocao%d",Seg.selectedSegmentIndex);
+    NSLog(@"vvvvvv%ld",Seg.tag - 9999);
+    NSLog(@"wocao%ld",Seg.selectedSegmentIndex);
     
     if (Seg.selectedSegmentIndex == 0) {
         
@@ -213,6 +266,29 @@
 
 }
 
+-(void)loaddataSubView
+{
+    UILabel *label = [self.view viewWithTag:-999 + self.number];
+    label.text = self.dic[@"forumTitle"];
+    
+    UILabel *label1 = [self.view viewWithTag:-9999 + self.number];
+    label1.text = self.dic[@"forumSubTitle"];
+    
+    UITextView *tv = [self.view viewWithTag: -99999 + self.number];
+    tv.text = self.dic[@"forumContent"];
+
+    UITextView *tv1 = [self.view viewWithTag:-999999 + self.number];
+    
+    if ([[NSString stringWithFormat:@"%@",self.dic[@"forumType"]] isEqualToString:@"1"]) {
+        tv.editable = NO;
+        tv1.hidden = NO;
+    }else {
+        tv.editable = YES;
+        tv1.hidden = YES;
+    }
+    
+}
+
 -(void)closeClick
 {
     
@@ -244,6 +320,7 @@
     }else if ([@"M122" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
         [self hideIndicator];
         self.dic = responseDict;
+        [self loaddataSubView];
         NSLog(@"hahha%@",responseDict);
     }
 }
