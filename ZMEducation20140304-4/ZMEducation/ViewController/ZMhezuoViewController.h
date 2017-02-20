@@ -10,7 +10,7 @@
 #import "ZMBaseViewController.h"
 #import "PageControl.h"
 
-@interface ZMhezuoViewController : ZMBaseViewController<ZMHttpEngineDelegate,UIAlertViewDelegate,UIScrollViewDelegate>
+@interface ZMhezuoViewController : ZMBaseViewController<ZMHttpEngineDelegate,UIAlertViewDelegate,UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     PageControl* _pageControl;
     UISegmentedControl *segment;
@@ -31,12 +31,16 @@
     
     UIButton *commmitBtn;
     
+    UILabel *se2TitleLb;
+    
+    UITableView *se2Tabv;
+    
 }
 @property (nonatomic, strong) NSMutableArray *hezuoArr;
 @property (nonatomic, strong) UIScrollView *scro;
 @property int number;
 @property (nonatomic, strong) NSDictionary *dic;
 @property (nonatomic, strong) UIView *backView;
-
+@property (nonatomic, strong) NSDictionary *M124dic;
 
 @end

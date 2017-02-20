@@ -84,7 +84,6 @@
         [segment addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
         
         backview1 = [[UIView alloc]initWithFrame:CGRectMake(50, 200, self.view.frame.size.width - 100, self.view.frame.size.height - 200)];
-        backview1.backgroundColor = [UIColor yellowColor];
         backview1.hidden = NO;
         backview1.tag = 99999 + i;
         [self.backView addSubview:backview1];
@@ -161,6 +160,18 @@
         [commmitBtn addTarget:self action:@selector(commit) forControlEvents:UIControlEventTouchUpInside];
         [backview1 addSubview:commmitBtn];
         
+        se2TitleLb = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, backview2.frame.size.width, 30)];
+        se2TitleLb.font = [UIFont boldSystemFontOfSize:20];
+        se2TitleLb.tag = -9999999 + i;
+        se2TitleLb.textAlignment = NSTextAlignmentCenter;
+        [backview2 addSubview:se2TitleLb];
+
+        se2Tabv = [[UITableView alloc]initWithFrame:CGRectMake(0, 50, backview2.frame.size.width, backview2.frame.size.height - 100)];
+        se2Tabv.delegate = self;
+        se2Tabv.dataSource = self;
+        se2Tabv.tag = -99999999 + i;
+        [backview2 addSubview:se2Tabv];
+        
         y += self.view.frame.size.width;
         i++;
     }
@@ -182,6 +193,35 @@
     _pageControl.orientation = PageControlOrientationLandscape;
     _pageControl.numberOfPages = [self.hezuoArr count];
     [self.view addSubview:_pageControl];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
+{
+    return [self.M124dic[@"groupNames"] count];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
+{
+    return [self.M124dic[@"groupNames"][section][@"forumContents"]count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
+{
+    static NSString *CellIdentifier = @"Cell";
+
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil){
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    }
+    cell.textLabel.text = @"1";
+    return cell;
+}
+
+-(void)loadM124View
+{
+    UILabel *label = [self.view viewWithTag:-9999999 + self.number];
+    label.text = self.M124dic[@"forumTitle"];
 }
 
 -(void)refish
@@ -252,6 +292,23 @@
         
         UIView *back4 = [backview viewWithTag:Seg.tag - 9999 + 99999999];
         back4.hidden = YES;
+        
+        NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+        NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+        [requestDict setValue:@"M124" forKey:@"method"];
+        [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+        [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+        [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+        [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+        [requestDict setValue:self.hezuoArr[self.number][@"forumTitleId"] forKey:@"forumId"];
+
+        [self showIndicator];
+        ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+        [httpEngine setDelegate:self];
+        [httpEngine requestWithDict:requestDict];
+        [httpEngine release];
+        [requestDict release];
+        
     }else if (Seg.selectedSegmentIndex == 2) {
         UIView *backview = [self.scro viewWithTag:Seg.tag - 9999 + 999];
 
@@ -304,6 +361,8 @@
 
 }
 
+
+
 -(void)loaddataSubView
 {
     UILabel *label = [self.view viewWithTag:-999 + self.number];
@@ -338,11 +397,13 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    CGFloat width = self.scro.frame.size.width;
-    NSUInteger currentPage = floor((self.scro.contentOffset.x - width / 2) / width) + 1;
-    _pageControl.currentPage = currentPage;
-    self.number = currentPage;
-    [self loadM122];
+    if (scrollView == self.scro) {
+        CGFloat width = self.scro.frame.size.width;
+        NSUInteger currentPage = floor((self.scro.contentOffset.x - width / 2) / width) + 1;
+        _pageControl.currentPage = currentPage;
+        self.number = currentPage;
+        [self loadM122];
+    }
 }
 
 -(void)httpEngine:(ZMHttpEngine *)httpEngine didSuccess:(NSDictionary *)responseDict{
@@ -364,6 +425,14 @@
         [self hideIndicator];
         [self showTip:@"提交成功"];
         [self loadM122];
+    }else if ([@"M124" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
+        [self hideIndicator];
+        self.M124dic = responseDict;
+        [self loadM124View];
+        UITableView *tabv = [self.view viewWithTag: -99999999 + self.number];
+        [tabv reloadData];
+        
+        NSLog(@"*******%@",self.M124dic);
     }
 }
 
