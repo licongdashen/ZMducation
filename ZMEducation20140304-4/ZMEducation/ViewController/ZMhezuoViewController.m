@@ -363,6 +363,7 @@
     }else if ([@"M123" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
         [self hideIndicator];
         [self showTip:@"提交成功"];
+        [self loadM122];
     }
 }
 
