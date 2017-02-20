@@ -29,6 +29,8 @@
     
     UIButton *refishBtn;
     
+    UIButton *commmitBtn;
+    
 }
 @property (nonatomic, strong) NSMutableArray *hezuoArr;
 @property (nonatomic, strong) UIScrollView *scro;

@@ -153,6 +153,14 @@
         contentTv1.hidden = YES;
         [backview1 addSubview:contentTv1];
 
+        commmitBtn = [[UIButton alloc]initWithFrame:CGRectMake(backview1.frame.size.width - 60 - 60, 500, 60, 30)];
+        [commmitBtn setTitle:@"提交" forState:UIControlStateNormal];
+        [commmitBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        commmitBtn.layer.borderColor = [UIColor blackColor].CGColor;
+        commmitBtn.layer.borderWidth = 1;
+        [commmitBtn addTarget:self action:@selector(commit) forControlEvents:UIControlEventTouchUpInside];
+        [backview1 addSubview:commmitBtn];
+        
         y += self.view.frame.size.width;
         i++;
     }
@@ -179,6 +187,36 @@
 -(void)refish
 {
     [self loadM122];
+}
+
+-(void)commit
+{
+    UITextView *tv = [self.view viewWithTag: -99999 + self.number];
+    UITextView *tv1 = [self.view viewWithTag:-999999 + self.number];
+    
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M123" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    [requestDict setValue:self.dic[@"forumId"] forKey:@"forumId"];
+    [requestDict setValue:self.dic[@"forumSubId"] forKey:@"forumSubId"];
+    if ([[NSString stringWithFormat:@"%@",self.dic[@"forumType"]] isEqualToString:@"1"]) {
+        [requestDict setValue:tv1.text forKey:@"forumContent"];
+    }else {
+        [requestDict setValue:tv.text forKey:@"forumContent"];
+    }
+    [self showIndicator];
+    
+    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+    [httpEngine setDelegate:self];
+    [httpEngine requestWithDict:requestDict];
+    [httpEngine release];
+    [requestDict release];
+    
+    tv1.text = @"";
 }
 
 -(void)segmentAction:(UISegmentedControl *)Seg{
@@ -322,6 +360,9 @@
         self.dic = responseDict;
         [self loaddataSubView];
         NSLog(@"hahha%@",responseDict);
+    }else if ([@"M123" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
+        [self hideIndicator];
+        [self showTip:@"提交成功"];
     }
 }
 
