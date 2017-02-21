@@ -13,6 +13,9 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.M124tempArr = [[NSMutableArray alloc]init];
+    
     UIView * view = [[UIView alloc]initWithFrame:[[UIScreen mainScreen] applicationFrame]];
     view.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
     
@@ -26,7 +29,8 @@
     [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
     [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
-    
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+
     [self showIndicator];
 
     ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
@@ -35,6 +39,7 @@
     [httpEngine release];
     [requestDict release];
 
+    [self loadM124];
 
 }
 
@@ -89,7 +94,7 @@
         [self.backView addSubview:backview1];
         
         backview2 = [[UIView alloc]initWithFrame:CGRectMake(50, 200, self.view.frame.size.width - 100, self.view.frame.size.height - 200)];
-        backview2.backgroundColor = [UIColor greenColor];
+        backview2.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
         backview2.hidden = YES;
         backview2.tag = 999999 + i;
         [self.backView addSubview:backview2];
@@ -166,11 +171,22 @@
         se2TitleLb.textAlignment = NSTextAlignmentCenter;
         [backview2 addSubview:se2TitleLb];
 
-        se2Tabv = [[UITableView alloc]initWithFrame:CGRectMake(0, 50, backview2.frame.size.width, backview2.frame.size.height - 100)];
+        se2Tabv = [[UITableView alloc]initWithFrame:CGRectMake(0, 50, backview2.frame.size.width, backview2.frame.size.height - 230)];
         se2Tabv.delegate = self;
         se2Tabv.dataSource = self;
+        se2Tabv.separatorStyle = UITableViewCellSeparatorStyleNone;
+        se2Tabv.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
         se2Tabv.tag = -99999999 + i;
         [backview2 addSubview:se2Tabv];
+        
+        toupiaoBtn = [[UIButton alloc]initWithFrame:CGRectMake(650, se2Tabv.frame.origin.y + se2Tabv.frame.size.height + 20, 50, 30)];
+        toupiaoBtn.tag = 22222 + i;
+        [toupiaoBtn setTitle:@"投票" forState:UIControlStateNormal];
+        [toupiaoBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        toupiaoBtn.layer.borderColor = [UIColor blackColor].CGColor;
+        toupiaoBtn.layer.borderWidth = 1;
+        [toupiaoBtn addTarget:self action:@selector(toupiao) forControlEvents:UIControlEventTouchUpInside];
+        [backview2 addSubview:toupiaoBtn];
         
         y += self.view.frame.size.width;
         i++;
@@ -195,6 +211,79 @@
     [self.view addSubview:_pageControl];
 }
 
+-(void)toupiao
+{
+    
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M127" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    [requestDict setValue:[NSString stringWithFormat:@"%@",self.M124dic[@"coType"]] forKey:@"type"];
+    [requestDict setValue:self.M124tempArr forKey:@"voteContent"];
+    [requestDict setValue:self.M124dic[@"forumId"] forKey:@"forumId"];
+
+    [self showIndicator];
+    
+    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+    [httpEngine setDelegate:self];
+    [httpEngine requestWithDict:requestDict];
+    [httpEngine release];
+    [requestDict release];
+
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+{
+    return 80;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section;
+{
+    return 1;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section;
+{
+    return [[UIView alloc]initWithFrame:CGRectMake(0, 0, backview2.frame.size.width, 1)];
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 40;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, backview2.frame.size.width, 40)];
+    backView.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
+    se2SelBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 5, 30, 30)];
+    [se2SelBtn addTarget:self action:@selector(se2Sel:) forControlEvents:UIControlEventTouchUpInside];
+    se2SelBtn.tag = 11111 + self.number*100 + section;
+    [se2SelBtn setImage:[UIImage imageNamed:@"Share_Btn"] forState:UIControlStateNormal];
+    [se2SelBtn setImage:[UIImage imageNamed:@"Share_Select_Btn"] forState:UIControlStateSelected];
+    [backView addSubview:se2SelBtn];
+    if ([[NSString stringWithFormat:@"%@",self.M124dic[@"groupNames"][section][@"ifSelect"]] isEqualToString:@"1"]) {
+        [se2SelBtn setSelected:YES];
+    }else{
+        [se2SelBtn setSelected:NO];
+    }
+    
+    UILabel *nameLb = [[UILabel alloc]initWithFrame:CGRectMake(35, 0, 120, 40)];
+    nameLb.font = [UIFont systemFontOfSize:16];
+    nameLb.text = [NSString stringWithFormat:@"%@:",self.M124dic[@"groupNames"][section][@"groupName"]];
+    [backView addSubview:nameLb];
+    
+    UILabel *countLb = [[UILabel alloc]initWithFrame:CGRectMake(160, 0, 100, 40)];
+    countLb.font = [UIFont systemFontOfSize:16];
+    countLb.text = [NSString stringWithFormat:@"%@票",self.M124dic[@"groupNames"][section][@"voteCount"]];
+    [backView addSubview:countLb];
+    
+    return backView;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
 {
     return [self.M124dic[@"groupNames"] count];
@@ -213,9 +302,46 @@
     if (cell == nil){
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        cell.contentView.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
+        
+        UILabel *nameLb = [[UILabel alloc]initWithFrame:CGRectMake(50, 0, backview2.frame.size.width - 80, 20)];
+        nameLb.font = [UIFont systemFontOfSize:16];
+        nameLb.tag = 55555;
+        [cell.contentView addSubview:nameLb];
+        
+        UITextView *contentTv2 = [[UITextView alloc]initWithFrame:CGRectMake(100, 20, backview2.frame.size.width - 130, 60)];
+        contentTv2.editable = NO;
+        contentTv2.tag = 66666;
+        contentTv2.backgroundColor = [UIColor clearColor];
+        [cell.contentView addSubview:contentTv2];
     }
-    cell.textLabel.text = @"1";
+    UILabel *nameLb = [cell.contentView viewWithTag:55555];
+    nameLb.text = [NSString stringWithFormat:@"%@(%@):",self.M124dic[@"groupNames"][indexPath.section][@"forumContents"][indexPath.row][@"author"],self.M124dic[@"groupNames"][indexPath.section][@"forumContents"][indexPath.row][@"forumSubTitle"]];
+    
+    UITextView *contentTv2 = [cell.contentView viewWithTag:66666];
+    contentTv2.text = self.M124dic[@"groupNames"][indexPath.section][@"forumContents"][indexPath.row][@"forumContent"];
+
     return cell;
+}
+
+-(void)se2Sel:(UIButton *)send
+{
+    int tag = send.tag;
+    NSLog(@"hhhhhhh%d",tag);
+
+    UIButton* shareBtn = (UIButton*)send;
+    [shareBtn setSelected:!shareBtn.selected];
+    
+    int count = tag - 11111 - self.number*100;
+    
+    NSMutableDictionary *dic = self.M124tempArr[count];
+    if ([[NSString stringWithFormat:@"%@",dic[@"flag"]] isEqualToString:@"1"]) {
+        [dic setValue:@"0" forKey:@"flag"];
+    }else {
+        [dic setValue:@"1" forKey:@"flag"];
+    }
+    
+    NSLog(@"vvvvvvv%@",self.M124tempArr);
 }
 
 -(void)loadM124View
@@ -293,21 +419,6 @@
         UIView *back4 = [backview viewWithTag:Seg.tag - 9999 + 99999999];
         back4.hidden = YES;
         
-        NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
-        NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
-        [requestDict setValue:@"M124" forKey:@"method"];
-        [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
-        [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
-        [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
-        [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
-        [requestDict setValue:self.hezuoArr[self.number][@"forumTitleId"] forKey:@"forumId"];
-
-        [self showIndicator];
-        ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
-        [httpEngine setDelegate:self];
-        [httpEngine requestWithDict:requestDict];
-        [httpEngine release];
-        [requestDict release];
         
     }else if (Seg.selectedSegmentIndex == 2) {
         UIView *backview = [self.scro viewWithTag:Seg.tag - 9999 + 999];
@@ -323,6 +434,7 @@
         
         UIView *back4 = [backview viewWithTag:Seg.tag - 9999 + 99999999];
         back4.hidden = YES;
+        
     }else if (Seg.selectedSegmentIndex == 3) {
         UIView *backview = [self.scro viewWithTag:Seg.tag - 9999 + 999];
 
@@ -349,7 +461,7 @@
     [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
-    [requestDict setValue:self.hezuoArr[self.number][@"forumTitleId"] forKey:@"forumTitleId"];
+    [requestDict setValue:self.hezuoArr[self.number][@"forumId"] forKey:@"forumId"];
 
     [self showIndicator];
     
@@ -361,7 +473,25 @@
 
 }
 
+-(void)loadM124
+{
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M124" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    [requestDict setValue:self.hezuoArr[self.number][@"forumId"] forKey:@"forumId"];
+    
+    [self showIndicator];
+    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+    [httpEngine setDelegate:self];
+    [httpEngine requestWithDict:requestDict];
+    [httpEngine release];
+    [requestDict release];
 
+}
 
 -(void)loaddataSubView
 {
@@ -403,6 +533,7 @@
         _pageControl.currentPage = currentPage;
         self.number = currentPage;
         [self loadM122];
+        [self loadM124];
     }
 }
 
@@ -431,8 +562,22 @@
         [self loadM124View];
         UITableView *tabv = [self.view viewWithTag: -99999999 + self.number];
         [tabv reloadData];
+        NSMutableArray *arr = self.M124dic[@"groupNames"];
+        [self.M124tempArr removeAllObjects];
+        
+        for (NSMutableDictionary *dic in arr) {
+            NSString *groupId = dic[@"groupId"];
+            NSString *ifSelect = dic[@"ifSelect"];
+
+            NSMutableDictionary *mDic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:groupId,@"optionId",ifSelect,@"flag", nil];
+            [self.M124tempArr addObject:mDic];
+        }
         
         NSLog(@"*******%@",self.M124dic);
+        NSLog(@"self.M124tempArr===%@",self.M124tempArr);
+    }else if ([@"M127" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
+        [self hideIndicator];
+        [self showTip:@"投票成功"];
     }
 }
 

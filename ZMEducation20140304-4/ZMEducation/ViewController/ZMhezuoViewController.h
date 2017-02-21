@@ -35,12 +35,19 @@
     
     UITableView *se2Tabv;
     
+    UIButton *se2SelBtn;
+    
+    UIButton *toupiaoBtn;
+    
+    UIView *tuView;
 }
+
 @property (nonatomic, strong) NSMutableArray *hezuoArr;
 @property (nonatomic, strong) UIScrollView *scro;
 @property int number;
 @property (nonatomic, strong) NSDictionary *dic;
 @property (nonatomic, strong) UIView *backView;
 @property (nonatomic, strong) NSDictionary *M124dic;
+@property (nonatomic, strong) NSMutableArray *M124tempArr;
 
 @end
