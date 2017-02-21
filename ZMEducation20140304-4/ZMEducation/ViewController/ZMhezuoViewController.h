@@ -40,6 +40,16 @@
     UIButton *toupiaoBtn;
     
     UIView *tuView;
+    
+    UITableView *se3Tabv;
+    
+    UITableView *se3slTabv;
+    
+    UILabel *se3TitleLb;
+    
+    UIButton *se3TitleBtn;
+    
+    
 }
 
 @property (nonatomic, strong) NSMutableArray *hezuoArr;
@@ -49,5 +59,6 @@
 @property (nonatomic, strong) UIView *backView;
 @property (nonatomic, strong) NSDictionary *M124dic;
 @property (nonatomic, strong) NSMutableArray *M124tempArr;
+@property (nonatomic, strong) NSMutableArray *M126Arr;
 
 @end
