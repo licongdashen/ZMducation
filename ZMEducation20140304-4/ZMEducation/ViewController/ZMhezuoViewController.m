@@ -15,7 +15,8 @@
     [super viewDidLoad];
     
     self.M124tempArr = [[NSMutableArray alloc]init];
-    
+    self.M125tempArr = [[NSMutableArray alloc]init];
+
     UIView * view = [[UIView alloc]initWithFrame:[[UIScreen mainScreen] applicationFrame]];
     view.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
     
@@ -226,6 +227,10 @@
         [searchBtn addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
         [backview3 addSubview:searchBtn];
 
+        UILabel *se3titleLb1 = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, backview3.frame.size.width, 20)];
+        se3titleLb1.font = [UIFont boldSystemFontOfSize:20];
+        se3titleLb1.tag = 666666 + i;
+        [backview3 addSubview:se3titleLb1];
         
         y += self.view.frame.size.width;
         i++;
@@ -282,6 +287,12 @@
     if (seg.selectedSegmentIndex == 1) {
         return 80;
     }else if (seg.selectedSegmentIndex == 2){
+        if (tableView.tag == 111111 + self.number) {
+            
+            return 80;
+
+        }
+
         return 40;
     }
     return 0;
@@ -307,9 +318,7 @@
 
     }else if (seg.selectedSegmentIndex == 2){
         
-        if (tableView.tag == 444444 + self.number) {
-            return 40;
-        }
+       
     }
     return 0;
 }
@@ -344,30 +353,9 @@
         [backView addSubview:countLb];
         
     }else if (seg.selectedSegmentIndex == 2){
-        if (tableView.tag == 444444 + self.number) {
+        if (tableView.tag == 111111 + self.number) {
             
-            UIButton *se3SelBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 5, 30, 30)];
-            [se3SelBtn addTarget:self action:@selector(se3Sel:) forControlEvents:UIControlEventTouchUpInside];
-            se3SelBtn.tag = 666666 + self.number*100 + section;
-            [se3SelBtn setImage:[UIImage imageNamed:@"Share_Btn"] forState:UIControlStateNormal];
-            [se3SelBtn setImage:[UIImage imageNamed:@"Share_Select_Btn"] forState:UIControlStateSelected];
-            [backView addSubview:se3SelBtn];
-            if ([[NSString stringWithFormat:@"%@",self.M125dic[@"groupNames"][section][@"ifSelect"]] isEqualToString:@"1"]) {
-                [se2SelBtn setSelected:YES];
-            }else{
-                [se2SelBtn setSelected:NO];
-            }
-            
-            UILabel *nameLb = [[UILabel alloc]initWithFrame:CGRectMake(35, 0, 120, 40)];
-            nameLb.font = [UIFont systemFontOfSize:16];
-            nameLb.text = [NSString stringWithFormat:@"%@:",self.M124dic[@"groupNames"][section][@"groupName"]];
-            [backView addSubview:nameLb];
-            
-            UILabel *countLb = [[UILabel alloc]initWithFrame:CGRectMake(160, 0, 100, 40)];
-            countLb.font = [UIFont systemFontOfSize:16];
-            countLb.text = [NSString stringWithFormat:@"%@票",self.M124dic[@"groupNames"][section][@"voteCount"]];
-            [backView addSubview:countLb];
-
+           
         }
     }
     return backView;
@@ -394,6 +382,11 @@
     if (seg.selectedSegmentIndex == 1) {
         return [self.M124dic[@"groupNames"][section][@"forumContents"]count];
     }else if (seg.selectedSegmentIndex == 2){
+        if (tableView.tag == 111111 + self.number) {
+         
+            return [self.M125dic[@"forumSubTitles"][0][@"forumContents"] count];
+        }
+
         return [self.M126Arr count];
     }
     return 0;
@@ -431,15 +424,52 @@
         
         return cell;
     }else if (seg.selectedSegmentIndex == 2) {
-        static NSString *CellIdentifier = @"Cell1";
         
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (cell == nil){
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        if (tableView.tag == 111111 + self.number) {
+            static NSString *CellIdentifier = @"Cell2";
+            
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil){
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                
+                UIButton* se3SelBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 5, 30, 30)];
+                [se3SelBtn addTarget:self action:@selector(se4Sel:) forControlEvents:UIControlEventTouchUpInside];
+                se3SelBtn.tag = 777777 + self.number*100 + indexPath.row;
+                [se3SelBtn setImage:[UIImage imageNamed:@"Share_Btn"] forState:UIControlStateNormal];
+                [se3SelBtn setImage:[UIImage imageNamed:@"Share_Select_Btn"] forState:UIControlStateSelected];
+                [cell.contentView addSubview:se3SelBtn];
+                
+                UILabel *nameLb = [[UILabel alloc]initWithFrame:CGRectMake(35, 0, 160, 40)];
+                nameLb.font = [UIFont systemFontOfSize:16];
+                nameLb.tag = 55557;
+                [cell.contentView addSubview:nameLb];
+                
+
+            }
+            
+            UIButton *se3SelBtn = [cell.contentView viewWithTag:777777 + self.number*100 + indexPath.row];
+            if ([[NSString stringWithFormat:@"%@",self.M125dic[@"forumSubTitles"][0][@"forumContents"][indexPath.row][@"ifSelect"]] isEqualToString:@"1"]) {
+                [se3SelBtn setSelected:YES];
+            }else{
+                [se3SelBtn setSelected:NO];
+            }
+            
+            UILabel *nameLb = [cell.contentView viewWithTag:55557];
+            nameLb.text = [NSString stringWithFormat:@"%@(%@):",self.M125dic[@"forumSubTitles"][0][@"forumContents"][indexPath.row][@"author"],self.M125dic[@"forumSubTitles"][0][@"forumContents"][indexPath.row][@"groupName"]];
+            return cell;
+
+        }else{
+            static NSString *CellIdentifier = @"Cell1";
+            
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil){
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            }
+            cell.textLabel.text = self.M126Arr[indexPath.row][@"optionName"];
+            return cell;
         }
-        cell.textLabel.text = self.M126Arr[indexPath.row][@"optionName"];
-        return cell;
     }
     return nil;
 }
@@ -481,6 +511,27 @@
     }
     
     NSLog(@"vvvvvvv%@",self.M124tempArr);
+}
+
+-(void)se4Sel:(UIButton *)send
+{
+    int tag = send.tag;
+    NSLog(@"hhhhhhh%d",tag);
+    
+    UIButton* shareBtn = (UIButton*)send;
+    [shareBtn setSelected:!shareBtn.selected];
+    
+    int count = tag - 777777 - self.number*100;
+    
+    NSMutableDictionary *dic = self.M125tempArr[count];
+    if ([[NSString stringWithFormat:@"%@",dic[@"flag"]] isEqualToString:@"1"]) {
+        [dic setValue:@"0" forKey:@"flag"];
+    }else {
+        [dic setValue:@"1" forKey:@"flag"];
+    }
+    
+    NSLog(@"nnnnnnn%@",self.M125tempArr);
+
 }
 
 -(void)se3sel:(UIButton *)send
@@ -595,9 +646,12 @@
         UIView *back4 = [backview viewWithTag:Seg.tag - 9999 + 99999999];
         back4.hidden = YES;
         
-        UITableView *tabv = [self.view viewWithTag: 444444 + self.number];
+        UITableView *tabv = [self.view viewWithTag: 111111 + self.number];
         [tabv reloadData];
+        UITableView *tabv1 = [self.view viewWithTag: 444444 + self.number];
+        [tabv1 reloadData];
         [self loadM126SubView];
+        [self loadM125SubView];
 
     }else if (Seg.selectedSegmentIndex == 3) {
         UIView *backview = [self.scro viewWithTag:Seg.tag - 9999 + 999];
@@ -705,6 +759,12 @@
     m126id = self.M126Arr[0][@"optionId"];
 }
 
+-(void)loadM125SubView
+{
+    UILabel *label = [self.view viewWithTag:666666 + self.number];
+    label.text = self.M125dic[@"forumSubTitles"][0][@"forumSubTitle"];
+}
+
 -(void)loaddataSubView
 {
     UILabel *label = [self.view viewWithTag:-999 + self.number];
@@ -796,14 +856,28 @@
         self.M125dic = responseDict;
         NSLog(@"self.M125dic===%@",self.M125dic);
         
-        UITableView *tabv = [self.view viewWithTag: 444444 + self.number];
+        UITableView *tabv = [self.view viewWithTag: 111111 + self.number];
         [tabv reloadData];
+        [self loadM125SubView];
+        
+        [self.M125tempArr removeAllObjects];
+        NSMutableArray *arr = self.M125dic[@"forumSubTitles"][0][@"forumContents"];
+        for (NSMutableDictionary *dic in arr) {
+            NSString *groupId = dic[@"voteAnswerId"];
+            NSString *ifSelect = dic[@"ifSelect"];
+            NSMutableDictionary *mDic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:groupId,@"optionId",ifSelect,@"flag", nil];
+            [self.M125tempArr addObject:mDic];
+        }
+        
+        NSLog(@"self.M125tempArr===%@",self.M125tempArr);
 
     }else if ([@"M126" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
         [self hideIndicator];
         self.M126Arr = responseDict[@"options"];
         [self loadM126SubView];
         
+        UITableView *tabv = [self.view viewWithTag: 444444 + self.number];
+        [tabv reloadData];
     }
 }
 
