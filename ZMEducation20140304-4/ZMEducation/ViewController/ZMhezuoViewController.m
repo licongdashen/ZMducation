@@ -21,6 +21,8 @@
     
     self.view = view;
     
+    isHidden = YES;
+    
     self.number = 0;
     
     NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
@@ -210,10 +212,19 @@
         se3slTabv = [[UITableView alloc]initWithFrame:CGRectMake(0, 50, backview3.frame.size.width/2 - 50, 300)];
         se3slTabv.delegate = self;
         se3slTabv.dataSource = self;
-        se3slTabv.separatorStyle = UITableViewCellSeparatorStyleNone;
         se3slTabv.backgroundColor = [UIColor whiteColor];
         se3slTabv.tag = 444444 + i;
+        se3slTabv.hidden = YES;
         [backview3 addSubview:se3slTabv];
+
+        UIButton *searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(backview3.frame.size.width/2, 20, 40, 30)];
+        [searchBtn setTitle:@"查询" forState:UIControlStateNormal];
+        [searchBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        searchBtn.layer.borderColor = [UIColor blackColor].CGColor;
+        searchBtn.layer.borderWidth = 1;
+        searchBtn.tag = 555555 + i;
+        [searchBtn addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
+        [backview3 addSubview:searchBtn];
 
         
         y += self.view.frame.size.width;
@@ -265,7 +276,15 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-    return 80;
+    UIView *backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, backview2.frame.size.width, 40)];
+    backView.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
+    UISegmentedControl *seg = [self.view viewWithTag:9999 + self.number];
+    if (seg.selectedSegmentIndex == 1) {
+        return 80;
+    }else if (seg.selectedSegmentIndex == 2){
+        return 40;
+    }
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section;
@@ -280,7 +299,19 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 40;
+    UIView *backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, backview2.frame.size.width, 40)];
+    backView.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
+    UISegmentedControl *seg = [self.view viewWithTag:9999 + self.number];
+    if (seg.selectedSegmentIndex == 1) {
+        return 40;
+
+    }else if (seg.selectedSegmentIndex == 2){
+        
+        if (tableView.tag == 444444 + self.number) {
+            return 40;
+        }
+    }
+    return 0;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -289,7 +320,8 @@
     backView.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
     UISegmentedControl *seg = [self.view viewWithTag:9999 + self.number];
     if (seg.selectedSegmentIndex == 1) {
-               se2SelBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 5, 30, 30)];
+        
+        se2SelBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 5, 30, 30)];
         [se2SelBtn addTarget:self action:@selector(se2Sel:) forControlEvents:UIControlEventTouchUpInside];
         se2SelBtn.tag = 11111 + self.number*100 + section;
         [se2SelBtn setImage:[UIImage imageNamed:@"Share_Btn"] forState:UIControlStateNormal];
@@ -311,8 +343,32 @@
         countLb.text = [NSString stringWithFormat:@"%@票",self.M124dic[@"groupNames"][section][@"voteCount"]];
         [backView addSubview:countLb];
         
-    }else if (self.number == 2){
-    
+    }else if (seg.selectedSegmentIndex == 2){
+        if (tableView.tag == 444444 + self.number) {
+            
+            UIButton *se3SelBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 5, 30, 30)];
+            [se3SelBtn addTarget:self action:@selector(se3Sel:) forControlEvents:UIControlEventTouchUpInside];
+            se3SelBtn.tag = 666666 + self.number*100 + section;
+            [se3SelBtn setImage:[UIImage imageNamed:@"Share_Btn"] forState:UIControlStateNormal];
+            [se3SelBtn setImage:[UIImage imageNamed:@"Share_Select_Btn"] forState:UIControlStateSelected];
+            [backView addSubview:se3SelBtn];
+            if ([[NSString stringWithFormat:@"%@",self.M125dic[@"groupNames"][section][@"ifSelect"]] isEqualToString:@"1"]) {
+                [se2SelBtn setSelected:YES];
+            }else{
+                [se2SelBtn setSelected:NO];
+            }
+            
+            UILabel *nameLb = [[UILabel alloc]initWithFrame:CGRectMake(35, 0, 120, 40)];
+            nameLb.font = [UIFont systemFontOfSize:16];
+            nameLb.text = [NSString stringWithFormat:@"%@:",self.M124dic[@"groupNames"][section][@"groupName"]];
+            [backView addSubview:nameLb];
+            
+            UILabel *countLb = [[UILabel alloc]initWithFrame:CGRectMake(160, 0, 100, 40)];
+            countLb.font = [UIFont systemFontOfSize:16];
+            countLb.text = [NSString stringWithFormat:@"%@票",self.M124dic[@"groupNames"][section][@"voteCount"]];
+            [backView addSubview:countLb];
+
+        }
     }
     return backView;
 
@@ -326,6 +382,7 @@
         return [self.M124dic[@"groupNames"] count];
     }else if (seg.selectedSegmentIndex == 2){
     
+        return 1;
     }
     return 0;
 }
@@ -337,7 +394,7 @@
     if (seg.selectedSegmentIndex == 1) {
         return [self.M124dic[@"groupNames"][section][@"forumContents"]count];
     }else if (seg.selectedSegmentIndex == 2){
-        
+        return [self.M126Arr count];
     }
     return 0;
 }
@@ -374,9 +431,36 @@
         
         return cell;
     }else if (seg.selectedSegmentIndex == 2) {
-    
+        static NSString *CellIdentifier = @"Cell1";
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil){
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        }
+        cell.textLabel.text = self.M126Arr[indexPath.row][@"optionName"];
+        return cell;
     }
     return nil;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UISegmentedControl *seg = [self.view viewWithTag:9999 + self.number];
+    
+    if (seg.selectedSegmentIndex == 1) {
+    }else if (seg.selectedSegmentIndex == 2) {
+        
+        UILabel *lable = [self.view viewWithTag:222222 + self.number];
+        lable.text = self.M126Arr[indexPath.row][@"optionName"];
+        
+        UITableView *tabv = [self.view viewWithTag:444444 + self.number];
+        tabv.hidden = YES;
+        isHidden = YES;
+        
+        m126id = self.M126Arr[indexPath.row][@"optionId"];
+    }
+    
 }
 
 -(void)se2Sel:(UIButton *)send
@@ -403,7 +487,20 @@
 {
     int tag = send.tag;
 
+    UITableView *tabv = [self.view viewWithTag:444444 + self.number];
     
+    if (isHidden == YES) {
+        tabv.hidden = NO;
+        isHidden = NO;
+    }else {
+        tabv.hidden = YES;
+        isHidden = YES;
+    }
+}
+
+-(void)search:(UIButton *)send
+{
+    [self loadM125];
 }
 
 -(void)loadM124View
@@ -482,7 +579,7 @@
         back4.hidden = YES;
         UITableView *tabv = [self.view viewWithTag: -99999999 + self.number];
         [tabv reloadData];
-        
+        [self loadM124View];
     }else if (Seg.selectedSegmentIndex == 2) {
         UIView *backview = [self.scro viewWithTag:Seg.tag - 9999 + 999];
 
@@ -498,6 +595,10 @@
         UIView *back4 = [backview viewWithTag:Seg.tag - 9999 + 99999999];
         back4.hidden = YES;
         
+        UITableView *tabv = [self.view viewWithTag: 444444 + self.number];
+        [tabv reloadData];
+        [self loadM126SubView];
+
     }else if (Seg.selectedSegmentIndex == 3) {
         UIView *backview = [self.scro viewWithTag:Seg.tag - 9999 + 999];
 
@@ -566,7 +667,7 @@
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
     [requestDict setValue:self.hezuoArr[self.number][@"forumId"] forKey:@"forumId"];
-//    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"optionId"];
+    [requestDict setValue:m126id forKey:@"optionId"];
 
     [self showIndicator];
     ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
@@ -601,6 +702,7 @@
 {
     UILabel *lable = [self.view viewWithTag:222222 + self.number];
     lable.text = self.M126Arr[0][@"optionName"];
+    m126id = self.M126Arr[0][@"optionId"];
 }
 
 -(void)loaddataSubView
@@ -691,11 +793,17 @@
         [self showTip:@"投票成功"];
     }else if ([@"M125" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
         [self hideIndicator];
+        self.M125dic = responseDict;
+        NSLog(@"self.M125dic===%@",self.M125dic);
+        
+        UITableView *tabv = [self.view viewWithTag: 444444 + self.number];
+        [tabv reloadData];
 
     }else if ([@"M126" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
         [self hideIndicator];
         self.M126Arr = responseDict[@"options"];
         [self loadM126SubView];
+        
     }
 }
 

@@ -49,7 +49,9 @@
     
     UIButton *se3TitleBtn;
     
+    BOOL isHidden;
     
+    NSString *m126id;
 }
 
 @property (nonatomic, strong) NSMutableArray *hezuoArr;
@@ -60,5 +62,5 @@
 @property (nonatomic, strong) NSDictionary *M124dic;
 @property (nonatomic, strong) NSMutableArray *M124tempArr;
 @property (nonatomic, strong) NSMutableArray *M126Arr;
-
+@property (nonatomic, strong) NSDictionary *M125dic;
 @end
