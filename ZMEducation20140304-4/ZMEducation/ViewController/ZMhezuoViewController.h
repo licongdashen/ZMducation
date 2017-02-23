@@ -64,5 +64,7 @@
 @property (nonatomic, strong) NSMutableArray *M126Arr;
 @property (nonatomic, strong) NSDictionary *M125dic;
 @property (nonatomic, strong) NSMutableArray *M125tempArr;
+@property (nonatomic, strong) NSDictionary *M125Adic;
+@property (nonatomic, strong) NSMutableArray *M125AtempArr;
 
 @end

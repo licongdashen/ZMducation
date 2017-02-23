@@ -16,7 +16,7 @@
 
 -(void)requestWithDict:(NSDictionary*)infoDict{
     NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
-
+    self.m125 = @"";
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/rs/invoke",kHttpRequestURL]];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
     //设置编码格式
@@ -35,7 +35,10 @@
         NSLog(@"\n response \n%@",request.responseString);
         
         NSDictionary *responseDict  = [request.responseString objectFromJSONString];
-        [_delegate httpEngine:self didSuccess:responseDict];
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithDictionary:responseDict];
+        [dic setObject:self.m125 forKey:@"m125"];
+        NSDictionary *dic1 = [[NSDictionary alloc]initWithDictionary:dic];
+        [_delegate httpEngine:self didSuccess:dic1];
     }];
     
     [request setFailedBlock:^{

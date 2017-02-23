@@ -22,6 +22,7 @@
 @interface ZMHttpEngine : NSObject
 
 @property(nonatomic, assign) id<ZMHttpEngineDelegate> delegate;
+@property (nonatomic, strong) NSString *m125;
 
 -(void)requestWithDict:(NSDictionary*)infoDict;
 
