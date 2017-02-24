@@ -7,6 +7,7 @@
 //
 
 #import "ZMhezuoViewController.h"
+#import "ZMhezuoTableViewCell.h"
 
 @implementation ZMhezuoViewController
 
@@ -16,6 +17,7 @@
     
     self.M124tempArr = [[NSMutableArray alloc]init];
     self.M125tempArr = [[NSMutableArray alloc]init];
+    self.M125AtempArr = [[NSMutableArray alloc]init];
 
     UIView * view = [[UIView alloc]initWithFrame:[[UIScreen mainScreen] applicationFrame]];
     view.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
@@ -347,7 +349,7 @@
     }else if (seg.selectedSegmentIndex == 2){
         if (tableView.tag == 111111 + self.number) {
             
-            return 80;
+            return 280;
         }
 
         return 40;
@@ -502,15 +504,14 @@
         if (tableView.tag == 111111 + self.number) {
             static NSString *CellIdentifier = @"Cell2";
             
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            ZMhezuoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
             if (cell == nil){
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+                cell = [[[ZMhezuoTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 cell.contentView.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
 
                 UIButton* se3SelBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 5, 30, 30)];
-                [se3SelBtn addTarget:self action:@selector(se4Sel:) forControlEvents:UIControlEventTouchUpInside];
-                se3SelBtn.tag = 777777 + self.number*100 + indexPath.row;
+                se3SelBtn.tag = 777777;
                 [se3SelBtn setImage:[UIImage imageNamed:@"Share_Btn"] forState:UIControlStateNormal];
                 [se3SelBtn setImage:[UIImage imageNamed:@"Share_Select_Btn"] forState:UIControlStateSelected];
                 [cell.contentView addSubview:se3SelBtn];
@@ -528,11 +529,12 @@
 
             }
             
-            UIButton *se3SelBtn = [cell.contentView viewWithTag:777777 + self.number*100 + indexPath.row];
+            cell.se3SelBtn.tag = 4444444 + self.number*100 + indexPath.row;
+            [cell.se3SelBtn addTarget:self action:@selector(se4Sel:) forControlEvents:UIControlEventTouchUpInside];
             if ([[NSString stringWithFormat:@"%@",self.M125tempArr[indexPath.row][@"flag"]] isEqualToString:@"1"]) {
-                [se3SelBtn setSelected:YES];
+                [cell.se3SelBtn setSelected:YES];
             }else{
-                [se3SelBtn setSelected:NO];
+                [cell.se3SelBtn setSelected:NO];
             }
             
             UILabel *nameLb = [cell.contentView viewWithTag:55557];
@@ -557,12 +559,19 @@
     }else if (seg.selectedSegmentIndex == 3) {
         static NSString *CellIdentifier = @"Cell3";
         
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        ZMhezuoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil){
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            cell = [[[ZMhezuoTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             cell.contentView.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
-
+           
+        }
+        cell.se3SelBtn.tag = 5555555 + self.number*100 + indexPath.row;
+        [cell.se3SelBtn addTarget:self action:@selector(se5Sel:) forControlEvents:UIControlEventTouchUpInside];
+        if ([[NSString stringWithFormat:@"%@",self.M125tempArr[indexPath.row][@"flag"]] isEqualToString:@"1"]) {
+            [cell.se3SelBtn setSelected:YES];
+        }else{
+            [cell.se3SelBtn setSelected:NO];
         }
 
         return cell;
@@ -618,7 +627,7 @@
     NSLog(@"hhhhhhh%d",tag);
 
     
-    int count = tag - 777777 - self.number*100;
+    int count = tag - 4444444 - self.number*100;
     
     NSMutableDictionary *dic = self.M125tempArr[count];
     if ([[NSString stringWithFormat:@"%@",dic[@"flag"]] isEqualToString:@"1"]) {
@@ -632,6 +641,28 @@
 
     NSLog(@"nnnnnnn%@",self.M125tempArr);
 
+}
+
+-(void)se5Sel:(UIButton *)send
+{
+    int tag = send.tag;
+    NSLog(@"hhhhhhh%d",tag);
+    
+    
+    int count = tag - 5555555 - self.number*100;
+    
+    NSMutableDictionary *dic = self.M125AtempArr[count];
+    if ([[NSString stringWithFormat:@"%@",dic[@"flag"]] isEqualToString:@"1"]) {
+        [dic setValue:@"0" forKey:@"flag"];
+    }else {
+        [dic setValue:@"1" forKey:@"flag"];
+    }
+    
+    UITableView *tabv = [self.view viewWithTag: 111111 + self.number];
+    [tabv reloadData];
+    
+    NSLog(@"nnnnnnn%@",self.M125AtempArr);
+    
 }
 
 -(void)se3sel:(UIButton *)send
@@ -1042,8 +1073,24 @@
             UITableView *tabv = [self.view viewWithTag: 3333333 + self.number];
             [tabv reloadData];
 
-            
             NSLog(@"self.M125Adic===%@",self.M125Adic);
+            
+            [self.M125AtempArr removeAllObjects];
+            
+            for (int i = 0; i < [self.M125Adic[@"forumSubTitles"] count]; i++) {
+                NSMutableDictionary *dic = self.M125Adic[@"forumSubTitles"][i];
+                NSMutableArray *arr1 = [[NSMutableArray alloc]init];
+                for (NSMutableDictionary *dicc in dic[@"forumContents"]) {
+                    NSString *groupId = [NSString stringWithFormat:@"%@",dicc[@"voteAnswerId"]];
+                    NSString *ifSelect = [NSString stringWithFormat:@"%@",dicc[@"ifSelect"]];
+                    NSMutableDictionary *mDic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:groupId,@"optionId",ifSelect,@"flag", nil];
+                    [arr1 addObject:mDic];
+                }
+
+                [self.M125AtempArr addObject:arr1];
+            }
+            
+            NSLog(@"self.M125AtempArr===%@",self.M125AtempArr);
         }
         
     }else if ([@"M126" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
