@@ -8,8 +8,21 @@
 
 #import "ZMhezuoViewController.h"
 #import "ZMhezuoTableViewCell.h"
-
+#import "ZMhezuo1TableViewCell.h"
 @implementation ZMhezuoViewController
+-(void)dealloc
+{
+    [super dealloc];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"youyou" object:nil];
+}
+
+-(void)notifa
+{
+    UITableView *tabv = [self.view viewWithTag: 3333333 + self.number];
+    [tabv reloadData];
+    NSLog(@"nnnnnnn%@",self.M125AtempArr);
+
+}
 
 -(void)viewDidLoad
 {
@@ -18,11 +31,14 @@
     self.M124tempArr = [[NSMutableArray alloc]init];
     self.M125tempArr = [[NSMutableArray alloc]init];
     self.M125AtempArr = [[NSMutableArray alloc]init];
-
+    self.wengaoArr = [[NSMutableArray alloc]init];
+    
     UIView * view = [[UIView alloc]initWithFrame:[[UIScreen mainScreen] applicationFrame]];
     view.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
     
     self.view = view;
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notifa) name:@"youyou" object:nil];
     
     isHidden = YES;
     
@@ -261,6 +277,24 @@
         se4titleLb1.textAlignment = NSTextAlignmentCenter;
         [backview4 addSubview:se4titleLb1];
 
+        UIButton* wengaoBtn1 = [[UIButton alloc]initWithFrame:CGRectMake(650, se4Tabv.frame.origin.y + se4Tabv.frame.size.height + 20, 140, 30)];
+        wengaoBtn1.tag = 5555555 + i;
+        [wengaoBtn1 setTitle:@"生成我的文稿" forState:UIControlStateNormal];
+        [wengaoBtn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        wengaoBtn1.layer.borderColor = [UIColor blackColor].CGColor;
+        wengaoBtn1.layer.borderWidth = 1;
+        wengaoBtn1.hidden = YES;
+        [wengaoBtn1 addTarget:self action:@selector(wengao) forControlEvents:UIControlEventTouchUpInside];
+        [backview4 addSubview:wengaoBtn1];
+        
+        UITableView* se4Tabv1 = [[UITableView alloc]initWithFrame:CGRectMake(0, se4Tabv.frame.origin.y + se4Tabv.frame.size.height + 10, 650, 200)];
+        se4Tabv1.delegate = self;
+        se4Tabv1.dataSource = self;
+        se4Tabv1.separatorStyle = UITableViewCellSeparatorStyleNone;
+        se4Tabv1.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
+        se4Tabv1.tag = 8888888 + i;
+        [backview4 addSubview:se4Tabv1];
+
         y += self.view.frame.size.width;
         i++;
     }
@@ -282,6 +316,25 @@
     _pageControl.orientation = PageControlOrientationLandscape;
     _pageControl.numberOfPages = [self.hezuoArr count];
     [self.view addSubview:_pageControl];
+}
+
+-(void)wengao
+{
+    [self.wengaoArr removeAllObjects];
+    
+    for (int i = 0; i < [self.M125AtempArr count]; i++) {
+        NSMutableArray *arr = self.M125AtempArr[i];
+        for (NSMutableDictionary *dicc in arr) {
+            if ([dicc[@"flag"] isEqualToString:@"1"]) {
+                [self.wengaoArr addObject:dicc[@"forumContent"]];
+            }
+        }
+    }
+    
+    UITableView *tabv = [self.view viewWithTag:8888888 + self.number];
+    [tabv reloadData];
+    NSLog(@"self.wengaoArr====%@",self.wengaoArr);
+    
 }
 
 -(void)toupiao
@@ -355,7 +408,11 @@
         return 40;
     }else if (seg.selectedSegmentIndex == 3){
     
-        return 80;
+        if (tableView.tag == 3333333 + self.number) {
+            return 100;
+        }else if (tableView.tag == 8888888 + self.number){
+            return 40;
+        }
     }
     return 0;
 }
@@ -424,10 +481,15 @@
         }
     }else if (seg.selectedSegmentIndex == 3){
     
-        UILabel *nameLb = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 300, 40)];
-        nameLb.font = [UIFont systemFontOfSize:16];
-        nameLb.text = [NSString stringWithFormat:@"%@",self.M125Adic[@"forumSubTitles"][section][@"forumSubTitle"]];
-        [backView addSubview:nameLb];
+        if (tableView.tag == 3333333 + self.number) {
+            UILabel *nameLb = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 300, 40)];
+            nameLb.font = [UIFont systemFontOfSize:16];
+            nameLb.text = [NSString stringWithFormat:@"%@",self.M125Adic[@"forumSubTitles"][section][@"forumSubTitle"]];
+            [backView addSubview:nameLb];
+
+        }else if (tableView.tag == 8888888 + self.number){
+        }
+        
     }
     return backView;
 
@@ -444,7 +506,12 @@
         return 1;
     }else if (seg.selectedSegmentIndex == 3){
     
-        return [self.M125Adic[@"forumSubTitles"] count];
+        if (tableView.tag == 3333333 + self.number) {
+            return [self.M125Adic[@"forumSubTitles"] count];
+
+        }else if (tableView.tag == 8888888 + self.number){
+            return 1;
+        }
     }
     return 0;
 }
@@ -463,7 +530,11 @@
 
         return [self.M126Arr count];
     }else if (seg.selectedSegmentIndex == 3){
-        return [self.M125Adic[@"forumSubTitles"][section][@"forumContents"] count];
+        if (tableView.tag == 3333333 + self.number) {
+            return [self.M125Adic[@"forumSubTitles"][section][@"forumContents"] count];
+        }else if (tableView.tag == 8888888 + self.number){
+            return [self.wengaoArr count];
+        }
     }
     return 0;
 }
@@ -510,11 +581,11 @@
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 cell.contentView.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
 
-                UIButton* se3SelBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 5, 30, 30)];
-                se3SelBtn.tag = 777777;
-                [se3SelBtn setImage:[UIImage imageNamed:@"Share_Btn"] forState:UIControlStateNormal];
-                [se3SelBtn setImage:[UIImage imageNamed:@"Share_Select_Btn"] forState:UIControlStateSelected];
-                [cell.contentView addSubview:se3SelBtn];
+//                UIButton* se3SelBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 5, 30, 30)];
+//                se3SelBtn.tag = 777777;
+//                [se3SelBtn setImage:[UIImage imageNamed:@"Share_Btn"] forState:UIControlStateNormal];
+//                [se3SelBtn setImage:[UIImage imageNamed:@"Share_Select_Btn"] forState:UIControlStateSelected];
+//                [cell.contentView addSubview:se3SelBtn];
                 
                 UILabel *nameLb = [[UILabel alloc]initWithFrame:CGRectMake(35, 0, 160, 40)];
                 nameLb.font = [UIFont systemFontOfSize:16];
@@ -557,24 +628,34 @@
             return cell;
         }
     }else if (seg.selectedSegmentIndex == 3) {
-        static NSString *CellIdentifier = @"Cell3";
         
-        ZMhezuoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (cell == nil){
-            cell = [[[ZMhezuoTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            cell.contentView.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
-           
-        }
-        cell.se3SelBtn.tag = 5555555 + self.number*100 + indexPath.row;
-        [cell.se3SelBtn addTarget:self action:@selector(se5Sel:) forControlEvents:UIControlEventTouchUpInside];
-        if ([[NSString stringWithFormat:@"%@",self.M125tempArr[indexPath.row][@"flag"]] isEqualToString:@"1"]) {
-            [cell.se3SelBtn setSelected:YES];
-        }else{
-            [cell.se3SelBtn setSelected:NO];
-        }
+        if (tableView.tag == 3333333 + self.number) {
+            static NSString *CellIdentifier = @"Cell3";
+            
+            ZMhezuo1TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil){
+                cell = [[[ZMhezuo1TableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                cell.contentView.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
+                
+            }
+            cell.hezuoarr = self.M125AtempArr[indexPath.section];
+            cell.hezuodic = self.M125AtempArr[indexPath.section][indexPath.row];
+            cell.hezuo1dic = self.M125Adic[@"forumSubTitles"][indexPath.section][@"forumContents"][indexPath.row];
+            
+            return cell;
 
-        return cell;
+        }else if (tableView.tag == 8888888 + self.number){
+            static NSString *CellIdentifier = @"Cell4";
+            
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil){
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            }
+            cell.textLabel.text = self.wengaoArr[indexPath.row];
+            return cell;
+        }
     }
     return nil;
 }
@@ -641,28 +722,6 @@
 
     NSLog(@"nnnnnnn%@",self.M125tempArr);
 
-}
-
--(void)se5Sel:(UIButton *)send
-{
-    int tag = send.tag;
-    NSLog(@"hhhhhhh%d",tag);
-    
-    
-    int count = tag - 5555555 - self.number*100;
-    
-    NSMutableDictionary *dic = self.M125AtempArr[count];
-    if ([[NSString stringWithFormat:@"%@",dic[@"flag"]] isEqualToString:@"1"]) {
-        [dic setValue:@"0" forKey:@"flag"];
-    }else {
-        [dic setValue:@"1" forKey:@"flag"];
-    }
-    
-    UITableView *tabv = [self.view viewWithTag: 111111 + self.number];
-    [tabv reloadData];
-    
-    NSLog(@"nnnnnnn%@",self.M125AtempArr);
-    
 }
 
 -(void)se3sel:(UIButton *)send
@@ -1073,6 +1132,8 @@
             UITableView *tabv = [self.view viewWithTag: 3333333 + self.number];
             [tabv reloadData];
 
+            UIButton *btn = [self.view viewWithTag:5555555 + self.number];
+            btn.hidden = NO;
             NSLog(@"self.M125Adic===%@",self.M125Adic);
             
             [self.M125AtempArr removeAllObjects];
@@ -1083,7 +1144,8 @@
                 for (NSMutableDictionary *dicc in dic[@"forumContents"]) {
                     NSString *groupId = [NSString stringWithFormat:@"%@",dicc[@"voteAnswerId"]];
                     NSString *ifSelect = [NSString stringWithFormat:@"%@",dicc[@"ifSelect"]];
-                    NSMutableDictionary *mDic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:groupId,@"optionId",ifSelect,@"flag", nil];
+                    NSString *content = [NSString stringWithFormat:@"%@",dicc[@"forumContent"]];
+                    NSMutableDictionary *mDic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:groupId,@"optionId",ifSelect,@"flag",content,@"forumContent", nil];
                     [arr1 addObject:mDic];
                 }
 

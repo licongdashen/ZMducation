@@ -52,6 +52,9 @@
     BOOL isHidden;
     
     NSString *m126id;
+    
+    NSInteger secion1;
+    NSInteger row1;
 }
 
 @property (nonatomic, strong) NSMutableArray *hezuoArr;
@@ -66,5 +69,5 @@
 @property (nonatomic, strong) NSMutableArray *M125tempArr;
 @property (nonatomic, strong) NSDictionary *M125Adic;
 @property (nonatomic, strong) NSMutableArray *M125AtempArr;
-
+@property (nonatomic, strong) NSMutableArray *wengaoArr;
 @end
