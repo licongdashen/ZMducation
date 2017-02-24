@@ -652,6 +652,7 @@
             if (cell == nil){
                 cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                cell.contentView.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
             }
             cell.textLabel.text = self.wengaoArr[indexPath.row];
             return cell;
