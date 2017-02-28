@@ -293,6 +293,7 @@
 		B7E52A411757B09E00CBBACB /* Work_Browse_Query_Btn.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E52A401757B09E00CBBACB /* Work_Browse_Query_Btn.png */; };
 		B7E52A451758641100CBBACB /* Work_Browse_Button_separater_line.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E52A441758641100CBBACB /* Work_Browse_Button_separater_line.png */; };
 		B7E52A471758657400CBBACB /* Work_Browse_Button_Detail.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E52A461758657400CBBACB /* Work_Browse_Button_Detail.png */; };
+		D9A0ED9A1E65B48A004D147C /* ZMtoupiaodetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A0ED991E65B48A004D147C /* ZMtoupiaodetailViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -711,6 +712,8 @@
 		B7E52A401757B09E00CBBACB /* Work_Browse_Query_Btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Work_Browse_Query_Btn.png; sourceTree = "<group>"; };
 		B7E52A441758641100CBBACB /* Work_Browse_Button_separater_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Work_Browse_Button_separater_line.png; sourceTree = "<group>"; };
 		B7E52A461758657400CBBACB /* Work_Browse_Button_Detail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Work_Browse_Button_Detail.png; sourceTree = "<group>"; };
+		D9A0ED981E65B48A004D147C /* ZMtoupiaodetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMtoupiaodetailViewController.h; sourceTree = "<group>"; };
+		D9A0ED991E65B48A004D147C /* ZMtoupiaodetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMtoupiaodetailViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1098,6 +1101,8 @@
 				50AD99861CFD6BF8000A91CD /* ZMZuoYeViewController.m */,
 				5009399E1E51947A00FD9821 /* ZMtoupiaoViewController.h */,
 				5009399F1E51947A00FD9821 /* ZMtoupiaoViewController.m */,
+				D9A0ED981E65B48A004D147C /* ZMtoupiaodetailViewController.h */,
+				D9A0ED991E65B48A004D147C /* ZMtoupiaodetailViewController.m */,
 				50BDEEE21E65731B00367272 /* ZMtoupiaoTableViewCell.h */,
 				50BDEEE31E65731B00367272 /* ZMtoupiaoTableViewCell.m */,
 				500939A11E5194D400FD9821 /* ZMqiangdaViewController.h */,
@@ -1716,6 +1721,7 @@
 				21A84A7118657C3A006D934B /* shitiBrowseVCtrl.m in Sources */,
 				21D6AE4417EEF42400FBB830 /* ZMMdlRuleVCtrl.m in Sources */,
 				21D6AE4517EEF42400FBB830 /* ZMMdlSliderVCtrl.m in Sources */,
+				D9A0ED9A1E65B48A004D147C /* ZMtoupiaodetailViewController.m in Sources */,
 				21D6AE4617EEF42400FBB830 /* ZMMdlStoryVCtrl.m in Sources */,
 				21D6AE4717EEF42400FBB830 /* ZMMdlTopicVCtrl.m in Sources */,
 				216834BA1840FB8E009D7998 /* ZMMdlQuestion.m in Sources */,

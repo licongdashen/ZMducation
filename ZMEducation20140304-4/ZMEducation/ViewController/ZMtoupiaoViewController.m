@@ -8,6 +8,7 @@
 
 #import "ZMtoupiaoViewController.h"
 #import "ZMtoupiaoTableViewCell.h"
+#import "ZMtoupiaodetailViewController.h"
 
 @implementation ZMtoupiaoViewController
 -(void)viewDidLoad
@@ -98,7 +99,24 @@
 
 -(void)commit:(UIButton *)send
 {
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M111" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    [requestDict setValue:self.m113Arr[self.number][@"voteId"] forKey:@"voteId"];
+    [requestDict setValue:self.m112tmepArr forKey:@"voteContent"];
+
+    [self showIndicator];
     
+    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+    [httpEngine setDelegate:self];
+    [httpEngine requestWithDict:requestDict];
+    [httpEngine release];
+    [requestDict release];
+
 }
 
 -(void)loadM112
@@ -237,7 +255,20 @@
         }
         
         NSLog(@"self.m112tmepArr===%@",self.m112tmepArr);
+    }else if (([@"M111" isEqualToString:method] && [@"00" isEqualToString:responseCode])){
+        [self hideIndicator];
+        [self showTip:@"投票成功"];
+        [self performSelector:@selector(next) withObject:self afterDelay:2];
+
     }
+}
+
+-(void)next
+{
+    ZMtoupiaodetailViewController *vc = [[ZMtoupiaodetailViewController alloc]init];
+    vc.voteId = self.m113Arr[self.number][@"voteId"];
+    [self presentViewController:vc animated:YES completion:NULL];
+
 }
 
 -(void)closeClick
