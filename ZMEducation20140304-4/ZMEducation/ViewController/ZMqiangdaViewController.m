@@ -16,7 +16,8 @@
     view.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
     
     self.view = view;
-    
+    self.number = 0;
+
     isHidden = YES;
     
     UILabel *lable = [[UILabel alloc]initWithFrame:CGRectMake(50, 50, 150, 50)];
@@ -33,6 +34,16 @@
     se3TitleLb = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, self.view.frame.size.width/2 - 100, 30)];
     se3TitleLb.font = [UIFont boldSystemFontOfSize:20];
     [se3TitleBtn addSubview:se3TitleLb];
+    
+    UIButton *searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(se3TitleBtn.frame.origin.x + se3TitleBtn.frame.size.width + 30, 60, 40, 30)];
+    [searchBtn setTitle:@"查询" forState:UIControlStateNormal];
+    [searchBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    searchBtn.layer.borderColor = [UIColor blackColor].CGColor;
+    searchBtn.layer.borderWidth = 1;
+    [searchBtn addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:searchBtn];
+    
+    [self loadSubView];
     
     tabv = [[UITableView alloc]initWithFrame:CGRectMake(lable.frame.origin.x + lable.frame.size.width + 50, se3TitleBtn.frame.origin.y + se3TitleBtn.frame.size.height, self.view.frame.size.width/2 - 50, 300)];
     tabv.delegate = self;
@@ -65,6 +76,104 @@
     [httpEngine requestWithDict:requestDict];
     [httpEngine release];
     [requestDict release];
+}
+
+-(void)loadSubView
+{
+    scro = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, self.view.frame.size.height - 100)];
+    scro.pagingEnabled = YES;
+    scro.delegate = self;
+    [self.view addSubview:scro];
+    
+    _pageControl = [[PageControl alloc] initWithFrame:CGRectMake(0, 700, 1024, 36)];
+    
+    [self.view addSubview:_pageControl];
+
+}
+
+-(void)loadM115View
+{
+    for (UIView *view in [scro subviews]) {
+        [view removeFromSuperview];
+    }
+    int y = 0;
+    int i = 0;
+    for (NSDictionary *dic in self.m115Arr) {
+        
+        UIView* backView = [[UIView alloc]initWithFrame:CGRectMake(y, 0, scro.frame.size.width, scro.frame.size.height)];
+        [scro addSubview:backView];
+        
+        UILabel* label = [[UILabel alloc]initWithFrame:CGRectMake(50, 50, scro.frame.size.width/2 - 80, 30)];
+        label.font = [UIFont boldSystemFontOfSize:20];
+        label.text = [NSString stringWithFormat:@"抢答题目:        %@",dic[@"raceTitle"]];
+        [backView addSubview:label];
+        
+        UIButton *searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(label.frame.origin.x + label.frame.size.width + 20, 50, 60, 30)];
+        if ([[NSString stringWithFormat:@"%@",dic[@"ifRace"]] isEqualToString:@"1"]) {
+            [searchBtn setTitle:@"已抢答" forState:UIControlStateNormal];
+            searchBtn.enabled = NO;
+        }else {
+            [searchBtn setTitle:@"抢答" forState:UIControlStateNormal];
+            searchBtn.enabled = YES;
+        }
+        [searchBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        searchBtn.layer.borderColor = [UIColor blackColor].CGColor;
+        searchBtn.layer.borderWidth = 1;
+        [searchBtn addTarget:self action:@selector(qiangda:) forControlEvents:UIControlEventTouchUpInside];
+        [backView addSubview:searchBtn];
+
+        UILabel* label1 = [[UILabel alloc]initWithFrame:CGRectMake(80, 120, scro.frame.size.width - 100, 30)];
+        label1.font = [UIFont boldSystemFontOfSize:20];
+        label1.text = [NSString stringWithFormat:@"以抢答同学:        %@",dic[@"raceUsers"]];
+        [backView addSubview:label1];
+
+        UILabel* label2 = [[UILabel alloc]initWithFrame:CGRectMake(80, 190, scro.frame.size.width - 100, 30)];
+        label2.font = [UIFont boldSystemFontOfSize:20];
+        label2.text = [NSString stringWithFormat:@"未抢答同学:        %@",dic[@"noRaceUsers"]];
+        [backView addSubview:label2];
+        
+        y += self.view.frame.size.width;
+        i++;
+    }
+
+}
+
+-(void)qiangda:(UIButton *)send
+{
+    [send setTitle:@"已抢答" forState:UIControlStateNormal];
+    send.enabled = NO;
+
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M114" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    [requestDict setValue:self.m115Arr[self.number][@"raceId"] forKey:@"raceId"];
+
+    [self showIndicator];
+    
+    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+    [httpEngine setDelegate:self];
+    [httpEngine requestWithDict:requestDict];
+    [httpEngine release];
+    [requestDict release];
+
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if (scrollView == scro) {
+        CGFloat width = scro.frame.size.width;
+        NSUInteger currentPage = floor((scro.contentOffset.x - width / 2) / width) + 1;
+        _pageControl.currentPage = currentPage;
+        self.number = currentPage;
+//        [self loadM122];
+//        [self loadM124];
+//        [self loadM126];
+//        [self loadM125a];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
@@ -109,8 +218,36 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     se3TitleLb.text = self.m116dic[@"races"][indexPath.row][@"raceTitle"];
+    raceId = self.m116dic[@"races"][indexPath.row][@"raceId"];
     tabv.hidden = YES;
     isHidden = YES;
+}
+
+-(void)search:(UIButton *)send
+{
+    [self loadM115];
+    tabv.hidden = YES;
+}
+
+-(void)loadM115
+{
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M115" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    [requestDict setValue:raceId forKey:@"raceId"];
+
+    [self showIndicator];
+    
+    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+    [httpEngine setDelegate:self];
+    [httpEngine requestWithDict:requestDict];
+    [httpEngine release];
+    [requestDict release];
+
 }
 
 -(void)se3sel:(UIButton *)send
@@ -127,6 +264,7 @@
 -(void)loadM116SubView;
 {
     se3TitleLb.text = self.m116dic[@"races"][0][@"raceTitle"];
+    raceId = self.m116dic[@"races"][0][@"raceId"];
 }
 
 -(void)httpEngine:(ZMHttpEngine *)httpEngine didSuccess:(NSDictionary *)responseDict{
@@ -140,6 +278,23 @@
         [self loadM116SubView];
         [tabv reloadData];
         NSLog(@"self.m116dic====%@",self.m116dic);
+    }else if ([@"M115" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        self.m115Arr = responseDict[@"races"];
+        NSLog(@"self.m115dic====%@",self.m115Arr);
+
+        scro.contentSize = CGSizeMake(self.view.frame.size.width*[self.m115Arr count], self.view.frame.size.height - 200);
+        _pageControl.image =  [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PageControl_Dot" ofType:@"png"]];
+        _pageControl.selectedImage =  [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PageControl_Dot_Selected" ofType:@"png"]];;
+        _pageControl.padding = 13.0f;
+        _pageControl.orientation = PageControlOrientationLandscape;
+        _pageControl.numberOfPages = [self.m115Arr count];
+        
+        [self loadM115View];
+    }else if ([@"M114" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:@"抢答成功"];
+        [self loadM115];
     }
 }
 

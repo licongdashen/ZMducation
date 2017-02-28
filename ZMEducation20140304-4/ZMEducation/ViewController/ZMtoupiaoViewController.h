@@ -8,7 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "ZMBaseViewController.h"
+#import "PageControl.h"
 
-@interface ZMtoupiaoViewController : ZMBaseViewController<ZMHttpEngineDelegate>
+@interface ZMtoupiaoViewController : ZMBaseViewController<ZMHttpEngineDelegate,UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
+{
+    UIScrollView *scro;
+    PageControl* _pageControl;
+}
+
+@property int number;
+
+@property (nonatomic, strong) NSMutableArray *m113Arr;
+
+@property (nonatomic, strong) NSDictionary *m112Dic;
+
+@property (nonatomic, strong) NSMutableArray *m112tmepArr;
 
 @end

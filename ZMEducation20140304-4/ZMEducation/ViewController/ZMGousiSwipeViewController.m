@@ -327,7 +327,9 @@
     self.hezuoBtn.hidden = YES;
 
     self.panBtn.hidden = NO;
-
+    ZMtoupiaoViewController *vc = [[ZMtoupiaoViewController alloc]init];
+    [self presentViewController:vc animated:YES completion:NULL];
+    
 }
 
 -(void)qiangda
