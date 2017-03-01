@@ -14,6 +14,7 @@
 @property(nonatomic,assign)NSArray  * answerArr;
 @property(nonatomic,assign)int questionId;
 @property(nonatomic,assign)int questionType;
+@property (nonatomic, strong) UIButton *shoucangBtn;
 
 -(id)initWithQuestion:(NSDictionary * )shiti frame:(CGRect)frame;
 @end

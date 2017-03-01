@@ -22,13 +22,50 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.shoucangview = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 60, 210)];
-    self.shoucangview.backgroundColor = [UIColor redColor];
     self.shoucangview.center = self.view.center;
+    self.shoucangview.hidden = YES;
     [self.view addSubview:self.shoucangview];
 
+    NSArray *arr = @[@"好词语",@"好句子",@"好段落",@"好开头",@"好结尾",@"好题目",@"好文章",];
+    int y = 0;
+    for (int i = 0; i < 7; i ++) {
+        UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0, y, 60, 30)];
+        btn.tag = i;
+        [btn setTitle:arr[i] forState:UIControlStateNormal];
+        btn.layer.borderColor = [UIColor blackColor].CGColor;
+        btn.layer.borderWidth = 1;
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(action:) forControlEvents:UIControlEventTouchUpInside];
+        [self.shoucangview addSubview:btn];
+        y += 30;
+    }
 }
 
+-(void)action:(UIButton *)sender
+{
+    self.shoucangview.hidden = YES;
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M131" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    [requestDict setValue:gousiDict[@"title"] forKey:@"collectTitile"];
+    [requestDict setValue:gousiDict[@"articleDraft"] forKey:@"collectContent"];
+    [requestDict setValue:[NSString stringWithFormat:@"%ld",(long)sender.tag] forKey:@"typeId"];
+    [requestDict setValue:@"1" forKey:@"sourceId"];
+
+    [self showIndicator];
+    
+    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+    [httpEngine setDelegate:self];
+    [httpEngine requestWithDict:requestDict];
+    [httpEngine release];
+    [requestDict release];
+}
 
 -(void)addCommentView
 {
@@ -83,7 +120,7 @@
 
 -(void)shoucang
 {
-    
+    self.shoucangview.hidden = NO;
 }
 
 -(void)httpEngine:(ZMHttpEngine *)httpEngine didSuccess:(NSDictionary *)responseDict{
@@ -91,8 +128,15 @@
     
     NSString* method = [responseDict valueForKey:@"method"];
     NSString* responseCode = [responseDict valueForKey:@"responseCode"];
-    if ([@"M121" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
+    if ([@"M131" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:@"收藏成功"];
     }
+    if ([@"M131" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:@"收藏失败"];
+    }
+
 }
 
 -(void)addDraftView

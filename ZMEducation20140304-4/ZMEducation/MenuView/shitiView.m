@@ -21,18 +21,34 @@
              float totalHeight = 0.0f;
              NSString * questionText = [question objectForKey:@"questionContent"]; // 题目
              NSString * answerText = @"";
+            int y = 0;
+            int i= 0;
              for (NSDictionary * item in [question objectForKey:@"userAnswers"]) {
              NSString * tempStr = [NSString stringWithFormat:@"%@：\n%@\n\n",[item objectForKey:@"userName"],[item objectForKey:@"answer"][0]];
              answerText = [answerText stringByAppendingString:tempStr];
+                 self.shoucangBtn = [[UIButton alloc]initWithFrame:CGRectMake(150, y + 20, 50, 30)];
+                 [self.shoucangBtn setTitle:@"收藏" forState:UIControlStateNormal];
+                 [self.shoucangBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                 self.shoucangBtn.layer.borderColor = [UIColor blackColor].CGColor;
+                 self.shoucangBtn.layer.borderWidth = 1;
+                 [self.shoucangBtn addTarget:self action:@selector(shoucang) forControlEvents:UIControlEventTouchUpInside];
+                 [self addSubview:self.shoucangBtn];
+                 
+                 totalHeight = [self getTextHeight1:tempStr];
+
+                 UITextView * lb_title = [[UITextView alloc]initWithFrame:CGRectMake(0, y + 20, 800, totalHeight)];
+                 lb_title.text = tempStr;
+                 lb_title.backgroundColor = [UIColor clearColor];
+                 lb_title.font = [UIFont systemFontOfSize:16];
+                 lb_title.editable = NO;
+                 lb_title.userInteractionEnabled = NO;
+                 [self addSubview:lb_title];
+                 
+                 y += totalHeight;
+                 i++;
+                 NSLog(@"hhhhhh%@",tempStr);
              }
-             NSString * label_text = [NSString stringWithFormat:@"%@\n%@",questionText,answerText];
-             totalHeight = [self getTextHeight:label_text];
-             UITextView * lb_title = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, 800, totalHeight)];
-             lb_title.text = label_text;
-             lb_title.backgroundColor = [UIColor clearColor];
-            lb_title.font = [UIFont systemFontOfSize:16];
-            lb_title.editable = NO;
-             [self addSubview:lb_title];
+
             
         }else if ([[question objectForKey:@"questionType"] intValue] == 1) {//填空题
             
@@ -216,6 +232,15 @@
     return height;
 }
 
+-(float)getTextHeight1:(NSString *) textStr{
+    
+    
+    UIFont *cellFont = [UIFont systemFontOfSize:16];
+    CGSize constraintSize = CGSizeMake(800.0f, MAXFLOAT);
+    CGSize labelSize = [textStr sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+    float height = labelSize.height;
+    return height;
+}
 -(IBAction)shareClick:(id)sender{
     UIButton* shareBtn = (UIButton*)sender;
     
