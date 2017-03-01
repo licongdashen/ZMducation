@@ -13,6 +13,8 @@
 @property (nonatomic, strong) UITextView * TV_Bk2;
 @property (nonatomic, strong) UILabel *titleLb;
 @property (nonatomic, strong) UIImageView *contentImagv;
+@property (nonatomic, strong) UIButton *shoucangBtn;
+@property (nonatomic, strong) UIView *shoucangview;
 
 @end
 
@@ -20,11 +22,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.shoucangview = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 60, 210)];
+    self.shoucangview.backgroundColor = [UIColor redColor];
+    self.shoucangview.center = self.view.center;
+    [self.view addSubview:self.shoucangview];
+
 }
+
 
 -(void)addCommentView
 {
     NSLog(@"ffggggggg%@",gousiDict);
+
     
     UIImage* article_Category_Image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Article_Category_bg" ofType:@"png"]];
     UIImageView* article_Category_View = [[UIImageView alloc] initWithFrame:CGRectMake(291, 15, 421, 43)];
@@ -62,6 +71,28 @@
     self.TV_Bk2.editable = NO;
     [self.contentImagv addSubview:self.TV_Bk2];
 
+    
+    self.shoucangBtn = [[UIButton alloc]initWithFrame:CGRectMake(50, 15, 50, 40)];
+    [self.shoucangBtn setTitle:@"收藏" forState:UIControlStateNormal];
+    [self.shoucangBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    self.shoucangBtn.layer.borderColor = [UIColor blackColor].CGColor;
+    self.shoucangBtn.layer.borderWidth = 1;
+    [self.shoucangBtn addTarget:self action:@selector(shoucang) forControlEvents:UIControlEventTouchUpInside];
+    [articleView addSubview:self.shoucangBtn];
+}
+
+-(void)shoucang
+{
+    
+}
+
+-(void)httpEngine:(ZMHttpEngine *)httpEngine didSuccess:(NSDictionary *)responseDict{
+    [super httpEngine:httpEngine didSuccess:responseDict];
+    
+    NSString* method = [responseDict valueForKey:@"method"];
+    NSString* responseCode = [responseDict valueForKey:@"responseCode"];
+    if ([@"M121" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
+    }
 }
 
 -(void)addDraftView
