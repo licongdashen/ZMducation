@@ -31,4 +31,8 @@
 @property (nonatomic, strong)UIButton *shijuanBtn;
 @property (nonatomic, strong)UIButton *zuoyeBtn;
 
+@property (nonatomic, strong)UIButton *toupiaoBtn;
+@property (nonatomic, strong)UIButton *qiangdaBtn;
+@property (nonatomic, strong)UIButton *hezuoBtn;
+
 @end

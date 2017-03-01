@@ -9,7 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "ZMBaseViewController.h"
 #import "PageControl.h"
-
+#import "ZMShitiSwipeViewController.h"
+#import "ZMGousiSwipeViewController.h"
+#import "ZMMdlBbsVCtrl.h"
+#import "ZMZuoYeViewController.h"
+#import "ZMqiangdaViewController.h"
+#import "ZMhezuoViewController.h"
+#import "ZMtoupiaoViewController.h"
 @interface ZMhezuoViewController : ZMBaseViewController<ZMHttpEngineDelegate,UIAlertViewDelegate,UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     PageControl* _pageControl;
@@ -70,4 +76,15 @@
 @property (nonatomic, strong) NSDictionary *M125Adic;
 @property (nonatomic, strong) NSMutableArray *M125AtempArr;
 @property (nonatomic, strong) NSMutableArray *wengaoArr;
+
+@property (nonatomic, strong)UIPanGestureRecognizer *panGestureRecognizer;
+@property (nonatomic, strong)UIButton *panBtn;
+@property (nonatomic, strong)UIButton *gousiBtn;
+@property (nonatomic, strong)UIButton *luntanBtn;
+@property (nonatomic, strong)UIButton *shijuanBtn;
+@property (nonatomic, strong)UIButton *zuoyeBtn;
+@property (nonatomic, strong)UIButton *toupiaoBtn;
+@property (nonatomic, strong)UIButton *qiangdaBtn;
+@property (nonatomic, strong)UIButton *hezuoBtn;
+
 @end

@@ -8,7 +8,9 @@
 #import "ZMMdlBbsVCtrl.h"
 
 #import "ZMZuoYeViewController.h"
-
+#import "ZMtoupiaoViewController.h"
+#import "ZMqiangdaViewController.h"
+#import "ZMhezuoViewController.h"
 #define kTagCloseGousiBtn 20131123
 
 @implementation ZMShitiSwipeViewController
@@ -130,6 +132,27 @@
     [self.view addSubview:self.shijuanBtn];
     self.shijuanBtn.hidden = YES;
     
+    self.toupiaoBtn = [[UIButton alloc]init];
+    self.toupiaoBtn.backgroundColor = [UIColor grayColor];
+    [self.toupiaoBtn setTitle:@"投票" forState:UIControlStateNormal];
+    [self.toupiaoBtn addTarget:self action:@selector(toupiao) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.toupiaoBtn];
+    self.toupiaoBtn.hidden = YES;
+    
+    self.qiangdaBtn = [[UIButton alloc]init];
+    self.qiangdaBtn.backgroundColor = [UIColor grayColor];
+    [self.qiangdaBtn setTitle:@"抢答" forState:UIControlStateNormal];
+    [self.qiangdaBtn addTarget:self action:@selector(qiangda) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.qiangdaBtn];
+    self.qiangdaBtn.hidden = YES;
+    
+    self.hezuoBtn = [[UIButton alloc]init];
+    self.hezuoBtn.backgroundColor = [UIColor grayColor];
+    [self.hezuoBtn setTitle:@"合作" forState:UIControlStateNormal];
+    [self.hezuoBtn addTarget:self action:@selector(hezuo) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.hezuoBtn];
+    self.hezuoBtn.hidden = YES;
+    
     self.panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGestures:)];
     self.panGestureRecognizer.minimumNumberOfTouches = 1;
     self.panGestureRecognizer.maximumNumberOfTouches = 1;
@@ -148,11 +171,17 @@
     self.zuoyeBtn.hidden = NO;
     self.luntanBtn.hidden = NO;
     self.shijuanBtn.hidden = NO;
+    self.toupiaoBtn.hidden = NO;
+    self.qiangdaBtn.hidden = NO;
+    self.hezuoBtn.hidden = NO;
     
     self.gousiBtn.frame = CGRectMake(self.panBtn.frame.origin.x, self.panBtn.frame.origin.y - 100, self.panBtn.frame.size.width + 50, self.panBtn.frame.size.height);
-    self.zuoyeBtn.frame = CGRectMake(self.panBtn.frame.origin.x, self.panBtn.frame.origin.y + 100, self.panBtn.frame.size.width + 50, self.panBtn.frame.size.height);
+    self.zuoyeBtn.frame = CGRectMake(self.panBtn.frame.origin.x + 100, self.panBtn.frame.origin.y + 200, self.panBtn.frame.size.width + 50, self.panBtn.frame.size.height);
     self.luntanBtn.frame = CGRectMake(self.panBtn.frame.origin.x - 100, self.panBtn.frame.origin.y, self.panBtn.frame.size.width + 50, self.panBtn.frame.size.height);
     self.shijuanBtn.frame = CGRectMake(self.panBtn.frame.origin.x + 100, self.panBtn.frame.origin.y, self.panBtn.frame.size.width + 50, self.panBtn.frame.size.height);
+    self.toupiaoBtn.frame = CGRectMake(self.panBtn.frame.origin.x - 100, self.panBtn.frame.origin.y + 100, self.panBtn.frame.size.width + 50, self.panBtn.frame.size.height);
+    self.qiangdaBtn.frame = CGRectMake(self.panBtn.frame.origin.x + 100, self.panBtn.frame.origin.y + 100, self.panBtn.frame.size.width + 50, self.panBtn.frame.size.height);
+    self.hezuoBtn.frame = CGRectMake(self.panBtn.frame.origin.x - 100, self.panBtn.frame.origin.y + 200, self.panBtn.frame.size.width + 50, self.panBtn.frame.size.height);
     
     self.panBtn.hidden = YES;
     
@@ -164,7 +193,9 @@
     self.zuoyeBtn.hidden = YES;
     self.luntanBtn.hidden = YES;
     self.shijuanBtn.hidden = YES;
-    
+    self.toupiaoBtn.hidden  = YES;
+    self.qiangdaBtn.hidden = YES;
+    self.hezuoBtn.hidden = YES;
     self.panBtn.hidden = NO;
     
     [[ZMAppDelegate App].userDict setValue:@"02" forKey:@"currentModuleId"];
@@ -189,6 +220,9 @@
     self.zuoyeBtn.hidden = YES;
     self.luntanBtn.hidden = YES;
     self.shijuanBtn.hidden = YES;
+    self.toupiaoBtn.hidden  = YES;
+    self.qiangdaBtn.hidden = YES;
+    self.hezuoBtn.hidden = YES;
     
     self.panBtn.hidden = NO;
     
@@ -200,12 +234,13 @@
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"authorId"];
-
+    
     ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
     [httpEngine setDelegate:self];
     [httpEngine requestWithDict:requestDict];
     [httpEngine release];
     [requestDict release];
+    
 }
 
 -(void)luntan
@@ -214,8 +249,12 @@
     self.zuoyeBtn.hidden = YES;
     self.luntanBtn.hidden = YES;
     self.shijuanBtn.hidden = YES;
+    self.toupiaoBtn.hidden  = YES;
+    self.qiangdaBtn.hidden = YES;
+    self.hezuoBtn.hidden = YES;
     
     self.panBtn.hidden = NO;
+    
     
     NSMutableDictionary * userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
     
@@ -232,7 +271,10 @@
     [httpEngine requestWithDict:requestDict];
     [httpEngine release];
     [requestDict release];
-
+    
+    //    ZMMdlBbsVCtrl * bbsViewCtrl = [[ZMMdlBbsVCtrl alloc]init];
+    //    [self presentViewController:bbsViewCtrl animated:YES completion:NULL];
+    
 }
 
 -(void)shijuan
@@ -241,8 +283,74 @@
     self.zuoyeBtn.hidden = YES;
     self.luntanBtn.hidden = YES;
     self.shijuanBtn.hidden = YES;
+    self.toupiaoBtn.hidden  = YES;
+    self.qiangdaBtn.hidden = YES;
+    self.hezuoBtn.hidden = YES;
     
     self.panBtn.hidden = NO;
+    
+//    NSMutableDictionary * userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+//    NSMutableDictionary * requestDict = [[NSMutableDictionary alloc]init];
+//    
+//    [requestDict setValue:@"M061" forKey:@"method"];
+//    
+//    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+//    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+//    
+//    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+//    [httpEngine setDelegate:self];
+//    [httpEngine requestWithDict:requestDict];
+//    [httpEngine release];
+//    [requestDict release];
+    
+}
+
+-(void)toupiao
+{
+    self.gousiBtn.hidden = YES;
+    self.zuoyeBtn.hidden = YES;
+    self.luntanBtn.hidden = YES;
+    self.shijuanBtn.hidden = YES;
+    self.toupiaoBtn.hidden = YES;
+    self.qiangdaBtn.hidden = YES;
+    self.hezuoBtn.hidden = YES;
+    
+    self.panBtn.hidden = NO;
+    ZMtoupiaoViewController *vc = [[ZMtoupiaoViewController alloc]init];
+    [self presentViewController:vc animated:YES completion:NULL];
+    
+}
+
+-(void)qiangda
+{
+    self.gousiBtn.hidden = YES;
+    self.zuoyeBtn.hidden = YES;
+    self.luntanBtn.hidden = YES;
+    self.shijuanBtn.hidden = YES;
+    self.toupiaoBtn.hidden = YES;
+    self.qiangdaBtn.hidden = YES;
+    self.hezuoBtn.hidden = YES;
+    
+    self.panBtn.hidden = NO;
+    ZMqiangdaViewController *vc = [[ZMqiangdaViewController alloc]init];
+    [self presentViewController:vc animated:YES completion:NULL];
+}
+
+-(void)hezuo
+{
+    self.gousiBtn.hidden = YES;
+    self.zuoyeBtn.hidden = YES;
+    self.luntanBtn.hidden = YES;
+    self.shijuanBtn.hidden = YES;
+    self.toupiaoBtn.hidden = YES;
+    self.qiangdaBtn.hidden = YES;
+    self.hezuoBtn.hidden = YES;
+    
+    self.panBtn.hidden = NO;
+    
+    ZMhezuoViewController *vc = [[ZMhezuoViewController alloc]init];
+    [self presentViewController:vc animated:YES completion:NULL];
+    
 }
 
 -(void)tap:(UITapGestureRecognizer *)sender
@@ -251,9 +359,11 @@
     self.zuoyeBtn.hidden = YES;
     self.luntanBtn.hidden = YES;
     self.shijuanBtn.hidden = YES;
+    self.toupiaoBtn.hidden = YES;
+    self.qiangdaBtn.hidden = YES;
+    self.hezuoBtn.hidden = YES;
     
     self.panBtn.hidden = NO;
-    
 }
 
 -(void)handlePanGestures:(UIPanGestureRecognizer *)paramSender{
