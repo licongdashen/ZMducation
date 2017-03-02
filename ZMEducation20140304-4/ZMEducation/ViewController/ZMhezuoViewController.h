@@ -61,6 +61,7 @@
     
     NSInteger secion1;
     NSInteger row1;
+    NSString *contentStr;
 }
 
 @property (nonatomic, strong) NSMutableArray *hezuoArr;
@@ -86,5 +87,7 @@
 @property (nonatomic, strong)UIButton *toupiaoBtn;
 @property (nonatomic, strong)UIButton *qiangdaBtn;
 @property (nonatomic, strong)UIButton *hezuoBtn;
+@property (nonatomic, strong) UIView *shoucangview;
+@property (nonatomic, strong)     NSString *nameStr;
 
 @end

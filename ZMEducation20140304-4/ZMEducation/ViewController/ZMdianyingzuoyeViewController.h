@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ZMArticleBaseViewController.h"
+#import "ZMHttpEngine.h"
 
 @interface ZMdianyingzuoyeViewController : ZMArticleBaseViewController<ZMHttpEngineDelegate>
 

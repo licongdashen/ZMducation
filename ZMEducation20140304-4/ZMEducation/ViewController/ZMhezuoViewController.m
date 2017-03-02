@@ -383,6 +383,26 @@
     UITapGestureRecognizer *TAP = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
     [self.view addGestureRecognizer:TAP];
 
+    
+    self.shoucangview = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 60, 210)];
+    self.shoucangview.center = self.view.center;
+    self.shoucangview.hidden = YES;
+    [self.view addSubview:self.shoucangview];
+    
+    NSArray *arr = @[@"好词语",@"好句子",@"好段落",@"好开头",@"好结尾",@"好题目",@"好文章",];
+    int yx = 0;
+    for (int i = 0; i < 7; i ++) {
+        UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0, yx, 60, 30)];
+        btn.tag = -7777777 + i;
+        [btn setTitle:arr[i] forState:UIControlStateNormal];
+        btn.layer.borderColor = [UIColor blackColor].CGColor;
+        btn.layer.borderWidth = 1;
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(action:) forControlEvents:UIControlEventTouchUpInside];
+        [self.shoucangview addSubview:btn];
+        yx += 30;
+    }
+
 }
 
 -(void)tap
@@ -872,8 +892,11 @@
                 contentTv2.backgroundColor = [UIColor clearColor];
                 [cell.contentView addSubview:contentTv2];
 
+
             }
-            
+            cell.shoucangBtn.tag = 55555555 + self.number*100 + indexPath.row;
+            [cell.shoucangBtn addTarget:self action:@selector(shoucang:) forControlEvents:UIControlEventTouchUpInside];
+
             cell.se3SelBtn.tag = 4444444 + self.number*100 + indexPath.row;
             [cell.se3SelBtn addTarget:self action:@selector(se4Sel:) forControlEvents:UIControlEventTouchUpInside];
             if ([[NSString stringWithFormat:@"%@",self.M125tempArr[indexPath.row][@"flag"]] isEqualToString:@"1"]) {
@@ -975,6 +998,44 @@
     [tabv reloadData];
     
     NSLog(@"vvvvvvv%@",self.M124tempArr);
+}
+
+-(void)action:(UIButton *)sender
+{
+    self.shoucangview.hidden = YES;
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M131" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    [requestDict setValue:self.nameStr forKey:@"collectTitile"];
+    [requestDict setValue:contentStr forKey:@"collectContent"];
+    [requestDict setValue:[NSString stringWithFormat:@"%ld",(long)sender.tag + 1 + 7777777] forKey:@"typeId"];
+    [requestDict setValue:@"3" forKey:@"sourceId"];
+    
+    [self showIndicator];
+    
+    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+    [httpEngine setDelegate:self];
+    [httpEngine requestWithDict:requestDict];
+    [httpEngine release];
+    [requestDict release];
+}
+
+-(void)shoucang:(UIButton *)sender
+{
+    int tag = sender.tag;
+    int count = tag - 55555555 - self.number*100;
+
+    UITableView *tabv = [self.view viewWithTag: 111111 + self.number];
+    self.shoucangview.hidden = NO;
+//    self.shoucangview.center = CGPointMake(self.view.center.x, self.scro.contentOffset.y + self.scro.frame.size.height/2);
+    
+    UILabel *lable = [self.view viewWithTag:222222 + self.number];
+    self.nameStr = [NSString stringWithFormat:@"%@(%@)",lable.text,[NSString stringWithFormat:@"主题:%@",self.M125dic[@"forumSubTitles"][0][@"forumSubTitle"]]];
+    contentStr = self.M125dic[@"forumSubTitles"][0][@"forumContents"][count][@"forumContent"];
 }
 
 -(void)se4Sel:(UIButton *)send
@@ -1510,6 +1571,15 @@
         }
         
     }
+    if ([@"M131" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:@"收藏成功"];
+    }
+    if ([@"M131" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:@"收藏失败"];
+    }
+
 }
 
 @end

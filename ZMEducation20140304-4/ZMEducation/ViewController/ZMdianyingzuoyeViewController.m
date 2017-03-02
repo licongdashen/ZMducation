@@ -55,7 +55,7 @@
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
     [requestDict setValue:gousiDict[@"title"] forKey:@"collectTitile"];
     [requestDict setValue:gousiDict[@"articleDraft"] forKey:@"collectContent"];
-    [requestDict setValue:[NSString stringWithFormat:@"%ld",(long)sender.tag] forKey:@"typeId"];
+    [requestDict setValue:[NSString stringWithFormat:@"%ld",(long)sender.tag + 1] forKey:@"typeId"];
     [requestDict setValue:@"1" forKey:@"sourceId"];
 
     [self showIndicator];

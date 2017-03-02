@@ -32,6 +32,8 @@ enum ControllType {
 @property (nonatomic, strong)UIButton *menuButShiti;
 @property (nonatomic, strong)UIButton *menuButZidian;
 @property (nonatomic, strong)UIButton *menuButXiaozhushou;
+@property (nonatomic, strong)UIButton *menuButshoucang;
+@property (nonatomic, strong)UIButton *menuButquanzi;
 
 -(void)screenLocked;
 

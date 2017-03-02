@@ -46,6 +46,7 @@
 #import "ZMMdlTravelVCtrl.h"
 #import "ZMMdlConceptionVCtrl.h"
 #import "ZMZuoYeViewController.h"
+#import "ZMwodeshoucangViewController.h"
 
 //add 20131025
 
@@ -411,6 +412,18 @@
 }
 
 
+-(void)menuButquanziClick:(id)sender{
+    
+    
+}
+
+-(void)menuButshoucangClick:(id)sender{
+
+    ZMwodeshoucangViewController *vc = [[ZMwodeshoucangViewController alloc]init];
+    [self presentViewController:vc animated:YES completion:NULL];
+
+}
+
 //我的构思
 
 -(IBAction)menuButGousiClick:(id)sender{
@@ -465,6 +478,27 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    
+    UIButton* menuButquanzi = [UIButton buttonWithType:UIButtonTypeCustom]; //我的构思
+    [menuButquanzi setFrame:CGRectMake(710 - 60 - 60, -5, 44, 68)];
+    [menuButquanzi setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_btn_gousi" ofType:@"png"]] forState:UIControlStateNormal];
+    [menuButquanzi setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_btn_gousi" ofType:@"png"]] forState:UIControlStateHighlighted];
+    [menuButquanzi addTarget:self
+                        action:@selector(menuButquanziClick:)
+              forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:menuButquanzi];
+    self.menuButquanzi = menuButquanzi;
+    
+    UIButton* menuButshoucang = [UIButton buttonWithType:UIButtonTypeCustom]; //我的构思
+    [menuButshoucang setFrame:CGRectMake(710 - 60, -5, 44, 68)];
+    [menuButshoucang setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_btn_gousi" ofType:@"png"]] forState:UIControlStateNormal];
+    [menuButshoucang setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_btn_gousi" ofType:@"png"]] forState:UIControlStateHighlighted];
+    [menuButshoucang addTarget:self
+                     action:@selector(menuButshoucangClick:)
+           forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:menuButshoucang];
+    self.menuButshoucang = menuButshoucang;
     
     UIButton* menuButGousi = [UIButton buttonWithType:UIButtonTypeCustom]; //我的构思
     [menuButGousi setFrame:CGRectMake(710, -5, 44, 68)];

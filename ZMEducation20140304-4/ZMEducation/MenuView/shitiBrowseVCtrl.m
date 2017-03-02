@@ -200,7 +200,7 @@
     
     
     shitiView * question = [[shitiView alloc]initWithQuestion:shiti frame:CGRectMake(120, 0, 800, totalHeight)];
-    [cell.contentView addSubview:question];
+    [cell.contentView addSubview:question.view];
     
     [shitiObjArr addObject:question];
     

@@ -18,6 +18,13 @@
         [self.se3SelBtn setImage:[UIImage imageNamed:@"Share_Btn"] forState:UIControlStateNormal];
         [self.se3SelBtn setImage:[UIImage imageNamed:@"Share_Select_Btn"] forState:UIControlStateSelected];
         [self addSubview:self.se3SelBtn];
+        
+        self.shoucangBtn = [[UIButton alloc]initWithFrame:CGRectMake(210,10, 50, 30)];
+        [self.shoucangBtn setTitle:@"收藏" forState:UIControlStateNormal];
+        [self.shoucangBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        self.shoucangBtn.layer.borderColor = [UIColor blackColor].CGColor;
+        self.shoucangBtn.layer.borderWidth = 1;
+        [self addSubview:self.shoucangBtn];
     }
     
     return self;
