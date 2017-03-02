@@ -25,9 +25,15 @@
     
     UITextView *contentTv;
     
+    UITableView *titleTabv2;
+
+    int selint;
+    
 }
+
 @property (nonatomic, strong) UIView *shoucangview;
 @property (nonatomic, strong) NSDictionary *m004Dic;
+@property (nonatomic, strong) NSMutableArray *m132Arr;
 
 @end
 
@@ -40,6 +46,7 @@
     hidden1 = YES;
 
     tittleStr = @"1";
+    selint = 0;
     
     UIView * view = [[UIView alloc]initWithFrame:[[UIScreen mainScreen] applicationFrame]];
     view.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
@@ -118,29 +125,87 @@
     [self.view addSubview:contentTv];
     
     
-    
     UILabel * TitleLb1 = [[UILabel alloc]initWithFrame:CGRectMake(20, 300, 130, 30)];
     TitleLb1.font = [UIFont boldSystemFontOfSize:16];
     TitleLb1.text = @"请选择课程名称:";
     [self.view addSubview:TitleLb1];
     
-    
-    UIButton* se3TitleBtn1 = [[UIButton alloc]initWithFrame:CGRectMake(150, 300, 200, 30)];
+    UIButton* se3TitleBtn1 = [[UIButton alloc]initWithFrame:CGRectMake(150, 300, 300, 30)];
     [se3TitleBtn1 setBackgroundImage:[UIImage imageNamed:@"Work_Browse_Button_01"] forState:UIControlStateNormal];
     [se3TitleBtn1 addTarget:self action:@selector(se4sel:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:se3TitleBtn1];
     
-    se3TitleLb1 = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, 200 - 100, 30)];
+    se3TitleLb1 = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, 300 - 100, 30)];
     se3TitleLb1.font = [UIFont boldSystemFontOfSize:20];
-    [se3TitleBtn addSubview:se3TitleLb1];
+    [se3TitleBtn1 addSubview:se3TitleLb1];
 
-    
-    titleTabv1 = [[UITableView alloc]initWithFrame:CGRectMake(150, 320, se3TitleBtn1.frame.size.width, 300)];
+    titleTabv1 = [[UITableView alloc]initWithFrame:CGRectMake(150, 330, se3TitleBtn1.frame.size.width, 300)];
     titleTabv1.delegate = self;
     titleTabv1.dataSource = self;
     titleTabv1.hidden = YES;
     //    titleTabv.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
     [self.view addSubview:titleTabv1];
+    
+    UIButton *searchBtn1 = [[UIButton alloc]initWithFrame:CGRectMake(480, 300, 60 ,30)];
+    [searchBtn1 setTitle:@"查询" forState:UIControlStateNormal];
+    [searchBtn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    searchBtn1.layer.borderColor = [UIColor blackColor].CGColor;
+    searchBtn1.layer.borderWidth = 1;
+    [searchBtn1 addTarget:self action:@selector(searchBtn1) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:searchBtn1];
+    
+    titleTabv2 = [[UITableView alloc]initWithFrame:CGRectMake(20, 350, self.view.frame.size.width - 40, 450)];
+    titleTabv2.delegate = self;
+    titleTabv2.dataSource = self;
+    titleTabv2.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
+    [self.view addSubview:titleTabv2];
+    
+    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, 40)];
+    
+    
+    UILabel *type = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 60, 40)];
+    type.text = @"类型";
+    [headerView addSubview:type];
+    
+    UIView *line1 = [[UIView alloc]initWithFrame:CGRectMake(65, 0, 1, 40)];
+    line1.backgroundColor = [UIColor blackColor];
+    [headerView addSubview:line1];
+    
+    UILabel *titile = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, 220, 40)];
+    titile.text = @"主题";
+    [headerView addSubview:titile];
+    
+    UIView *line2 = [[UIView alloc]initWithFrame:CGRectMake(300, 0, 1, 40)];
+    line2.backgroundColor = [UIColor blackColor];
+    [headerView addSubview:line2];
+    
+    
+    UILabel *score = [[UILabel alloc]initWithFrame:CGRectMake(310, 0, 80, 40)];
+    score.text = @"来源";
+    [headerView addSubview:score];
+    
+    UIView *line3 = [[UIView alloc]initWithFrame:CGRectMake(400, 0, 1, 40)];
+    line3.backgroundColor = [UIColor blackColor];
+    [headerView addSubview:line3];
+    
+    UILabel *tv = [[UILabel alloc]initWithFrame:CGRectMake(420, 0, 250, 40)];
+    tv.text = @"内容";
+    [headerView addSubview:tv];
+    
+    UIView *line4 = [[UIView alloc]initWithFrame:CGRectMake(700, 0, 1, 40)];
+    line4.backgroundColor = [UIColor blackColor];
+    [headerView addSubview:line4];
+
+    UILabel *tv1 = [[UILabel alloc]initWithFrame:CGRectMake(730, 0, 60, 40)];
+    tv1.text = @"操作";
+    [headerView addSubview:tv1];
+    
+    UIView *line5 = [[UIView alloc]initWithFrame:CGRectMake(800, 0, 1, 40)];
+    line5.backgroundColor = [UIColor blackColor];
+    [headerView addSubview:line5];
+    
+    titleTabv2.tableHeaderView = headerView;
+    
     
     UIButton* closeBut = [UIButton buttonWithType:UIButtonTypeCustom];
     [closeBut setFrame:CGRectMake(948, 20, 49, 49)];
@@ -166,6 +231,26 @@
     [httpEngine requestWithDict:requestDict];
     [httpEngine release];
     [requestDict release];
+}
+
+-(void)searchBtn1
+{
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M132" forKey:@"method"];
+    [requestDict setValue:self.m004Dic[@"courses"][selint][@"courseId"] forKey:@"courseId"];
+    [requestDict setValue:self.m004Dic[@"classes"][selint][@"classId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    
+    [self showIndicator];
+    
+    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+    [httpEngine setDelegate:self];
+    [httpEngine requestWithDict:requestDict];
+    [httpEngine release];
+    [requestDict release];
+
 }
 
 -(void)action:(UIButton *)sender
@@ -214,13 +299,27 @@
     if ([@"M004" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
         [self hideIndicator];
         self.m004Dic = responseDict;
-        
+        [titleTabv1 reloadData];
+        se3TitleLb1.text = self.m004Dic[@"courses"][0][@"course"];
         NSLog(@"self.m004Dic===%@",self.m004Dic);
+    }
+    if ([@"M132" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
+        [self hideIndicator];
+
+        self.m132Arr = responseDict[@"collects"];
+        
+        [titleTabv2 reloadData];
+        
+        NSLog(@"self.m132Arr===%@",self.m132Arr);
+
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
+    if (tableView == titleTabv2) {
+        return 80;
+    }
     return 40;
 }
 
@@ -243,6 +342,12 @@
 {
     if (tableView == titleTabv) {
         return [titlearr count];
+    }else if (tableView == titleTabv1){
+    
+        return [self.m004Dic[@"courses"] count];
+    }else if (tableView == titleTabv2) {
+    
+       return [self.m132Arr count];
     }
     return 0;
 }
@@ -262,7 +367,7 @@
         cell.textLabel.text = titlearr[indexPath.row];
         
         return cell;
-    }else{
+    }else if(tableView == titleTabv1){
     
         static NSString *CellIdentifier = @"Cell1";
         
@@ -272,6 +377,66 @@
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 //            cell.contentView.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
         }
+        
+        cell.textLabel.text = self.m004Dic[@"courses"][indexPath.row][@"course"];
+
+        return cell;
+    }else{
+        static NSString *CellIdentifier = @"Cell2";
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil){
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            cell.contentView.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
+            
+            UILabel *type = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 60, 80)];
+            type.tag = 200;
+            [cell.contentView addSubview:type];
+            
+            UIView *line1 = [[UIView alloc]initWithFrame:CGRectMake(65, 0, 1, 80)];
+            line1.backgroundColor = [UIColor blackColor];
+            [cell.contentView addSubview:line1];
+            
+            UILabel *titile = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, 220, 80)];
+            titile.tag = 201;
+            [cell.contentView addSubview:titile];
+            
+            UIView *line2 = [[UIView alloc]initWithFrame:CGRectMake(300, 0, 1, 80)];
+            line2.backgroundColor = [UIColor blackColor];
+            [cell.contentView addSubview:line2];
+            
+            
+            UILabel *score = [[UILabel alloc]initWithFrame:CGRectMake(310, 0, 80, 80)];
+            score.tag = 202;
+            [cell.contentView addSubview:score];
+            
+            UIView *line3 = [[UIView alloc]initWithFrame:CGRectMake(400, 0, 1, 80)];
+            line3.backgroundColor = [UIColor blackColor];
+            [cell.contentView addSubview:line3];
+            
+            UITextView *tv = [[UITextView alloc]initWithFrame:CGRectMake(420, 0, 250, 80)];
+            tv.backgroundColor = [UIColor whiteColor];
+            tv.tag = 2030;
+            [cell.contentView addSubview:tv];
+            
+            UIView *line4 = [[UIView alloc]initWithFrame:CGRectMake(700, 0, 1, 80)];
+            line4.backgroundColor = [UIColor blackColor];
+            [cell.contentView addSubview:line4];
+        }
+
+        UILabel *type = [cell.contentView viewWithTag:200];
+        
+        type.text = self.m132Arr[indexPath.row][@"typeName"];
+        
+        UILabel *type1 = [cell.contentView viewWithTag:201];
+        type1.text = [NSString stringWithFormat:@"%@(%@)",self.m132Arr[indexPath.row][@"collectTitle"],self.m132Arr[indexPath.row][@"author"]];
+
+        UILabel *type2 = [cell.contentView viewWithTag:202];
+        type2.text = self.m132Arr[indexPath.row][@"sourceName"];
+        
+        UITextView *tv = [cell.contentView viewWithTag:2030];
+        tv.text = self.m132Arr[indexPath.row][@"collectContent"];
         
         return cell;
     }
@@ -284,6 +449,11 @@
         titleTabv.hidden = YES;
         hidden = YES;
         se3TitleLb.text = titlearr[indexPath.row];
+    }else if (tableView == titleTabv1){
+        titleTabv1.hidden = YES;
+        hidden1 = YES;
+        se3TitleLb1.text = self.m004Dic[@"courses"][indexPath.row][@"course"];
+        selint = (int)indexPath.row;
     }
 }
 
