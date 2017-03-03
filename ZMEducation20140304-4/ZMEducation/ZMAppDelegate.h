@@ -44,6 +44,9 @@
 
 @property (nonatomic, strong) NSString *isjinru;
 
+@property (nonatomic, strong) NSString *authorId;
+@property (nonatomic, strong) NSString *unitId;
+
 @property BOOL isdownfinsh;
 
 +(ZMAppDelegate *)App;

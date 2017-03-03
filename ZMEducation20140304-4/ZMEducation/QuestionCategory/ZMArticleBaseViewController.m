@@ -252,10 +252,47 @@
     [draftView release];
 }
 
+-(void)fabu
+{
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M135" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    [requestDict setValue:gousiDict[@"title"] forKey:@"collectTitile"];
+    [requestDict setValue:gousiDict[@"articleDraft"] forKey:@"collectContent"];
+    [requestDict setValue:@"4" forKey:@"sourceId"];
+    [requestDict setValue:[_unitDict valueForKey:@"authorId"] forKey:@"authorId"];
+    [requestDict setValue:[_unitDict valueForKey:@"unitId"] forKey:@"recordId"];
+
+    [self showIndicator];
+    
+    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+    [httpEngine setDelegate:self];
+    [httpEngine requestWithDict:requestDict];
+    [httpEngine release];
+    [requestDict release];
+
+}
+
 -(void)addContentView{
+    
+    if ([((ZMAppDelegate*)[UIApplication sharedApplication].delegate).str isEqualToString:@"2"]) {
+    UIButton * fabuBtn = [[UIButton alloc]initWithFrame:CGRectMake(50, 15, 50, 40)];
+    [fabuBtn setTitle:@"发布" forState:UIControlStateNormal];
+    [fabuBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    fabuBtn.layer.borderColor = [UIColor blackColor].CGColor;
+    [fabuBtn addTarget:self action:@selector(fabu) forControlEvents:UIControlEventTouchUpInside];
+    fabuBtn.layer.borderWidth = 1;
+    [articleView addSubview:fabuBtn];
+       
+    }
 }
 
 -(void)addCommentView{
+
     UIImage* article_Comment_01_Image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Article_Comment_bg_01" ofType:@"png"]];
     UIImageView* article_Comment_01_View = [[UIImageView alloc] initWithFrame:CGRectMake(725, 80, 274, 164)];
     [article_Comment_01_View setImage:article_Comment_01_Image];
@@ -313,6 +350,9 @@
     }
     [articleView addSubview:comment_03View];
     [comment_03View release];
+    
+
+
 }
 
 -(void)getArticleInfo{
@@ -463,6 +503,9 @@
         [myRequestDict setValue:[_unitDict valueForKey:@"authorId"] forKey:@"authorId"];
         [myRequestDict setValue:[_unitDict valueForKey:@"unitId"] forKey:@"unitId"];
         
+        ((ZMAppDelegate*)[UIApplication sharedApplication].delegate).authorId = [_unitDict valueForKey:@"authorId"];
+        ((ZMAppDelegate*)[UIApplication sharedApplication].delegate).unitId = [_unitDict valueForKey:@"unitId"];
+
         ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
         [httpEngine setDelegate:self];
         [httpEngine requestWithDict:myRequestDict];
@@ -1595,6 +1638,15 @@
 
     }else if(![@"00" isEqualToString:responseCode]){
         [self showTip:@"服务器异常"];
+    }
+    
+    if ([@"M135" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:@"发布成功"];
+    }
+    if ([@"M135" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:@"发布失败"];
     }
 }
 

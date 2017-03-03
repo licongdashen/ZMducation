@@ -116,8 +116,44 @@
     self.shoucangBtn.layer.borderWidth = 1;
     [self.shoucangBtn addTarget:self action:@selector(shoucang) forControlEvents:UIControlEventTouchUpInside];
     [articleView addSubview:self.shoucangBtn];
+    
+    
+    if ([((ZMAppDelegate*)[UIApplication sharedApplication].delegate).str isEqualToString:@"2"]) {
+        UIButton * fabuBtn = [[UIButton alloc]initWithFrame:CGRectMake(100, 15, 50, 40)];
+        [fabuBtn setTitle:@"发布" forState:UIControlStateNormal];
+        [fabuBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        fabuBtn.layer.borderColor = [UIColor blackColor].CGColor;
+        [fabuBtn addTarget:self action:@selector(fabu) forControlEvents:UIControlEventTouchUpInside];
+        fabuBtn.layer.borderWidth = 1;
+        [articleView addSubview:fabuBtn];
+        
+    }
 }
 
+-(void)fabu
+{
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M135" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    [requestDict setValue:gousiDict[@"title"] forKey:@"collectTitile"];
+    [requestDict setValue:gousiDict[@"articleDraft"] forKey:@"collectContent"];
+    [requestDict setValue:@"4" forKey:@"sourceId"];
+    [requestDict setValue:((ZMAppDelegate*)[UIApplication sharedApplication].delegate).authorId forKey:@"authorId"];
+    [requestDict setValue:((ZMAppDelegate*)[UIApplication sharedApplication].delegate).unitId forKey:@"recordId"];
+    
+    [self showIndicator];
+    
+    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+    [httpEngine setDelegate:self];
+    [httpEngine requestWithDict:requestDict];
+    [httpEngine release];
+    [requestDict release];
+    
+}
 -(void)shoucang
 {
     self.shoucangview.hidden = NO;
@@ -135,6 +171,15 @@
     if ([@"M131" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
         [self hideIndicator];
         [self showTip:@"收藏失败"];
+    }
+
+    if ([@"M135" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:@"发布成功"];
+    }
+    if ([@"M135" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:@"发布失败"];
     }
 
 }

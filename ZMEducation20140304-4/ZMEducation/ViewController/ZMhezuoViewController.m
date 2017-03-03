@@ -1580,6 +1580,14 @@
         [self showTip:@"收藏失败"];
     }
 
+    if ([@"M135" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:@"发布成功"];
+    }
+    if ([@"M135" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:@"发布失败"];
+    }
 }
 
 @end

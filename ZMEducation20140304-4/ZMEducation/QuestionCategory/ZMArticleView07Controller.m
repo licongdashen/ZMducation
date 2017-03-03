@@ -103,6 +103,9 @@
     [contentView release];
 }
 
--(void)addContentView{}
+-(void)addContentView{
+    [super addContentView];
+
+}
 
 @end

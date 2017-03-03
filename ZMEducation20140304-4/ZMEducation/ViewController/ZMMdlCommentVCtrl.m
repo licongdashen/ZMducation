@@ -35,7 +35,8 @@
 
 -(void)addContentView
 {
-    
+    [super addContentView];
+
     feedbackDict_Gousi = [[NSDictionary alloc]init];
     feedbackDict_Gousi = [_feedbackArray objectAtIndex:0];
     NSMutableArray * label_arr = [[NSMutableArray alloc]init];

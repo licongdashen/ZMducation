@@ -43,6 +43,8 @@
 
 -(void)addContentView
     {
+        [super addContentView];
+
         top_label_Arr = [[NSMutableArray alloc]init];
         textView_Arr = [[NSMutableArray alloc]init];
         

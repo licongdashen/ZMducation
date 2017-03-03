@@ -22,7 +22,8 @@
 
 -(void)addContentView
 {
-    
+    [super addContentView];
+
     title_column_Arr = [[NSMutableArray alloc]init];
     title_row_Arr = [[NSMutableArray alloc]init];
     textView_Arr = [[NSMutableArray alloc]init];

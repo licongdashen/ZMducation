@@ -75,6 +75,7 @@
 }
 
 -(void)addContentView{
+    [super addContentView];
     int _count = 0;
     
     int articleCellNumber = [[articleDict valueForKey:@"articleCellNumber"] intValue];

@@ -40,6 +40,33 @@
 
 }
 
+-(void)fabu:(UIButton *)sender
+{
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M135" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    [requestDict setValue:self.shiti[@"userAnswers"][sender.tag - 10000][@"userName"] forKey:@"collectTitile"];
+    [requestDict setValue:self.shiti[@"userAnswers"][sender.tag - 10000][@"answer"][0] forKey:@"collectContent"];
+    [requestDict setValue:@"3" forKey:@"sourceId"];
+//    [requestDict setValue:((ZMAppDelegate*)[UIApplication sharedApplication].delegate).authorId forKey:@"authorId"];
+//    [requestDict setValue:((ZMAppDelegate*)[UIApplication sharedApplication].delegate).unitId forKey:@"recordId"];
+    
+    [self showIndicator];
+    
+    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+    [httpEngine setDelegate:self];
+    [httpEngine requestWithDict:requestDict];
+    [httpEngine release];
+    [requestDict release];
+    
+
+    
+}
+
 -(void)httpEngine:(ZMHttpEngine *)httpEngine didSuccess:(NSDictionary *)responseDict{
     [super httpEngine:httpEngine didSuccess:responseDict];
     
@@ -54,7 +81,16 @@
         [self showTip:@"收藏失败"];
     }
     
+    if ([@"M135" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:@"发布成功"];
+    }
+    if ([@"M135" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:@"发布失败"];
+    }
 }
+
 -(id)initWithQuestion:(NSDictionary *)question frame:(CGRect)frame{
     
     if (self = [super init]) {
@@ -119,6 +155,15 @@
                  self.shoucangBtn.tag = 1000 + i;
                  [self.shoucangBtn addTarget:self action:@selector(shoucang:) forControlEvents:UIControlEventTouchUpInside];
                  [self.scro addSubview:self.shoucangBtn];
+                 
+                UIButton *fabuBtn = [[UIButton alloc]initWithFrame:CGRectMake(220, y + 20, 50, 30)];
+                 [fabuBtn setTitle:@"发布" forState:UIControlStateNormal];
+                 [fabuBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                 fabuBtn.layer.borderColor = [UIColor blackColor].CGColor;
+                 fabuBtn.layer.borderWidth = 1;
+                 fabuBtn.tag = 10000 + i;
+                 [fabuBtn addTarget:self action:@selector(fabu:) forControlEvents:UIControlEventTouchUpInside];
+                 [self.scro addSubview:fabuBtn];
                  y += totalHeight;
                  i++;
                  NSLog(@"hhhhhh%@",tempStr);

@@ -83,7 +83,8 @@
 -(void)addContentView
 {
 
-    
+    [super addContentView];
+
     article_Contents_Arr = [[NSMutableArray alloc]init];
 
     {
