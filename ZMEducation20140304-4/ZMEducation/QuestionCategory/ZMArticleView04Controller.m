@@ -78,6 +78,8 @@
 }
 
 -(void)addContentView{
+    [super addContentView];
+
     int articleCellNumber = [[articleDict valueForKey:@"articleCellNumber"] intValue];
 
     CGFloat height = 80*articleCellNumber;

@@ -11,5 +11,6 @@
 @interface ZMhezuoTableViewCell : UITableViewCell
 @property (nonatomic, strong) UIButton *se3SelBtn;
 @property (nonatomic, strong) UIButton *shoucangBtn;
+@property (nonatomic, strong) UIButton *fabuBtn;
 
 @end

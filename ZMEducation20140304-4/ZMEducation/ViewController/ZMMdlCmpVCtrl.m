@@ -72,6 +72,7 @@
 
 -(void)addContentView
 {
+    [super addContentView];
     article_Contents_Arr = [[NSMutableArray alloc]init];
     {
         UIExpandingTextView * TV_Cmp1 = [[UIExpandingTextView alloc] initWithFrame:CGRectMake(335, 245, 125, 250)];

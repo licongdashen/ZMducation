@@ -18,6 +18,8 @@
 
 -(void)addContentView
 {
+    [super addContentView];
+
     title_label_arr = [[NSMutableArray alloc]init];
     bake_label_arr = [[NSMutableArray alloc]init];
     comment_btn_arr = [[NSMutableArray alloc]init];

@@ -7,6 +7,7 @@
 //
 
 #import "ZMwodeshoucangViewController.h"
+#import "ZMwodeshoucangTableViewCell.h"
 
 @interface ZMwodeshoucangViewController ()
 {
@@ -39,6 +40,64 @@
 
 @implementation ZMwodeshoucangViewController
 
+-(void)dealloc
+{
+    [super dealloc];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"yqq" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"yqq1" object:nil];
+
+    
+}
+
+- (void)save:(NSNotification *)notification
+{
+    
+    NSMutableDictionary *dic = (NSMutableDictionary *)[notification userInfo];
+    
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M133" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    [requestDict setValue:dic[@"collectId"] forKey:@"collectId"];
+    [requestDict setValue:dic[@"collectContent"] forKey:@"collectContent"];
+    
+    [self showIndicator];
+    
+    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+    [httpEngine setDelegate:self];
+    [httpEngine requestWithDict:requestDict];
+    [httpEngine release];
+    [requestDict release];
+}
+
+
+- (void)shanchu:(NSNotification *)notification
+{
+    
+    NSDictionary *dic = [notification userInfo];
+    
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M134" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    [requestDict setValue:dic[@"collectId"] forKey:@"collectId"];
+    
+    [self showIndicator];
+    
+    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+    [httpEngine setDelegate:self];
+    [httpEngine requestWithDict:requestDict];
+    [httpEngine release];
+    [requestDict release];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -48,6 +107,10 @@
     tittleStr = @"1";
     selint = 0;
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(save:) name:@"yqq" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shanchu:) name:@"yqq1" object:nil];
+
     UIView * view = [[UIView alloc]initWithFrame:[[UIScreen mainScreen] applicationFrame]];
     view.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
     self.view = view;
@@ -313,6 +376,31 @@
         NSLog(@"self.m132Arr===%@",self.m132Arr);
 
     }
+    
+    if ([@"M133" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:@"收藏修改成功"];
+        [self performSelector:@selector(resh) withObject:nil afterDelay:2];
+    }
+    if ([@"M133" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:@"收藏修改失败"];
+    }
+    
+    if ([@"M134" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:@"收藏删除成功"];
+        [self performSelector:@selector(resh) withObject:nil afterDelay:2];
+    }
+    if ([@"M134" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:@"收藏删除失败"];
+    }
+}
+
+-(void)resh
+{
+    [self searchBtn1];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
@@ -384,9 +472,9 @@
     }else{
         static NSString *CellIdentifier = @"Cell2";
         
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        ZMwodeshoucangTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil){
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            cell = [[[ZMwodeshoucangTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             cell.contentView.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
             
@@ -415,14 +503,14 @@
             line3.backgroundColor = [UIColor blackColor];
             [cell.contentView addSubview:line3];
             
-            UITextView *tv = [[UITextView alloc]initWithFrame:CGRectMake(420, 0, 250, 80)];
-            tv.backgroundColor = [UIColor whiteColor];
-            tv.tag = 2030;
-            [cell.contentView addSubview:tv];
             
             UIView *line4 = [[UIView alloc]initWithFrame:CGRectMake(700, 0, 1, 80)];
             line4.backgroundColor = [UIColor blackColor];
             [cell.contentView addSubview:line4];
+            
+            UIView *line5 = [[UIView alloc]initWithFrame:CGRectMake(800, 0, 1, 80)];
+            line5.backgroundColor = [UIColor blackColor];
+            [cell.contentView addSubview:line5];
         }
 
         UILabel *type = [cell.contentView viewWithTag:200];
@@ -435,8 +523,8 @@
         UILabel *type2 = [cell.contentView viewWithTag:202];
         type2.text = self.m132Arr[indexPath.row][@"sourceName"];
         
-        UITextView *tv = [cell.contentView viewWithTag:2030];
-        tv.text = self.m132Arr[indexPath.row][@"collectContent"];
+        cell.dic = self.m132Arr[indexPath.row];
+
         
         return cell;
     }

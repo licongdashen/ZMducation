@@ -76,6 +76,7 @@
 		500939A31E5194D400FD9821 /* ZMqiangdaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 500939A21E5194D400FD9821 /* ZMqiangdaViewController.m */; };
 		500939A61E5194F300FD9821 /* ZMhezuoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 500939A51E5194F300FD9821 /* ZMhezuoViewController.m */; };
 		50407B871E67FD9C00A9F171 /* ZMwodeshoucangViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50407B861E67FD9C00A9F171 /* ZMwodeshoucangViewController.m */; };
+		50407B8A1E69068F00A9F171 /* ZMwodeshoucangTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50407B891E69068F00A9F171 /* ZMwodeshoucangTableViewCell.m */; };
 		50656F861D9920C50027FD38 /* RNCryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 50656F7F1D9920C50027FD38 /* RNCryptor.m */; };
 		50656F871D9920C50027FD38 /* RNCryptorEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 50656F811D9920C50027FD38 /* RNCryptorEngine.m */; };
 		50656F881D9920C50027FD38 /* RNDecryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 50656F831D9920C50027FD38 /* RNDecryptor.m */; };
@@ -400,6 +401,8 @@
 		500939A51E5194F300FD9821 /* ZMhezuoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMhezuoViewController.m; sourceTree = "<group>"; };
 		50407B851E67FD9C00A9F171 /* ZMwodeshoucangViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMwodeshoucangViewController.h; sourceTree = "<group>"; };
 		50407B861E67FD9C00A9F171 /* ZMwodeshoucangViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMwodeshoucangViewController.m; sourceTree = "<group>"; };
+		50407B881E69068F00A9F171 /* ZMwodeshoucangTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMwodeshoucangTableViewCell.h; sourceTree = "<group>"; };
+		50407B891E69068F00A9F171 /* ZMwodeshoucangTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMwodeshoucangTableViewCell.m; sourceTree = "<group>"; };
 		50656F7C1D9920C50027FD38 /* RNCryptor+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RNCryptor+Private.h"; sourceTree = "<group>"; };
 		50656F7D1D9920C50027FD38 /* RNCryptor-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RNCryptor-Prefix.pch"; sourceTree = "<group>"; };
 		50656F7E1D9920C50027FD38 /* RNCryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNCryptor.h; sourceTree = "<group>"; };
@@ -1118,6 +1121,8 @@
 				50BDEEE01E60082600367272 /* ZMhezuo1TableViewCell.m */,
 				50407B851E67FD9C00A9F171 /* ZMwodeshoucangViewController.h */,
 				50407B861E67FD9C00A9F171 /* ZMwodeshoucangViewController.m */,
+				50407B881E69068F00A9F171 /* ZMwodeshoucangTableViewCell.h */,
+				50407B891E69068F00A9F171 /* ZMwodeshoucangTableViewCell.m */,
 				216834B71840FB53009D7998 /* ZMMdlShiti */,
 				B768800C1740B8640087C019 /* ZMSwipeViewController.h */,
 				B768800D1740B8640087C019 /* ZMSwipeViewController.m */,
@@ -1662,6 +1667,7 @@
 				B79A7F0D173A3245002C291F /* JHPopoverViewController.m in Sources */,
 				B76880021740B30F0087C019 /* ZMBaseViewController.m in Sources */,
 				B76880041740B30F0087C019 /* ZMHomeViewController.m in Sources */,
+				50407B8A1E69068F00A9F171 /* ZMwodeshoucangTableViewCell.m in Sources */,
 				50FE2F241D45ED5800370468 /* ZMdianyingzuoyeViewController.m in Sources */,
 				B76880051740B30F0087C019 /* ZMLoginViewController.m in Sources */,
 				B768800E1740B8640087C019 /* ZMSwipeViewController.m in Sources */,

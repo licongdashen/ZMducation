@@ -83,6 +83,8 @@
 }
 
 -(void)addContentView{
+    [super addContentView];
+
     UIImage* article_Title_Image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Article_Item_13" ofType:@"png"]];
     UIImageView* article_Title_View = [[UIImageView alloc] initWithFrame:CGRectMake(55, 65, 909, 606)];
     [article_Title_View setImage:article_Title_Image];

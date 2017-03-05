@@ -76,6 +76,8 @@
 }
 
 -(void)addContentView{
+    [super addContentView];
+
     NSArray* _articleContentArray = [articleDict valueForKey:@"articleContents"];
     
     UIScrollView* scrollView = [[UIScrollView alloc] init];

@@ -76,8 +76,12 @@
     [alert release];
 }
 
+
 -(void)addContentView{
+    
+    [super addContentView];
     int articleCellNumber = [[articleDict valueForKey:@"articleCellNumber"] intValue];
+    
     
     //CGRect frame = CGRectMake(320, 80, 380, 60*articleCellNumber);
     CGRect frame = CGRectMake(300, 60, 420, 690);

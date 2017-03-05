@@ -76,6 +76,8 @@
 }
 
 -(void)addContentView{
+    [super addContentView];
+
     NSArray* _articleContentArray = [articleDict valueForKey:@"articleContents"];
     
     UIImageView* article_Item_View = [[UIImageView alloc] init];

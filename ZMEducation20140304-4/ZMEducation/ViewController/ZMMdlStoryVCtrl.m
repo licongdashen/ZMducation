@@ -19,6 +19,7 @@
 
 -(void)addContentView
 {
+    [super addContentView];
 
     
     left_column_Arr = [[NSMutableArray alloc]init];

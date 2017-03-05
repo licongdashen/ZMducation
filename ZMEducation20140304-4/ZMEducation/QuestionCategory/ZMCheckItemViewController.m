@@ -37,6 +37,12 @@
     [super dealloc];
 }
 
+-(void)addContentView
+{
+    [super addContentView];
+
+}
+
 -(void)getArticleInfo{
     NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
     [requestDict setValue:@"M019" forKey:@"method"];
