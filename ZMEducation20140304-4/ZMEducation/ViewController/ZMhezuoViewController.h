@@ -16,7 +16,7 @@
 #import "ZMqiangdaViewController.h"
 #import "ZMhezuoViewController.h"
 #import "ZMtoupiaoViewController.h"
-@interface ZMhezuoViewController : ZMBaseViewController<ZMHttpEngineDelegate,UIAlertViewDelegate,UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface ZMhezuoViewController : ZMBaseViewController<ZMHttpEngineDelegate,UIAlertViewDelegate,UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,UIGestureRecognizerDelegate>
 {
     PageControl* _pageControl;
     UISegmentedControl *segment;

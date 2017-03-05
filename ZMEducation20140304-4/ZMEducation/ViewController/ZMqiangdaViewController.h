@@ -17,7 +17,7 @@
 #import "ZMqiangdaViewController.h"
 #import "ZMhezuoViewController.h"
 #import "ZMtoupiaoViewController.h"
-@interface ZMqiangdaViewController : ZMBaseViewController<ZMHttpEngineDelegate,UIAlertViewDelegate,UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
+@interface ZMqiangdaViewController : ZMBaseViewController<ZMHttpEngineDelegate,UIAlertViewDelegate,UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UIGestureRecognizerDelegate>
 {
     UILabel *  se3TitleLb;
     BOOL isHidden;
@@ -28,10 +28,15 @@
     UIScrollView *scro;
     PageControl* _pageControl;
 
+    int  count;
+    int  count1;
+    
 }
 
 @property (nonatomic, strong) NSDictionary *m116dic;
 @property (nonatomic, strong) NSMutableArray *m115Arr;
+@property (nonatomic, strong) NSDictionary *m115dic;
+
 @property int number;
 
 @property (nonatomic, strong)UIPanGestureRecognizer *panGestureRecognizer;

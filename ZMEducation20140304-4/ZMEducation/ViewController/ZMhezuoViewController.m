@@ -28,6 +28,7 @@
 {
     [super viewDidLoad];
     
+    
     self.M124tempArr = [[NSMutableArray alloc]init];
     self.M125tempArr = [[NSMutableArray alloc]init];
     self.M125AtempArr = [[NSMutableArray alloc]init];
@@ -63,6 +64,28 @@
     [self loadM124];
     [self loadM126];
     [self loadM125a];
+    
+     [self addObserver:self forKeyPath:@"number" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath
+                     ofObject:(id)object
+                       change:(NSDictionary *)change
+                      context:(void *)context
+{
+    if ([keyPath isEqual:@"number"]) {
+        NSLog(@"PageView课程被改变了");
+        NSString *str1 = [NSString stringWithFormat:@"%@",[change objectForKey:@"new"]];
+        NSString *str2 = [NSString stringWithFormat:@"%@",[change objectForKey:@"old"]];
+        
+        if (![str1 isEqualToString:str2]) {
+            [self loadM122];
+            [self loadM124];
+            [self loadM126];
+            [self loadM125a];
+        }
+        NSLog(@"PageView新课程是:%@ 老课程是:%@", [change objectForKey:@"new"],[change objectForKey:@"old"]);
+    }
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -170,6 +193,8 @@
         contentTv.layer.borderColor = [UIColor blackColor].CGColor;
         contentTv.layer.borderWidth = 1;
         contentTv.tag = -99999 + i;
+        contentTv.backgroundColor = [UIColor clearColor];
+        contentTv.font = [UIFont systemFontOfSize:20];
         [backview1 addSubview:contentTv];
         
         contentTv1 = [[UITextView alloc]initWithFrame:CGRectMake(60, 300, backview1.frame.size.width - 60, 150)];
@@ -177,6 +202,8 @@
         contentTv1.layer.borderWidth = 1;
         contentTv1.tag = -999999 + i;
         contentTv1.hidden = YES;
+        contentTv1.font = [UIFont systemFontOfSize:20];
+        contentTv1.backgroundColor = [UIColor clearColor];
         [backview1 addSubview:contentTv1];
 
         commmitBtn = [[UIButton alloc]initWithFrame:CGRectMake(backview1.frame.size.width - 60 - 60, 500, 60, 30)];
@@ -381,6 +408,7 @@
     [self.panBtn addGestureRecognizer:self.panGestureRecognizer];
     
     UITapGestureRecognizer *TAP = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
+    TAP.delegate = self;
     [self.view addGestureRecognizer:TAP];
 
     
@@ -403,6 +431,24 @@
         yx += 30;
     }
 
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    
+    NSLog(@"%@",NSStringFromClass([touch.view class]));
+    
+    //该代理方法返回yes则接收触摸，响应手势，NO则相反，以下有两种方法解决touch截获UITabelViewCell点击事件的方法：
+    
+    // //第一种
+    //点为UITableViewCellContentView（即点击了UITabelViewCell）则不接收该点击事件
+    if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {
+        
+        return NO;
+    }else if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableView"]) {
+        
+        return NO;
+    }
+    return YES;
 }
 
 -(void)tap
@@ -603,6 +649,11 @@
     self.hezuoBtn.hidden = YES;
     
     self.panBtn.hidden = NO;
+    
+    
+    UITableView *tabv = [self.view viewWithTag:444444 + self.number];
+    tabv.hidden = YES;
+    isHidden = YES;
 }
 
 -(void)handlePanGestures:(UIPanGestureRecognizer *)paramSender{
@@ -1385,11 +1436,7 @@
         NSUInteger currentPage = floor((self.scro.contentOffset.x - width / 2) / width) + 1;
         _pageControl.currentPage = currentPage;
         self.number = currentPage;
-        [self loadM122];
-        [self loadM124];
-        [self loadM126];
-        [self loadM125a];
-        
+
         UITableView *tabv = [self.view viewWithTag: 111111 + self.number];
         tabv.hidden = YES;
     }

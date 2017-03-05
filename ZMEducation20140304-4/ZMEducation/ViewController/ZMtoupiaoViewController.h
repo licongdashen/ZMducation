@@ -21,6 +21,7 @@
 {
     UIScrollView *scro;
     PageControl* _pageControl;
+    UIButton *searchBtn;
 }
 
 @property int number;

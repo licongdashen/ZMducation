@@ -18,6 +18,8 @@
     self.view = view;
     self.number = 0;
 
+    count = 0;
+    
     isHidden = YES;
     
     UILabel *lable = [[UILabel alloc]initWithFrame:CGRectMake(50, 50, 150, 50)];
@@ -142,6 +144,7 @@
     [self.panBtn addGestureRecognizer:self.panGestureRecognizer];
     
     UITapGestureRecognizer *TAP = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
+    TAP.delegate = self;
     [self.view addGestureRecognizer:TAP];
 
 }
@@ -335,6 +338,7 @@
 
 -(void)tap:(UITapGestureRecognizer *)sender
 {
+
     self.gousiBtn.hidden = YES;
     self.zuoyeBtn.hidden = YES;
     self.luntanBtn.hidden = YES;
@@ -342,8 +346,28 @@
     self.toupiaoBtn.hidden = YES;
     self.qiangdaBtn.hidden = YES;
     self.hezuoBtn.hidden = YES;
-    
     self.panBtn.hidden = NO;
+    
+    tabv.hidden = YES;
+    isHidden = YES;
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    
+    NSLog(@"%@",NSStringFromClass([touch.view class]));
+    
+    //该代理方法返回yes则接收触摸，响应手势，NO则相反，以下有两种方法解决touch截获UITabelViewCell点击事件的方法：
+    
+    // //第一种
+     //点为UITableViewCellContentView（即点击了UITabelViewCell）则不接收该点击事件
+     if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {
+    
+     return NO;
+     }else if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableView"]) {
+     
+     return NO;
+     }
+     return YES;
 }
 
 -(void)handlePanGestures:(UIPanGestureRecognizer *)paramSender{
@@ -371,20 +395,20 @@
     for (UIView *view in [scro subviews]) {
         [view removeFromSuperview];
     }
-    int y = 0;
-    int i = 0;
-    for (NSDictionary *dic in self.m115Arr) {
-        
-        UIView* backView = [[UIView alloc]initWithFrame:CGRectMake(y, 0, scro.frame.size.width, scro.frame.size.height)];
+//    int y = 0;
+//    int i = 0;
+//    for (NSDictionary *dic in self.m115Arr) {
+    
+        UIView* backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, scro.frame.size.width, scro.frame.size.height)];
         [scro addSubview:backView];
         
         UILabel* label = [[UILabel alloc]initWithFrame:CGRectMake(50, 50, scro.frame.size.width/2 - 80, 30)];
         label.font = [UIFont boldSystemFontOfSize:20];
-        label.text = [NSString stringWithFormat:@"抢答题目:        %@",dic[@"raceTitle"]];
+        label.text = [NSString stringWithFormat:@"抢答题目:        %@",self.m115dic[@"raceTitle"]];
         [backView addSubview:label];
         
         UIButton *searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(label.frame.origin.x + label.frame.size.width + 20, 50, 60, 30)];
-        if ([[NSString stringWithFormat:@"%@",dic[@"ifRace"]] isEqualToString:@"1"]) {
+        if ([[NSString stringWithFormat:@"%@",self.m115dic[@"ifRace"]] isEqualToString:@"1"]) {
             [searchBtn setTitle:@"已抢答" forState:UIControlStateNormal];
             searchBtn.enabled = NO;
         }else {
@@ -399,17 +423,17 @@
 
         UILabel* label1 = [[UILabel alloc]initWithFrame:CGRectMake(80, 120, scro.frame.size.width - 100, 30)];
         label1.font = [UIFont boldSystemFontOfSize:20];
-        label1.text = [NSString stringWithFormat:@"以抢答同学:        %@",dic[@"raceUsers"]];
+        label1.text = [NSString stringWithFormat:@"已 抢答同学:        %@",self.m115dic[@"raceUsers"]];
         [backView addSubview:label1];
 
         UILabel* label2 = [[UILabel alloc]initWithFrame:CGRectMake(80, 190, scro.frame.size.width - 100, 30)];
         label2.font = [UIFont boldSystemFontOfSize:20];
-        label2.text = [NSString stringWithFormat:@"未抢答同学:        %@",dic[@"noRaceUsers"]];
+        label2.text = [NSString stringWithFormat:@"未抢答同学:        %@",self.m115dic[@"noRaceUsers"]];
         [backView addSubview:label2];
         
-        y += self.view.frame.size.width;
-        i++;
-    }
+//        y += self.view.frame.size.width;
+//        i++;
+//    }
 
 }
 
@@ -425,7 +449,7 @@
     [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
-    [requestDict setValue:self.m115Arr[self.number][@"raceId"] forKey:@"raceId"];
+    [requestDict setValue:self.m115dic[@"raceId"] forKey:@"raceId"];
 
     [self showIndicator];
     
@@ -496,10 +520,14 @@
     raceId = self.m116dic[@"races"][indexPath.row][@"raceId"];
     tabv.hidden = YES;
     isHidden = YES;
+    
+    count1 = (int)indexPath.row;
 }
 
 -(void)search:(UIButton *)send
 {
+    count = count1;
+    
     [self loadM115];
     tabv.hidden = YES;
 }
@@ -556,14 +584,17 @@
     }else if ([@"M115" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
         [self hideIndicator];
         self.m115Arr = responseDict[@"races"];
-        NSLog(@"self.m115dic====%@",self.m115Arr);
+        NSLog(@"self.m115Arr====%@",self.m115Arr);
 
-        scro.contentSize = CGSizeMake(self.view.frame.size.width*[self.m115Arr count], self.view.frame.size.height - 200);
-        _pageControl.image =  [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PageControl_Dot" ofType:@"png"]];
-        _pageControl.selectedImage =  [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PageControl_Dot_Selected" ofType:@"png"]];;
-        _pageControl.padding = 13.0f;
-        _pageControl.orientation = PageControlOrientationLandscape;
-        _pageControl.numberOfPages = [self.m115Arr count];
+        self.m115dic = self.m115Arr[count];
+        NSLog(@"self.m115dic====%@",self.m115dic);
+
+        scro.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - 200);
+//        _pageControl.image =  [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PageControl_Dot" ofType:@"png"]];
+//        _pageControl.selectedImage =  [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PageControl_Dot_Selected" ofType:@"png"]];;
+//        _pageControl.padding = 13.0f;
+//        _pageControl.orientation = PageControlOrientationLandscape;
+//        _pageControl.numberOfPages = [self.m115Arr count];
         
         [self loadM115View];
     }else if ([@"M114" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {

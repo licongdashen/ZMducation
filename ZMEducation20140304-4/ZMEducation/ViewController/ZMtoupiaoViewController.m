@@ -37,8 +37,25 @@
     [httpEngine release];
     [requestDict release];
 
+    [self addObserver:self forKeyPath:@"number" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
 }
 
+-(void)observeValueForKeyPath:(NSString *)keyPath
+                     ofObject:(id)object
+                       change:(NSDictionary *)change
+                      context:(void *)context
+{
+    if ([keyPath isEqual:@"number"]) {
+        NSLog(@"PageView课程被改变了");
+        NSString *str1 = [NSString stringWithFormat:@"%@",[change objectForKey:@"new"]];
+        NSString *str2 = [NSString stringWithFormat:@"%@",[change objectForKey:@"old"]];
+
+        if (![str1 isEqualToString:str2]) {
+            [self loadM112];
+        }
+        NSLog(@"PageView新课程是:%@ 老课程是:%@", [change objectForKey:@"new"],[change objectForKey:@"old"]);
+    }
+}
 -(void)loadSubView
 {
     scro = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
@@ -70,7 +87,8 @@
         i++;
     }
     
-    UIButton *searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(50, self.view.frame.size.height - 150, self.view.frame.size.width - 100 ,30)];
+    searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(50, self.view.frame.size.height - 150, 60 ,30)];
+    searchBtn.center = CGPointMake(self.view.center.x, searchBtn.center.y);
     [searchBtn setTitle:@"提交" forState:UIControlStateNormal];
     [searchBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     searchBtn.layer.borderColor = [UIColor blackColor].CGColor;
@@ -458,7 +476,7 @@
         [cell.se3SelBtn setSelected:NO];
     }
 
-    cell.textLabel.text = [NSString stringWithFormat:@"%@--%@",self.m112Dic[@"groupNames"][indexPath.row][@"optionName"],self.m112Dic[@"groupNames"][indexPath.row][@"optionContent"]];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@",self.m112Dic[@"groupNames"][indexPath.row][@"optionName"]];
     return cell;
 }
 
@@ -491,7 +509,6 @@
         NSUInteger currentPage = floor((scro.contentOffset.x - width / 2) / width) + 1;
         _pageControl.currentPage = currentPage;
         self.number = currentPage;
-        [self loadM112];
     }
 }
 
@@ -516,6 +533,14 @@
         UITableView *tabv = [self.view viewWithTag: 100000 + self.number];
         [tabv reloadData];
         
+        
+        if ([[NSString stringWithFormat:@"%@",self.m112Dic[@"ifVote"]] isEqualToString:@"1"]) {
+            [searchBtn setTitle:@"已提交" forState:UIControlStateNormal];
+            searchBtn.enabled = NO;
+        }else{
+            [searchBtn setTitle:@"提交" forState:UIControlStateNormal];
+            searchBtn.enabled = YES;
+        }
         
         [self.m112tmepArr removeAllObjects];
         
