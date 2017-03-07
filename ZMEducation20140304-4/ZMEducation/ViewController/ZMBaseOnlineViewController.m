@@ -47,6 +47,7 @@
 #import "ZMMdlConceptionVCtrl.h"
 #import "ZMZuoYeViewController.h"
 #import "ZMwodeshoucangViewController.h"
+#import "ZMpengyouquanViewController.h"
 
 //add 20131025
 
@@ -414,7 +415,8 @@
 
 -(void)menuButquanziClick:(id)sender{
     
-    
+    ZMpengyouquanViewController *vc = [[ZMpengyouquanViewController alloc]init];
+    [self presentViewController:vc animated:YES completion:NULL];
 }
 
 -(void)menuButshoucangClick:(id)sender{

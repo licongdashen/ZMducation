@@ -92,6 +92,7 @@
 		50BDEEDE1E5FD5BE00367272 /* ZMhezuoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BDEEDD1E5FD5BE00367272 /* ZMhezuoTableViewCell.m */; };
 		50BDEEE11E60082600367272 /* ZMhezuo1TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BDEEE01E60082600367272 /* ZMhezuo1TableViewCell.m */; };
 		50BDEEE41E65731B00367272 /* ZMtoupiaoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BDEEE31E65731B00367272 /* ZMtoupiaoTableViewCell.m */; };
+		50C38FB01E6EA4F30099AB1E /* ZMpengyouquanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C38FAF1E6EA4F30099AB1E /* ZMpengyouquanViewController.m */; };
 		50FE2F241D45ED5800370468 /* ZMdianyingzuoyeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FE2F231D45ED5800370468 /* ZMdianyingzuoyeViewController.m */; };
 		B716F774174B00E6007B2B2F /* PageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = B716F773174B00E6007B2B2F /* PageControl.m */; };
 		B716F78A174B030F007B2B2F /* PageControl_Dot_Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = B716F788174B030A007B2B2F /* PageControl_Dot_Selected.png */; };
@@ -429,6 +430,8 @@
 		50BDEEE01E60082600367272 /* ZMhezuo1TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMhezuo1TableViewCell.m; sourceTree = "<group>"; };
 		50BDEEE21E65731B00367272 /* ZMtoupiaoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMtoupiaoTableViewCell.h; sourceTree = "<group>"; };
 		50BDEEE31E65731B00367272 /* ZMtoupiaoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMtoupiaoTableViewCell.m; sourceTree = "<group>"; };
+		50C38FAE1E6EA4F30099AB1E /* ZMpengyouquanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMpengyouquanViewController.h; sourceTree = "<group>"; };
+		50C38FAF1E6EA4F30099AB1E /* ZMpengyouquanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMpengyouquanViewController.m; sourceTree = "<group>"; };
 		50FE2F221D45ED5800370468 /* ZMdianyingzuoyeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMdianyingzuoyeViewController.h; sourceTree = "<group>"; };
 		50FE2F231D45ED5800370468 /* ZMdianyingzuoyeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMdianyingzuoyeViewController.m; sourceTree = "<group>"; };
 		B716F772174B00E6007B2B2F /* PageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageControl.h; sourceTree = "<group>"; };
@@ -1123,6 +1126,8 @@
 				50407B861E67FD9C00A9F171 /* ZMwodeshoucangViewController.m */,
 				50407B881E69068F00A9F171 /* ZMwodeshoucangTableViewCell.h */,
 				50407B891E69068F00A9F171 /* ZMwodeshoucangTableViewCell.m */,
+				50C38FAE1E6EA4F30099AB1E /* ZMpengyouquanViewController.h */,
+				50C38FAF1E6EA4F30099AB1E /* ZMpengyouquanViewController.m */,
 				216834B71840FB53009D7998 /* ZMMdlShiti */,
 				B768800C1740B8640087C019 /* ZMSwipeViewController.h */,
 				B768800D1740B8640087C019 /* ZMSwipeViewController.m */,
@@ -1639,6 +1644,7 @@
 				50AD99871CFD6BF8000A91CD /* ZMZuoYeViewController.m in Sources */,
 				B7334ADE1727A3CA0055291F /* ReaderMainToolbar.m in Sources */,
 				B7334ADF1727A3CA0055291F /* ReaderThumbCache.m in Sources */,
+				50C38FB01E6EA4F30099AB1E /* ZMpengyouquanViewController.m in Sources */,
 				B7334AE01727A3CA0055291F /* ReaderThumbFetch.m in Sources */,
 				B7334AE11727A3CA0055291F /* ReaderThumbQueue.m in Sources */,
 				B7334AE21727A3CA0055291F /* ReaderThumbRender.m in Sources */,
