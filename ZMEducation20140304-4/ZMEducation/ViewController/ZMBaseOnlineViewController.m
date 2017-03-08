@@ -416,7 +416,8 @@
 -(void)menuButquanziClick:(id)sender{
     
     ZMpengyouquanViewController *vc = [[ZMpengyouquanViewController alloc]init];
-    [self presentViewController:vc animated:YES completion:NULL];
+//    [self presentViewController:vc animated:YES completion:NULL];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 -(void)menuButshoucangClick:(id)sender{
@@ -480,7 +481,6 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
     
     UIButton* menuButquanzi = [UIButton buttonWithType:UIButtonTypeCustom]; //我的构思
     [menuButquanzi setFrame:CGRectMake(710 - 60 - 60, -5, 44, 68)];

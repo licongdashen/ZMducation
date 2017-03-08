@@ -7,7 +7,20 @@
 //
 
 #import "ZMBaseViewController.h"
+#import "JHPopoverViewController.h"
+#import "ZMBaseOnlineViewController.h"
 
-@interface ZMpengyouquanViewController : ZMBaseViewController<ZMHttpEngineDelegate,UIAlertViewDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface ZMpengyouquanViewController : ZMBaseOnlineViewController<ZMHttpEngineDelegate,UIAlertViewDelegate,UITableViewDelegate,UITableViewDataSource>{
+NSMutableArray* courseArray;
+NSMutableArray* moduleArray;
+NSMutableArray* moduleArray1;
+NSMutableArray* studentArray;
+NSMutableArray* workArray;
 
+int selectCourseIndex;
+int selectModuleIndex;
+int selectStudentIndex;
+
+JHPopoverViewController* popoverViewController;
+}
 @end
