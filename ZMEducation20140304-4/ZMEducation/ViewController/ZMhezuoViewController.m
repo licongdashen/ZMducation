@@ -61,10 +61,7 @@
     [httpEngine release];
     [requestDict release];
 
-    [self loadM124];
-    [self loadM126];
-    [self loadM125a];
-    
+   
      [self addObserver:self forKeyPath:@"number" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
 }
 
@@ -1167,6 +1164,8 @@
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
     [requestDict setValue:self.dic[@"forumId"] forKey:@"forumId"];
     [requestDict setValue:self.dic[@"forumSubId"] forKey:@"forumSubId"];
+    [requestDict setValue:self.dic[@"forumType"] forKey:@"forumType"];
+
     if ([[NSString stringWithFormat:@"%@",self.dic[@"forumType"]] isEqualToString:@"1"]) {
         [requestDict setValue:tv1.text forKey:@"forumContent"];
     }else {
@@ -1452,6 +1451,10 @@
         [self loadSubViews];
         [self hideIndicator];
         [self loadM122];
+        [self loadM124];
+        [self loadM126];
+        [self loadM125a];
+        
     }else if ([@"M122" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
         [self hideIndicator];
         self.dic = responseDict;

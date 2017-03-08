@@ -298,6 +298,7 @@
 		B7E52A451758641100CBBACB /* Work_Browse_Button_separater_line.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E52A441758641100CBBACB /* Work_Browse_Button_separater_line.png */; };
 		B7E52A471758657400CBBACB /* Work_Browse_Button_Detail.png in Resources */ = {isa = PBXBuildFile; fileRef = B7E52A461758657400CBBACB /* Work_Browse_Button_Detail.png */; };
 		D9A0ED9A1E65B48A004D147C /* ZMtoupiaodetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A0ED991E65B48A004D147C /* ZMtoupiaodetailViewController.m */; };
+		D9D31DEB1E704B98003AE70D /* ZMpengyouuanTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D9D31DEA1E704B98003AE70D /* ZMpengyouuanTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -726,6 +727,8 @@
 		B7E52A461758657400CBBACB /* Work_Browse_Button_Detail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Work_Browse_Button_Detail.png; sourceTree = "<group>"; };
 		D9A0ED981E65B48A004D147C /* ZMtoupiaodetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMtoupiaodetailViewController.h; sourceTree = "<group>"; };
 		D9A0ED991E65B48A004D147C /* ZMtoupiaodetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMtoupiaodetailViewController.m; sourceTree = "<group>"; };
+		D9D31DE91E704B98003AE70D /* ZMpengyouuanTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMpengyouuanTableViewCell.h; sourceTree = "<group>"; };
+		D9D31DEA1E704B98003AE70D /* ZMpengyouuanTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZMpengyouuanTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1133,6 +1136,8 @@
 				50C38FAF1E6EA4F30099AB1E /* ZMpengyouquanViewController.m */,
 				50C38FB11E6FE95B0099AB1E /* ZMpengyouquanDetailViewController.h */,
 				50C38FB21E6FE95B0099AB1E /* ZMpengyouquanDetailViewController.m */,
+				D9D31DE91E704B98003AE70D /* ZMpengyouuanTableViewCell.h */,
+				D9D31DEA1E704B98003AE70D /* ZMpengyouuanTableViewCell.m */,
 				216834B71840FB53009D7998 /* ZMMdlShiti */,
 				B768800C1740B8640087C019 /* ZMSwipeViewController.h */,
 				B768800D1740B8640087C019 /* ZMSwipeViewController.m */,
@@ -1676,6 +1681,7 @@
 				B7334B391727EE880055291F /* ZMHttpEngine.m in Sources */,
 				B7334B3C1727F44B0055291F /* Reachability.m in Sources */,
 				B79A7F0C173A3245002C291F /* JHPopoverView.m in Sources */,
+				D9D31DEB1E704B98003AE70D /* ZMpengyouuanTableViewCell.m in Sources */,
 				B79A7F0D173A3245002C291F /* JHPopoverViewController.m in Sources */,
 				B76880021740B30F0087C019 /* ZMBaseViewController.m in Sources */,
 				B76880041740B30F0087C019 /* ZMHomeViewController.m in Sources */,
