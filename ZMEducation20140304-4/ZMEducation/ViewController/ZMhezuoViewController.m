@@ -1454,7 +1454,6 @@
         [self loadM122];
         [self loadM124];
         [self loadM126];
-        [self loadM125a];
         
     }else if ([@"M122" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
         [self hideIndicator];
@@ -1546,7 +1545,8 @@
         [self hideIndicator];
         self.M126Arr = responseDict[@"options"];
         [self loadM126SubView];
-        
+        [self loadM125a];
+
         UITableView *tabv = [self.view viewWithTag: 444444 + self.number];
         [tabv reloadData];
     }else if ([@"M061" isEqualToString:method] && [@"00" isEqualToString:responseCode]){

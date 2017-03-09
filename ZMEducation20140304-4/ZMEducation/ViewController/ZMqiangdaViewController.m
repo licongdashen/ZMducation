@@ -415,20 +415,25 @@
             [searchBtn setTitle:@"抢答" forState:UIControlStateNormal];
             searchBtn.enabled = YES;
         }
+    
         [searchBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         searchBtn.layer.borderColor = [UIColor blackColor].CGColor;
         searchBtn.layer.borderWidth = 1;
         [searchBtn addTarget:self action:@selector(qiangda:) forControlEvents:UIControlEventTouchUpInside];
         [backView addSubview:searchBtn];
 
-        UILabel* label1 = [[UILabel alloc]initWithFrame:CGRectMake(80, 120, scro.frame.size.width - 100, 30)];
-        label1.font = [UIFont boldSystemFontOfSize:20];
+        UITextView* label1 = [[UITextView alloc]initWithFrame:CGRectMake(80, 120, scro.frame.size.width - 100, 120)];
+        label1.font = [UIFont boldSystemFontOfSize:16];
         label1.text = [NSString stringWithFormat:@"已 抢答同学:        %@",self.m115dic[@"raceUsers"]];
+        label1.editable = NO;
+        label1.backgroundColor = [UIColor clearColor];
         [backView addSubview:label1];
 
-        UILabel* label2 = [[UILabel alloc]initWithFrame:CGRectMake(80, 190, scro.frame.size.width - 100, 30)];
-        label2.font = [UIFont boldSystemFontOfSize:20];
+        UITextView* label2 = [[UITextView alloc]initWithFrame:CGRectMake(80, 300, scro.frame.size.width - 100, 120)];
+        label2.font = [UIFont boldSystemFontOfSize:16];
         label2.text = [NSString stringWithFormat:@"未抢答同学:        %@",self.m115dic[@"noRaceUsers"]];
+        label2.editable = NO;
+        label2.backgroundColor = [UIColor clearColor];
         [backView addSubview:label2];
         
 //        y += self.view.frame.size.width;
@@ -586,7 +591,7 @@
         self.m115Arr = responseDict[@"races"];
         NSLog(@"self.m115Arr====%@",self.m115Arr);
 
-        self.m115dic = self.m115Arr[count];
+        self.m115dic = self.m115Arr[0];
         NSLog(@"self.m115dic====%@",self.m115dic);
 
         scro.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - 200);

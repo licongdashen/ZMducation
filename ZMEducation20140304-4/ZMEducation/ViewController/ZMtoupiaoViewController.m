@@ -89,12 +89,21 @@
     
     searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(50, self.view.frame.size.height - 150, 60 ,30)];
     searchBtn.center = CGPointMake(self.view.center.x, searchBtn.center.y);
-    [searchBtn setTitle:@"提交" forState:UIControlStateNormal];
+    [searchBtn setTitle:@"投票" forState:UIControlStateNormal];
     [searchBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     searchBtn.layer.borderColor = [UIColor blackColor].CGColor;
     searchBtn.layer.borderWidth = 1;
     [searchBtn addTarget:self action:@selector(commit:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:searchBtn];
+    
+    searchBtn1 = [[UIButton alloc]initWithFrame:CGRectMake(650, self.view.frame.size.height - 150, 120 ,30)];
+    [searchBtn1 setTitle:@"查看投票结果" forState:UIControlStateNormal];
+    [searchBtn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    searchBtn1.layer.borderColor = [UIColor blackColor].CGColor;
+    searchBtn1.layer.borderWidth = 1;
+    searchBtn1.hidden = YES;
+    [searchBtn1 addTarget:self action:@selector(commit1:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:searchBtn1];
     
     _pageControl = [[PageControl alloc] initWithFrame:CGRectMake(0, 700, 1024, 36)];
     _pageControl.image =  [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PageControl_Dot" ofType:@"png"]];
@@ -388,6 +397,13 @@
     }
 }
 
+-(void)commit1:(UIButton *)send
+{
+    ZMtoupiaodetailViewController *vc = [[ZMtoupiaodetailViewController alloc]init];
+    vc.voteId = self.m113Arr[self.number][@"voteId"];
+    [self presentViewController:vc animated:YES completion:NULL];
+}
+
 -(void)commit:(UIButton *)send
 {
     NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
@@ -482,6 +498,9 @@
 
 -(void)se4Sel:(UIButton *)send
 {
+    if ([[NSString stringWithFormat:@"%@",self.m112Dic[@"ifVote"]] isEqualToString:@"1"]) {
+        return;
+    }
     int tag = send.tag;
     NSLog(@"hhhhhhh%d",tag);
     
@@ -524,6 +543,8 @@
         [self loadSubView];
         [self loadM112];
         NSLog(@"self.m113Arr====%@",self.m113Arr);
+        
+        searchBtn1.hidden = NO;
 
     }else if (([@"M112" isEqualToString:method] && [@"00" isEqualToString:responseCode]) ){
         [self hideIndicator];
@@ -535,10 +556,10 @@
         
         
         if ([[NSString stringWithFormat:@"%@",self.m112Dic[@"ifVote"]] isEqualToString:@"1"]) {
-            [searchBtn setTitle:@"已提交" forState:UIControlStateNormal];
+            [searchBtn setTitle:@"已投票" forState:UIControlStateNormal];
             searchBtn.enabled = NO;
         }else{
-            [searchBtn setTitle:@"提交" forState:UIControlStateNormal];
+            [searchBtn setTitle:@"投票" forState:UIControlStateNormal];
             searchBtn.enabled = YES;
         }
         
@@ -556,7 +577,7 @@
     }else if (([@"M111" isEqualToString:method] && [@"00" isEqualToString:responseCode])){
         [self hideIndicator];
         [self showTip:@"投票成功"];
-        [self performSelector:@selector(next) withObject:self afterDelay:2];
+//        [self performSelector:@selector(next) withObject:self afterDelay:2];
 
     }else if ([@"M061" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
         //NSArray* dataSource = [responseDict valueForKey:@"units"];

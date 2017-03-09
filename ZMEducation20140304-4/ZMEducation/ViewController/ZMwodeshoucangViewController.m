@@ -348,7 +348,8 @@
     [requestDict setValue:contentTv.text forKey:@"collectContent"];
     [requestDict setValue:[NSString stringWithFormat:@"%d",row] forKey:@"typeId"];
     [requestDict setValue:@"5" forKey:@"sourceId"];
-    
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"authorId"];
+
     [self showIndicator];
     
     ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];

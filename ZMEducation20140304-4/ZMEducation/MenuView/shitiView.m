@@ -20,7 +20,9 @@
     [requestDict setValue:contentStr forKey:@"collectContent"];
     [requestDict setValue:[NSString stringWithFormat:@"%ld",(long)sender.tag + 1] forKey:@"typeId"];
     [requestDict setValue:@"2" forKey:@"sourceId"];
-    
+    [requestDict setValue:self.shiti[@"userAnswers"][sender.tag][@"authorId"] forKey:@"authorId"];
+    [requestDict setValue:self.shiti[@"userAnswers"][sender.tag][@"recordId"] forKey:@"recordId"];
+
     [self showIndicator];
 
     ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
@@ -34,7 +36,7 @@
 {
     
     self.shoucangview.hidden = NO;
-    self.shoucangview.center = CGPointMake(self.view.center.x, self.scro.contentOffset.y + self.scro.frame.size.height/2);
+    self.shoucangview.center = CGPointMake(self.view.center.x + 100, self.scro.contentOffset.y + self.scro.frame.size.height/2);
     nameStr = self.shiti[@"userAnswers"][sender.tag - 1000][@"userName"];
     contentStr = self.shiti[@"userAnswers"][sender.tag - 1000][@"answer"][0];
 
@@ -107,19 +109,7 @@
         [self.scro addSubview:self.shoucangview];
         
         NSArray *arr = @[@"好词语",@"好句子",@"好段落",@"好开头",@"好结尾",@"好题目",@"好文章",];
-        int y = 0;
-        for (int i = 0; i < 7; i ++) {
-            UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0, y, 60, 30)];
-            btn.tag = i;
-            [btn setTitle:arr[i] forState:UIControlStateNormal];
-            btn.layer.borderColor = [UIColor blackColor].CGColor;
-            btn.layer.borderWidth = 1;
-            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [btn addTarget:self action:@selector(action:) forControlEvents:UIControlEventTouchUpInside];
-            [self.shoucangview addSubview:btn];
-            y += 30;
-        }
-
+        
         questionId = [[question objectForKey:@"questionId"]intValue];
         questionType = [[question objectForKey:@"questionType"]intValue];
         
@@ -156,14 +146,19 @@
                  [self.shoucangBtn addTarget:self action:@selector(shoucang:) forControlEvents:UIControlEventTouchUpInside];
                  [self.scro addSubview:self.shoucangBtn];
                  
-                UIButton *fabuBtn = [[UIButton alloc]initWithFrame:CGRectMake(220, y + 20, 50, 30)];
-                 [fabuBtn setTitle:@"发布" forState:UIControlStateNormal];
-                 [fabuBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-                 fabuBtn.layer.borderColor = [UIColor blackColor].CGColor;
-                 fabuBtn.layer.borderWidth = 1;
-                 fabuBtn.tag = 10000 + i;
-                 [fabuBtn addTarget:self action:@selector(fabu:) forControlEvents:UIControlEventTouchUpInside];
-                 [self.scro addSubview:fabuBtn];
+                 
+                 if ([((ZMAppDelegate*)[UIApplication sharedApplication].delegate).str isEqualToString:@"2"]) {
+                     UIButton *fabuBtn = [[UIButton alloc]initWithFrame:CGRectMake(220, y + 20, 50, 30)];
+                     [fabuBtn setTitle:@"发布" forState:UIControlStateNormal];
+                     [fabuBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                     fabuBtn.layer.borderColor = [UIColor blackColor].CGColor;
+                     fabuBtn.layer.borderWidth = 1;
+                     fabuBtn.tag = 10000 + i;
+                     [fabuBtn addTarget:self action:@selector(fabu:) forControlEvents:UIControlEventTouchUpInside];
+                     [self.scro addSubview:fabuBtn];
+
+                 }
+               
                  y += totalHeight;
                  i++;
                  NSLog(@"hhhhhh%@",tempStr);
@@ -309,7 +304,19 @@
             [self.view addSubview:lb_title];
         }
         
-        
+        int y = 0;
+        for (int i = 0; i < 7; i ++) {
+            UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0, y, 60, 30)];
+            btn.tag = i;
+            [btn setTitle:arr[i] forState:UIControlStateNormal];
+            btn.layer.borderColor = [UIColor blackColor].CGColor;
+            btn.layer.borderWidth = 1;
+            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [btn addTarget:self action:@selector(action:) forControlEvents:UIControlEventTouchUpInside];
+            [self.shoucangview addSubview:btn];
+            y += 30;
+        }
+
     }
     
     return self;

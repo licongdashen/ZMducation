@@ -57,7 +57,8 @@
     [requestDict setValue:gousiDict[@"articleDraft"] forKey:@"collectContent"];
     [requestDict setValue:[NSString stringWithFormat:@"%ld",(long)sender.tag + 1] forKey:@"typeId"];
     [requestDict setValue:@"1" forKey:@"sourceId"];
-
+    [requestDict setValue:self.unitDict[@"authorId"] forKey:@"authorId"];
+    [requestDict setValue:self.unitDict[@"recordId"] forKey:@"recordId"];
     [self showIndicator];
     
     ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
@@ -71,6 +72,7 @@
 {
     NSLog(@"ffggggggg%@",gousiDict);
 
+    NSLog(@"unitDict===%@",self.unitDict);
     
     UIImage* article_Category_Image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Article_Category_bg" ofType:@"png"]];
     UIImageView* article_Category_View = [[UIImageView alloc] initWithFrame:CGRectMake(291, 15, 421, 43)];
