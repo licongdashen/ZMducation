@@ -18,4 +18,8 @@
 
 @property (nonatomic, strong) UILabel *contentLb;
 
+@property (nonatomic, strong) NSMutableArray *arr;
+
+@property (nonatomic, strong) NSMutableDictionary *dic1;
+
 @end

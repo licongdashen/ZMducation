@@ -34,23 +34,39 @@
     return self;
 }
 
+-(void)setDic1:(NSMutableDictionary *)dic1
+{
+    _dic1 = dic1;
+    if ([[NSString stringWithFormat:@"%@",_dic1[@"flag"]] isEqualToString:@"1"]){
+        [self.se3SelBtn setSelected:YES];
+    }else{
+        [self.se3SelBtn setSelected:NO];
+    }
+}
 
 -(void)action
 {
-    
+    if ([[NSString stringWithFormat:@"%@",_dic1[@"flag"]] isEqualToString:@"1"]){
+        [_dic1 setObject:@"0" forKey:@"flag"];
+    }else{
+        [_dic1 setObject:@"1" forKey:@"flag"];
+    }
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"youyouyou" object:nil];
+
 }
 
 -(void)setDic:(NSMutableDictionary *)dic
 {
     _dic = dic;
-    if ([[NSString stringWithFormat:@"%@",_dic[@"ifSelect"]] isEqualToString:@"1"]){
-        [self.se3SelBtn setSelected:YES];
-    }else{
-        [self.se3SelBtn setSelected:NO];
-    }
     
     self.nameLb.text = [NSString stringWithFormat:@"%@:%@(%@)",dic[@"author"],dic[@"detailTitle"],dic[@"voteCount"]];
     self.contentLb.text = dic[@"detailContent"];
+}
+
+-(void)setArr:(NSMutableArray *)arr
+{
+    _arr = arr;
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

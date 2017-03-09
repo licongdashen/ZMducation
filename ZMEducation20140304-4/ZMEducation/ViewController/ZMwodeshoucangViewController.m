@@ -30,6 +30,8 @@
 
     int selint;
     
+    int row;
+    
 }
 
 @property (nonatomic, strong) UIView *shoucangview;
@@ -106,7 +108,10 @@
 
     tittleStr = @"1";
     selint = 0;
+    row = 1;
     
+    titlearr = [[NSArray alloc]initWithObjects:@"好词语",@"好句子",@"好段落",@"好开头",@"好结尾",@"好题目",@"好文章", nil];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(save:) name:@"yqq" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shanchu:) name:@"yqq1" object:nil];
@@ -115,26 +120,7 @@
     view.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
     self.view = view;
 
-    titlearr = [[NSArray alloc]initWithObjects:@"好词语",@"好句子",@"好段落",@"好开头",@"好结尾",@"好题目",@"好文章", nil];
-    
-    self.shoucangview = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 60, 210)];
-    self.shoucangview.center = self.view.center;
-    self.shoucangview.hidden = YES;
-    [self.view addSubview:self.shoucangview];
-    
-    int y = 0;
-    for (int i = 0; i < 7; i ++) {
-        UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0, y, 60, 30)];
-        btn.tag = i;
-        [btn setTitle:titlearr[i] forState:UIControlStateNormal];
-        btn.layer.borderColor = [UIColor blackColor].CGColor;
-        btn.layer.borderWidth = 1;
-        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [btn addTarget:self action:@selector(action:) forControlEvents:UIControlEventTouchUpInside];
-        [self.shoucangview addSubview:btn];
-        y += 30;
-    }
-
+ 
     UILabel * TitleLb = [[UILabel alloc]initWithFrame:CGRectMake(20, 50, 130, 30)];
     TitleLb.font = [UIFont boldSystemFontOfSize:16];
     TitleLb.text = @"请选择收藏类型:";
@@ -150,13 +136,7 @@
     se3TitleLb.text = titlearr[0];
     [se3TitleBtn addSubview:se3TitleLb];
 
-    titleTabv = [[UITableView alloc]initWithFrame:CGRectMake(150, 80, se3TitleBtn.frame.size.width, 300)];
-    titleTabv.delegate = self;
-    titleTabv.dataSource = self;
-    titleTabv.hidden = YES;
-//    titleTabv.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
-    [self.view addSubview:titleTabv];
-
+ 
     UIButton *searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(380, 50, 60 ,30)];
     [searchBtn setTitle:@"收藏" forState:UIControlStateNormal];
     [searchBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -202,12 +182,6 @@
     se3TitleLb1.font = [UIFont boldSystemFontOfSize:20];
     [se3TitleBtn1 addSubview:se3TitleLb1];
 
-    titleTabv1 = [[UITableView alloc]initWithFrame:CGRectMake(150, 330, se3TitleBtn1.frame.size.width, 300)];
-    titleTabv1.delegate = self;
-    titleTabv1.dataSource = self;
-    titleTabv1.hidden = YES;
-    //    titleTabv.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
-    [self.view addSubview:titleTabv1];
     
     UIButton *searchBtn1 = [[UIButton alloc]initWithFrame:CGRectMake(480, 300, 60 ,30)];
     [searchBtn1 setTitle:@"查询" forState:UIControlStateNormal];
@@ -220,6 +194,7 @@
     titleTabv2 = [[UITableView alloc]initWithFrame:CGRectMake(20, 350, self.view.frame.size.width - 40, 450)];
     titleTabv2.delegate = self;
     titleTabv2.dataSource = self;
+    titleTabv2.separatorStyle = UITableViewCellSeparatorStyleNone;
     titleTabv2.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
     [self.view addSubview:titleTabv2];
     
@@ -230,42 +205,46 @@
     type.text = @"类型";
     [headerView addSubview:type];
     
-    UIView *line1 = [[UIView alloc]initWithFrame:CGRectMake(65, 0, 1, 40)];
+    UIView *line1 = [[UIView alloc]initWithFrame:CGRectMake(65 + 10, 0, 1, 40)];
     line1.backgroundColor = [UIColor blackColor];
     [headerView addSubview:line1];
     
-    UILabel *titile = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, 220, 40)];
+    UILabel *titile = [[UILabel alloc]initWithFrame:CGRectMake(70+ 10, 0, 220+ 10+ 10, 40)];
     titile.text = @"主题";
+    titile.textAlignment = NSTextAlignmentCenter;
     [headerView addSubview:titile];
     
-    UIView *line2 = [[UIView alloc]initWithFrame:CGRectMake(300, 0, 1, 40)];
+    UIView *line2 = [[UIView alloc]initWithFrame:CGRectMake(300+ 10+ 10+ 10, 0, 1, 40)];
     line2.backgroundColor = [UIColor blackColor];
     [headerView addSubview:line2];
     
-    
-    UILabel *score = [[UILabel alloc]initWithFrame:CGRectMake(310, 0, 80, 40)];
+    UILabel *score = [[UILabel alloc]initWithFrame:CGRectMake(310+ 10+ 10+ 10, 0, 80, 40)];
     score.text = @"来源";
+    score.textAlignment = NSTextAlignmentCenter;
     [headerView addSubview:score];
     
-    UIView *line3 = [[UIView alloc]initWithFrame:CGRectMake(400, 0, 1, 40)];
+    UIView *line3 = [[UIView alloc]initWithFrame:CGRectMake(400+ 10+ 10+ 10, 0, 1, 40)];
     line3.backgroundColor = [UIColor blackColor];
     [headerView addSubview:line3];
     
-    UILabel *tv = [[UILabel alloc]initWithFrame:CGRectMake(420, 0, 250, 40)];
+    UILabel *tv = [[UILabel alloc]initWithFrame:CGRectMake(420 + 20, 0, 250 + 50, 40)];
     tv.text = @"内容";
+    tv.textAlignment = NSTextAlignmentCenter;
     [headerView addSubview:tv];
     
-    UIView *line4 = [[UIView alloc]initWithFrame:CGRectMake(700, 0, 1, 40)];
+    UIView *line4 = [[UIView alloc]initWithFrame:CGRectMake(700+ 10+ 10+ 10+ 10+ 10+ 10+ 10+ 10, 0, 1, 40)];
     line4.backgroundColor = [UIColor blackColor];
     [headerView addSubview:line4];
 
-    UILabel *tv1 = [[UILabel alloc]initWithFrame:CGRectMake(730, 0, 60, 40)];
+    UILabel *tv1 = [[UILabel alloc]initWithFrame:CGRectMake(730 + 50, 0, 60, 40)];
     tv1.text = @"操作";
+    tv1.textAlignment = NSTextAlignmentCenter;
+
     [headerView addSubview:tv1];
     
-    UIView *line5 = [[UIView alloc]initWithFrame:CGRectMake(800, 0, 1, 40)];
-    line5.backgroundColor = [UIColor blackColor];
-    [headerView addSubview:line5];
+//    UIView *line5 = [[UIView alloc]initWithFrame:CGRectMake(800, 0, 1, 40)];
+//    line5.backgroundColor = [UIColor blackColor];
+//    [headerView addSubview:line5];
     
     titleTabv2.tableHeaderView = headerView;
     
@@ -294,6 +273,41 @@
     [httpEngine requestWithDict:requestDict];
     [httpEngine release];
     [requestDict release];
+    
+    
+    titleTabv = [[UITableView alloc]initWithFrame:CGRectMake(150, 80, se3TitleBtn.frame.size.width, 300)];
+    titleTabv.delegate = self;
+    titleTabv.dataSource = self;
+    titleTabv.hidden = YES;
+    //    titleTabv.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
+    [self.view addSubview:titleTabv];
+
+    
+    titleTabv1 = [[UITableView alloc]initWithFrame:CGRectMake(150, 330, se3TitleBtn1.frame.size.width, 300)];
+    titleTabv1.delegate = self;
+    titleTabv1.dataSource = self;
+    titleTabv1.hidden = YES;
+    //    titleTabv.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
+    [self.view addSubview:titleTabv1];
+
+//
+//    self.shoucangview = [[UIButton alloc]initWithFrame:CGRectMake(700, 50, 60, 210)];
+//    self.shoucangview.hidden = YES;
+//    [self.view addSubview:self.shoucangview];
+//    
+//    int y = 0;
+//    for (int i = 0; i < 7; i ++) {
+//        UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0, y, 60, 30)];
+//        btn.tag = i;
+//        [btn setTitle:titlearr[i] forState:UIControlStateNormal];
+//        btn.layer.borderColor = [UIColor blackColor].CGColor;
+//        btn.layer.borderWidth = 1;
+//        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//        [btn addTarget:self action:@selector(action:) forControlEvents:UIControlEventTouchUpInside];
+//        [self.shoucangview addSubview:btn];
+//        y += 30;
+//    }
+
 }
 
 -(void)searchBtn1
@@ -318,7 +332,11 @@
 
 -(void)action:(UIButton *)sender
 {
-    self.shoucangview.hidden = YES;
+    
+}
+
+-(void)shoucang
+{
     NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
     NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
     [requestDict setValue:@"M131" forKey:@"method"];
@@ -328,7 +346,7 @@
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
     [requestDict setValue:titleTf.text forKey:@"collectTitile"];
     [requestDict setValue:contentTv.text forKey:@"collectContent"];
-    [requestDict setValue:[NSString stringWithFormat:@"%ld",(long)sender.tag + 1] forKey:@"typeId"];
+    [requestDict setValue:[NSString stringWithFormat:@"%d",row] forKey:@"typeId"];
     [requestDict setValue:@"5" forKey:@"sourceId"];
     
     [self showIndicator];
@@ -338,11 +356,7 @@
     [httpEngine requestWithDict:requestDict];
     [httpEngine release];
     [requestDict release];
-}
 
--(void)shoucang
-{
-    self.shoucangview.hidden = NO;
 
 }
 
@@ -406,7 +420,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     if (tableView == titleTabv2) {
-        return 80;
+        return 100;
     }
     return 40;
 }
@@ -478,39 +492,50 @@
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             cell.contentView.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
             
-            UILabel *type = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 60, 80)];
+            UILabel *type = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 60 + 10, 100)];
             type.tag = 200;
+            type.font = [UIFont systemFontOfSize:16];
+            type.textAlignment = NSTextAlignmentCenter;
             [cell.contentView addSubview:type];
             
-            UIView *line1 = [[UIView alloc]initWithFrame:CGRectMake(65, 0, 1, 80)];
+            UIView *line1 = [[UIView alloc]initWithFrame:CGRectMake(65+ 10, 0, 1, 100)];
             line1.backgroundColor = [UIColor blackColor];
             [cell.contentView addSubview:line1];
             
-            UILabel *titile = [[UILabel alloc]initWithFrame:CGRectMake(70, 0, 220, 80)];
+            UILabel *titile = [[UILabel alloc]initWithFrame:CGRectMake(70+ 10, 0, 220 + 10+ 10, 100)];
             titile.tag = 201;
+            titile.font = [UIFont systemFontOfSize:16];
+            titile.textAlignment = NSTextAlignmentCenter;
+
             [cell.contentView addSubview:titile];
             
-            UIView *line2 = [[UIView alloc]initWithFrame:CGRectMake(300, 0, 1, 80)];
+            UIView *line2 = [[UIView alloc]initWithFrame:CGRectMake(300+ 10+ 10+ 10, 0, 1, 100)];
             line2.backgroundColor = [UIColor blackColor];
             [cell.contentView addSubview:line2];
             
             
-            UILabel *score = [[UILabel alloc]initWithFrame:CGRectMake(310, 0, 80, 80)];
+            UILabel *score = [[UILabel alloc]initWithFrame:CGRectMake(310+ 10+ 10+ 10, 0, 80, 100)];
             score.tag = 202;
+            score.font = [UIFont systemFontOfSize:16];
+            score.textAlignment = NSTextAlignmentCenter;
             [cell.contentView addSubview:score];
             
-            UIView *line3 = [[UIView alloc]initWithFrame:CGRectMake(400, 0, 1, 80)];
+            UIView *line3 = [[UIView alloc]initWithFrame:CGRectMake(400+ 10+ 10+ 10, 0, 1, 100)];
             line3.backgroundColor = [UIColor blackColor];
             [cell.contentView addSubview:line3];
             
             
-            UIView *line4 = [[UIView alloc]initWithFrame:CGRectMake(700, 0, 1, 80)];
+            UIView *line4 = [[UIView alloc]initWithFrame:CGRectMake(700+ 10+ 10+ 10 + 50, 0, 1, 100)];
             line4.backgroundColor = [UIColor blackColor];
             [cell.contentView addSubview:line4];
             
-            UIView *line5 = [[UIView alloc]initWithFrame:CGRectMake(800, 0, 1, 80)];
-            line5.backgroundColor = [UIColor blackColor];
-            [cell.contentView addSubview:line5];
+//            UIView *line5 = [[UIView alloc]initWithFrame:CGRectMake(800+ 10+ 10+ 10 + 50, 0, 1, 100)];
+//            line5.backgroundColor = [UIColor blackColor];
+//            [cell.contentView addSubview:line5];
+            
+            UIView *line6 = [[UIView alloc]initWithFrame:CGRectMake(0, 99, titleTabv2.frame.size.width, 1)];
+            line6.backgroundColor = [UIColor blackColor];
+            [cell.contentView addSubview:line6];
         }
 
         UILabel *type = [cell.contentView viewWithTag:200];
@@ -537,6 +562,9 @@
         titleTabv.hidden = YES;
         hidden = YES;
         se3TitleLb.text = titlearr[indexPath.row];
+        
+        row = indexPath.row + 1;
+        
     }else if (tableView == titleTabv1){
         titleTabv1.hidden = YES;
         hidden1 = YES;
