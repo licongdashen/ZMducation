@@ -1311,7 +1311,8 @@
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
     [requestDict setValue:self.hezuoArr[self.number][@"forumId"] forKey:@"forumId"];
-    
+    [requestDict setValue:m126id forKey:@"optionId"];
+
     [self showIndicator];
     ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
     [httpEngine setDelegate:self];
@@ -1638,6 +1639,33 @@
         [self hideIndicator];
         [self showTip:@"发布失败"];
     }
+    
+    if ([@"M122" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
+        [self showTip:responseDict[@"responseMessage"]];
+
+    }
+    if ([@"M124" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
+        [self showTip:responseDict[@"responseMessage"]];
+        
+    }
+    if ([@"M126" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
+        [self showTip:responseDict[@"responseMessage"]];
+        
+    }
+    if ([@"M125" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
+        [self showTip:responseDict[@"responseMessage"]];
+        
+    }
+    if ([@"M123" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
+        [self showTip:@"提交失败"];
+        
+    }
+    if ([@"M127" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
+        [self showTip:@"投票失败"];
+    }
+    
+    [self hideIndicator];
+
 }
 
 @end
