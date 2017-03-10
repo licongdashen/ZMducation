@@ -14,7 +14,7 @@
 }
 @property (nonatomic, strong)NSMutableArray *arr;
 
-@property int count;
+@property int count1;
 
 @end
 
@@ -31,7 +31,7 @@
     }
     
     for (NSString *str in self.arr) {
-        self.count += [str intValue];
+        self.count1 += [str intValue];
     }
     
     se4Tabv = [[UITableView alloc]initWithFrame:CGRectMake(0, 90, self.view.frame.size.width, self.view.frame.size.height - 100)];
@@ -117,7 +117,7 @@
     UILabel *labe2 = [cell.contentView viewWithTag:202];
     labe2.frame = CGRectMake(label.frame.size.width + label.frame.origin.x + 20, 0, 80, 40);
     labe2.frame = CGRectMake(0, 30,[self.dic[@"groupNames"][indexPath.row][@"voteCount"] intValue] * 60, 30);
-    labe2.text = [NSString stringWithFormat:@"%g%%",((float)[self.dic[@"groupNames"][indexPath.row][@"voteCount"] intValue])/self.count*100];
+    labe2.text = [NSString stringWithFormat:@"%g%%",((float)[self.dic[@"groupNames"][indexPath.row][@"voteCount"] intValue])/self.count1*100];
     
     return cell;
 }
