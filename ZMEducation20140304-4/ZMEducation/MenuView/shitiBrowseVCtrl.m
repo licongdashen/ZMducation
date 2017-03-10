@@ -19,11 +19,74 @@
     self.view = view;
  }
 
+-(void)dealloc
+{
+    [super dealloc];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"popopo" object:nil];
+    
+}
+
+-(void)action:(UIButton *)sender
+{
+    self.shoucangview.hidden = YES;
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M131" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    [requestDict setValue:nameStr forKey:@"collectTitile"];
+    [requestDict setValue:contentStr forKey:@"collectContent"];
+    [requestDict setValue:[NSString stringWithFormat:@"%ld",(long)sender.tag + 1] forKey:@"typeId"];
+    [requestDict setValue:@"2" forKey:@"sourceId"];
+    [requestDict setValue:self.shiti[@"userAnswers"][sender.tag][@"authorId"] forKey:@"authorId"];
+    [requestDict setValue:self.shiti[@"userAnswers"][sender.tag][@"recordId"] forKey:@"recordId"];
+    
+    [self showIndicator];
+    
+    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+    [httpEngine setDelegate:self];
+    [httpEngine requestWithDict:requestDict];
+    [httpEngine release];
+    [requestDict release];
+}
+
+-(void)shoucang:(NSNotification *)sender
+{
+    NSMutableDictionary *dic = (NSMutableDictionary *)[sender userInfo];
+    self.shoucangview.hidden = NO;
+    nameStr = dic[@"userName"];
+    contentStr = dic[@"answer"][0];
+}
+
 -(void)viewDidLoad{
     shitiObjArr = [[NSMutableArray alloc]init];
     [self getShitiInfo];
     [super viewDidLoad];
    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shoucang:) name:@"popopo" object:nil];
+    
+    self.shoucangview = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 60, 210)];
+    self.shoucangview.center = self.view.center;
+    self.shoucangview.hidden = YES;
+    [self.view addSubview:self.shoucangview];
+    
+    NSArray *arr = @[@"好词语",@"好句子",@"好段落",@"好开头",@"好结尾",@"好题目",@"好文章",];
+    int y = 0;
+    for (int i = 0; i < 7; i ++) {
+        UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0, y, 60, 30)];
+        btn.tag = i;
+        [btn setTitle:arr[i] forState:UIControlStateNormal];
+        btn.layer.borderColor = [UIColor blackColor].CGColor;
+        btn.layer.borderWidth = 1;
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(action:) forControlEvents:UIControlEventTouchUpInside];
+        [self.shoucangview addSubview:btn];
+        y += 30;
+    }
+
 }
 
 -(void)getShitiInfo{
@@ -75,10 +138,21 @@
         [shitiTableView setBackgroundColor:[UIColor clearColor]];
         [self.view addSubview:shitiTableView];
         [shitiTableView release];
+        [self.view bringSubviewToFront:self.shoucangview];
         
     }else if(![@"00" isEqualToString:responseCode]){
         [self showTip:@"服务器异常"];
     }
+    
+    if ([@"M131" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:@"收藏成功"];
+    }
+    if ([@"M131" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:responseDict[@"responseMessage"]];
+    }
+
 }
 
 

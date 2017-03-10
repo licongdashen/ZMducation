@@ -15,7 +15,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        self.tv = [[UITextView alloc]initWithFrame:CGRectMake(420 + 20, 0, 250 + 50, 100)];
+        self.tv = [[UITextView alloc]initWithFrame:CGRectMake(420 + 20, 5, 250 + 50, 90)];
         self.tv.backgroundColor = [UIColor whiteColor];
         [self addSubview:self.tv];
 

@@ -424,7 +424,7 @@
 
         UITextView* label1 = [[UITextView alloc]initWithFrame:CGRectMake(80, 120, scro.frame.size.width - 100, 120)];
         label1.font = [UIFont boldSystemFontOfSize:16];
-        label1.text = [NSString stringWithFormat:@"已 抢答同学:        %@",self.m115dic[@"raceUsers"]];
+        label1.text = [NSString stringWithFormat:@"已抢答同学:        %@",self.m115dic[@"raceUsers"]];
         label1.editable = NO;
         label1.backgroundColor = [UIColor clearColor];
         [backView addSubview:label1];

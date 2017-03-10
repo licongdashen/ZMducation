@@ -256,7 +256,7 @@
     }
     if ([@"M138" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
         [self hideIndicator];
-        [self showTip:@"投票失败"];
+        [self showTip:responseDict[@"responseMessage"]];
     }
 }
 

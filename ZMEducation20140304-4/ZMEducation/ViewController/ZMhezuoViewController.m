@@ -9,6 +9,9 @@
 #import "ZMhezuoViewController.h"
 #import "ZMhezuoTableViewCell.h"
 #import "ZMhezuo1TableViewCell.h"
+#import "ZMwengaoDetailViewController.h"
+#import "ZMtoupiaoresultViewController.h"
+
 @implementation ZMhezuoViewController
 -(void)dealloc
 {
@@ -80,6 +83,22 @@
             [self loadM124];
             [self loadM126];
             [self loadM125a];
+             UISegmentedControl *seg = [self.view viewWithTag:9999 + self.number];
+            seg.selectedSegmentIndex = 0;
+            
+            UIView *backview = [self.scro viewWithTag:seg.tag - 9999 + 999];
+            UIView *back1 = [backview viewWithTag:seg.tag - 9999 + 99999];
+            back1.hidden = NO;
+            
+            UIView *back2 = [backview viewWithTag:seg.tag - 9999 + 999999];
+            back2.hidden = YES;
+            
+            UIView *back3 = [backview viewWithTag:seg.tag - 9999 + 9999999];
+            back3.hidden = YES;
+            
+            UIView *back4 = [backview viewWithTag:seg.tag - 9999 + 99999999];
+            back4.hidden = YES;
+
         }
         NSLog(@"PageView新课程是:%@ 老课程是:%@", [change objectForKey:@"new"],[change objectForKey:@"old"]);
     }
@@ -211,11 +230,11 @@
         [commmitBtn addTarget:self action:@selector(commit) forControlEvents:UIControlEventTouchUpInside];
         [backview1 addSubview:commmitBtn];
         
-        se2TitleLb = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, backview2.frame.size.width, 30)];
-        se2TitleLb.font = [UIFont boldSystemFontOfSize:20];
-        se2TitleLb.tag = -9999999 + i;
-        se2TitleLb.textAlignment = NSTextAlignmentCenter;
-        [backview2 addSubview:se2TitleLb];
+//        se2TitleLb = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, backview2.frame.size.width, 30)];
+//        se2TitleLb.font = [UIFont boldSystemFontOfSize:20];
+//        se2TitleLb.tag = -9999999 + i;
+//        se2TitleLb.textAlignment = NSTextAlignmentCenter;
+//        [backview2 addSubview:se2TitleLb];
 
         se2Tabv = [[UITableView alloc]initWithFrame:CGRectMake(0, 30, backview2.frame.size.width, backview2.frame.size.height - 210)];
         se2Tabv.delegate = self;
@@ -225,14 +244,25 @@
         se2Tabv.tag = -99999999 + i;
         [backview2 addSubview:se2Tabv];
         
-        toupiaoBtn = [[UIButton alloc]initWithFrame:CGRectMake(650, se2Tabv.frame.origin.y + se2Tabv.frame.size.height + 20, 60, 30)];
+        toupiaoBtn = [[UIButton alloc]initWithFrame:CGRectMake(450, se2Tabv.frame.origin.y + se2Tabv.frame.size.height + 20, 60, 30)];
         toupiaoBtn.tag = 22222 + i;
         [toupiaoBtn setTitle:@"投票" forState:UIControlStateNormal];
         [toupiaoBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         toupiaoBtn.layer.borderColor = [UIColor blackColor].CGColor;
         toupiaoBtn.layer.borderWidth = 1;
+        toupiaoBtn.hidden = YES;
         [toupiaoBtn addTarget:self action:@selector(toupiao) forControlEvents:UIControlEventTouchUpInside];
         [backview2 addSubview:toupiaoBtn];
+        
+        UIButton * searchBtn11 = [[UIButton alloc]initWithFrame:CGRectMake(650, se2Tabv.frame.origin.y + se2Tabv.frame.size.height + 20, 120 ,30)];
+        [searchBtn11 setTitle:@"查看投票结果" forState:UIControlStateNormal];
+        [searchBtn11 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        searchBtn11.layer.borderColor = [UIColor blackColor].CGColor;
+        searchBtn11.layer.borderWidth = 1;
+        searchBtn11.hidden = YES;
+        searchBtn11.tag = -55555555 +i;
+        [searchBtn11 addTarget:self action:@selector(commit111:) forControlEvents:UIControlEventTouchUpInside];
+        [backview2 addSubview:searchBtn11];
         
         se3Tabv = [[UITableView alloc]initWithFrame:CGRectMake(0, 50, backview3.frame.size.width, backview3.frame.size.height - 100)];
         se3Tabv.delegate = self;
@@ -270,11 +300,11 @@
         [searchBtn addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
         [backview3 addSubview:searchBtn];
 
-        UILabel *se3titleLb1 = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, backview3.frame.size.width, 20)];
-        se3titleLb1.font = [UIFont boldSystemFontOfSize:20];
-        se3titleLb1.tag = 666666 + i;
-        se3titleLb1.textAlignment = NSTextAlignmentCenter;
-        [backview3 addSubview:se3titleLb1];
+//        UILabel *se3titleLb1 = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, backview3.frame.size.width, 20)];
+//        se3titleLb1.font = [UIFont boldSystemFontOfSize:20];
+//        se3titleLb1.tag = 666666 + i;
+//        se3titleLb1.textAlignment = NSTextAlignmentCenter;
+//        [backview3 addSubview:se3titleLb1];
         
         UIButton* toupiaoBtn1 = [[UIButton alloc]initWithFrame:CGRectMake(650, se3Tabv.frame.origin.y + se3Tabv.frame.size.height + 20, 60, 30)];
         toupiaoBtn1.tag = 888888 + i;
@@ -286,7 +316,7 @@
         [toupiaoBtn1 addTarget:self action:@selector(toupiao1) forControlEvents:UIControlEventTouchUpInside];
         [backview3 addSubview:toupiaoBtn1];
 
-        UITableView* se4Tabv = [[UITableView alloc]initWithFrame:CGRectMake(0, 50, backview4.frame.size.width, backview4.frame.size.height - 300)];
+        UITableView* se4Tabv = [[UITableView alloc]initWithFrame:CGRectMake(0, 50, backview4.frame.size.width, backview4.frame.size.height - 180)];
         se4Tabv.delegate = self;
         se4Tabv.dataSource = self;
         se4Tabv.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -295,13 +325,13 @@
         [backview4 addSubview:se4Tabv];
         
         
-        UILabel *se4titleLb1 = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, backview4.frame.size.width, 20)];
-        se4titleLb1.font = [UIFont boldSystemFontOfSize:20];
-        se4titleLb1.tag = 2222222 + i;
-        se4titleLb1.textAlignment = NSTextAlignmentCenter;
-        [backview4 addSubview:se4titleLb1];
+//        UILabel *se4titleLb1 = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, backview4.frame.size.width, 20)];
+//        se4titleLb1.font = [UIFont boldSystemFontOfSize:20];
+//        se4titleLb1.tag = 2222222 + i;
+//        se4titleLb1.textAlignment = NSTextAlignmentCenter;
+//        [backview4 addSubview:se4titleLb1];
 
-        UIButton* wengaoBtn1 = [[UIButton alloc]initWithFrame:CGRectMake(650, se4Tabv.frame.origin.y + se4Tabv.frame.size.height + 20, 140, 30)];
+        UIButton* wengaoBtn1 = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 - 140, se4Tabv.frame.origin.y + se4Tabv.frame.size.height + 20, 140, 30)];
         wengaoBtn1.tag = 5555555 + i;
         [wengaoBtn1 setTitle:@"生成我的文稿" forState:UIControlStateNormal];
         [wengaoBtn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -311,13 +341,13 @@
         [wengaoBtn1 addTarget:self action:@selector(wengao) forControlEvents:UIControlEventTouchUpInside];
         [backview4 addSubview:wengaoBtn1];
         
-        UITableView* se4Tabv1 = [[UITableView alloc]initWithFrame:CGRectMake(0, se4Tabv.frame.origin.y + se4Tabv.frame.size.height + 10, 650, 200)];
-        se4Tabv1.delegate = self;
-        se4Tabv1.dataSource = self;
-        se4Tabv1.separatorStyle = UITableViewCellSeparatorStyleNone;
-        se4Tabv1.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
-        se4Tabv1.tag = 8888888 + i;
-        [backview4 addSubview:se4Tabv1];
+//        UITableView* se4Tabv1 = [[UITableView alloc]initWithFrame:CGRectMake(0, se4Tabv.frame.origin.y + se4Tabv.frame.size.height + 10, 650, 200)];
+//        se4Tabv1.delegate = self;
+//        se4Tabv1.dataSource = self;
+//        se4Tabv1.separatorStyle = UITableViewCellSeparatorStyleNone;
+//        se4Tabv1.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
+//        se4Tabv1.tag = 8888888 + i;
+//        [backview4 addSubview:se4Tabv1];
 
         y += self.view.frame.size.width;
         i++;
@@ -673,10 +703,20 @@
         }
     }
     
-    UITableView *tabv = [self.view viewWithTag:8888888 + self.number];
-    [tabv reloadData];
+//    UITableView *tabv = [self.view viewWithTag:8888888 + self.number];
+//    [tabv reloadData];
+    ZMwengaoDetailViewController *vc = [[ZMwengaoDetailViewController alloc]init];
+    vc.arr = self.wengaoArr;
+    [self presentViewController:vc animated:YES completion:NULL];
     NSLog(@"self.wengaoArr====%@",self.wengaoArr);
     
+}
+
+-(void)commit111:(UIButton *)sender
+{
+    ZMtoupiaoresultViewController * vc = [[ZMtoupiaoresultViewController alloc]init];
+    vc.dic = self.M124dic;
+    [self presentViewController:vc animated:YES completion:NULL];
 }
 
 -(void)toupiao
@@ -744,7 +784,7 @@
     }else if (seg.selectedSegmentIndex == 2){
         if (tableView.tag == 111111 + self.number) {
             
-            return 280;
+            return 80;
         }
 
         return 40;
@@ -815,7 +855,11 @@
         countLb.font = [UIFont systemFontOfSize:16];
         countLb.text = [NSString stringWithFormat:@"%@票",self.M124dic[@"groupNames"][section][@"voteCount"]];
         [backView addSubview:countLb];
-        
+        if ([[NSString stringWithFormat:@"%@",self.M124dic[@"ifVote"]] isEqualToString:@"1"]) {
+            countLb.hidden = NO;
+        }else{
+            countLb.hidden = YES;
+        }
     }else if (seg.selectedSegmentIndex == 2){
         if (tableView.tag == 111111 + self.number) {
             
@@ -902,6 +946,7 @@
             UITextView *contentTv2 = [[UITextView alloc]initWithFrame:CGRectMake(100, 20, backview2.frame.size.width - 130, 60)];
             contentTv2.editable = NO;
             contentTv2.tag = 66666;
+            contentTv2.font = [UIFont systemFontOfSize:15];
             contentTv2.backgroundColor = [UIColor clearColor];
             [cell.contentView addSubview:contentTv2];
         }
@@ -934,12 +979,12 @@
                 nameLb.tag = 55557;
                 [cell.contentView addSubview:nameLb];
                 
-                UITextView *contentTv2 = [[UITextView alloc]initWithFrame:CGRectMake(100, 20, backview2.frame.size.width - 130, 60)];
+                UITextView *contentTv2 = [[UITextView alloc]initWithFrame:CGRectMake(100, 30, backview2.frame.size.width - 130, 50)];
                 contentTv2.editable = NO;
                 contentTv2.tag = 66667;
+                contentTv2.font = [UIFont systemFontOfSize:15];
                 contentTv2.backgroundColor = [UIColor clearColor];
                 [cell.contentView addSubview:contentTv2];
-
 
             }
             cell.shoucangBtn.tag = 55555555 + self.number*100 + indexPath.row;
@@ -1136,13 +1181,19 @@
     label.text = self.M124dic[@"forumTitle"];
     
     UIButton *btn = [self.view viewWithTag:22222 + self.number];
-    if ([[NSString stringWithFormat:@"%@",self.M124dic[@"ifVote"]] isEqualToString:@"1"]) {
+    btn.hidden = NO;
+    UIButton *btn1 = [self.view viewWithTag:-55555555 + self.number];
+
+    if ([[NSString stringWithFormat:@"%@",self.M124dic[@"ifVote"]] isEqualToString:@"0"]) {
         [btn setTitle:@"投票" forState:UIControlStateNormal];
         btn.enabled = YES;
+        btn1.hidden = YES;
     }else {
         [btn setTitle:@"已投票" forState:UIControlStateNormal];
         btn.enabled = NO;
+        btn1.hidden = NO;
     }
+    
 }
 
 -(void)refish
@@ -1217,7 +1268,7 @@
         back4.hidden = YES;
         UITableView *tabv = [self.view viewWithTag: -99999999 + self.number];
         [tabv reloadData];
-        [self loadM124View];
+        [self loadM124];
     }else if (Seg.selectedSegmentIndex == 2) {
         UIView *backview = [self.scro viewWithTag:Seg.tag - 9999 + 999];
 
@@ -1311,7 +1362,7 @@
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
     [requestDict setValue:self.hezuoArr[self.number][@"forumId"] forKey:@"forumId"];
-    [requestDict setValue:m126id forKey:@"optionId"];
+//    [requestDict setValue:m126id forKey:@"optionId"];
 
     [self showIndicator];
     ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
@@ -1486,6 +1537,7 @@
     }else if ([@"M127" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
         [self hideIndicator];
         [self showTip:@"投票成功"];
+        [self loadM124];
     }else if ([@"M125" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
         [self hideIndicator];
         
@@ -1628,7 +1680,7 @@
     }
     if ([@"M131" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
         [self hideIndicator];
-        [self showTip:@"收藏失败"];
+        [self showTip:responseDict[@"responseMessage"]];
     }
 
     if ([@"M135" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
@@ -1637,7 +1689,7 @@
     }
     if ([@"M135" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
         [self hideIndicator];
-        [self showTip:@"发布失败"];
+        [self showTip:responseDict[@"responseMessage"]];
     }
     
     if ([@"M122" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
@@ -1657,11 +1709,11 @@
         
     }
     if ([@"M123" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
-        [self showTip:@"提交失败"];
+        [self showTip:responseDict[@"responseMessage"]];
         
     }
     if ([@"M127" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
-        [self showTip:@"投票失败"];
+        [self showTip:responseDict[@"responseMessage"]];
     }
     
     [self hideIndicator];

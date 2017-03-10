@@ -172,7 +172,7 @@
     }
     if ([@"M131" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
         [self hideIndicator];
-        [self showTip:@"收藏失败"];
+        [self showTip:responseDict[@"responseMessage"]];
     }
 
     if ([@"M135" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
@@ -181,7 +181,7 @@
     }
     if ([@"M135" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
         [self hideIndicator];
-        [self showTip:@"发布失败"];
+        [self showTip:responseDict[@"responseMessage"]];
     }
 
 }

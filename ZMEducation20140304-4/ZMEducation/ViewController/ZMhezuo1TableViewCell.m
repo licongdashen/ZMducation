@@ -24,7 +24,7 @@
         self.titleLb.font = [UIFont systemFontOfSize:16];
         [self addSubview:self.titleLb];
         
-        self.contentLb = [[UILabel alloc]initWithFrame:CGRectMake(50, 35, 400, 65)];
+        self.contentLb = [[UILabel alloc]initWithFrame:CGRectMake(50, 35, 800, 65)];
         self.contentLb.font = [UIFont systemFontOfSize:16];
         [self addSubview:self.contentLb];
 
@@ -65,10 +65,11 @@
         [[NSNotificationCenter defaultCenter]postNotificationName:@"youyou" object:nil];
         return;
     }
-    for (NSMutableDictionary *dic in self.hezuoarr) {
-        [dic setObject:@"0" forKey:@"flag"];
-    }
+//    for (NSMutableDictionary *dic in self.hezuoarr) {
+//        [dic setObject:@"0" forKey:@"flag"];
+//    }
     if ([[NSString stringWithFormat:@"%@",dic[@"flag"]] isEqualToString:@"1"]) {
+        [dic setObject:@"0" forKey:@"flag"];
     }else {
         [dic setValue:@"1" forKey:@"flag"];
     }

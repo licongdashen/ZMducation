@@ -34,11 +34,11 @@
 
 -(void)shoucang:(UIButton *)sender
 {
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"popopo" object:nil userInfo:self.shiti[@"userAnswers"][sender.tag - 1000]];
     
-    self.shoucangview.hidden = NO;
-    self.shoucangview.center = CGPointMake(self.view.center.x + 100, self.scro.contentOffset.y + self.scro.frame.size.height/2);
-    nameStr = self.shiti[@"userAnswers"][sender.tag - 1000][@"userName"];
-    contentStr = self.shiti[@"userAnswers"][sender.tag - 1000][@"answer"][0];
+//    self.shoucangview.hidden = NO;
+//    nameStr = self.shiti[@"userAnswers"][sender.tag - 1000][@"userName"];
+//    contentStr = self.shiti[@"userAnswers"][sender.tag - 1000][@"answer"][0];
 
 }
 
@@ -80,7 +80,7 @@
     }
     if ([@"M131" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
         [self hideIndicator];
-        [self showTip:@"收藏失败"];
+        [self showTip:responseDict[@"responseMessage"]];
     }
     
     if ([@"M135" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
@@ -89,7 +89,7 @@
     }
     if ([@"M135" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
         [self hideIndicator];
-        [self showTip:@"发布失败"];
+        [self showTip:responseDict[@"responseMessage"]];
     }
 }
 
@@ -102,11 +102,6 @@
         self.scro = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 200)];
         self.scro.contentSize = CGSizeMake(frame.size.width, frame.size.height);
         [self.view addSubview:self.scro];
-        
-        self.shoucangview = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 60, 210)];
-        self.shoucangview.center = self.view.center;
-        self.shoucangview.hidden = YES;
-        [self.scro addSubview:self.shoucangview];
         
         NSArray *arr = @[@"好词语",@"好句子",@"好段落",@"好开头",@"好结尾",@"好题目",@"好文章",];
         
@@ -304,19 +299,7 @@
             [self.view addSubview:lb_title];
         }
         
-        int y = 0;
-        for (int i = 0; i < 7; i ++) {
-            UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0, y, 60, 30)];
-            btn.tag = i;
-            [btn setTitle:arr[i] forState:UIControlStateNormal];
-            btn.layer.borderColor = [UIColor blackColor].CGColor;
-            btn.layer.borderWidth = 1;
-            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [btn addTarget:self action:@selector(action:) forControlEvents:UIControlEventTouchUpInside];
-            [self.shoucangview addSubview:btn];
-            y += 30;
-        }
-
+        
     }
     
     return self;

@@ -1646,7 +1646,7 @@
     }
     if ([@"M135" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
         [self hideIndicator];
-        [self showTip:@"发布失败"];
+        [self showTip:responseDict[@"responseMessage"]];
     }
 }
 

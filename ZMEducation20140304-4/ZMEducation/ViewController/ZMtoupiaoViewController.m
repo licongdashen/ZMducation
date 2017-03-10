@@ -406,6 +406,9 @@
 
 -(void)commit:(UIButton *)send
 {
+    [searchBtn setTitle:@"已投票" forState:UIControlStateNormal];
+    searchBtn.enabled = NO;
+    
     NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
     NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
     [requestDict setValue:@"M111" forKey:@"method"];
@@ -543,8 +546,6 @@
         [self loadSubView];
         [self loadM112];
         NSLog(@"self.m113Arr====%@",self.m113Arr);
-        
-        searchBtn1.hidden = NO;
 
     }else if (([@"M112" isEqualToString:method] && [@"00" isEqualToString:responseCode]) ){
         [self hideIndicator];
@@ -558,9 +559,11 @@
         if ([[NSString stringWithFormat:@"%@",self.m112Dic[@"ifVote"]] isEqualToString:@"1"]) {
             [searchBtn setTitle:@"已投票" forState:UIControlStateNormal];
             searchBtn.enabled = NO;
+            searchBtn1.hidden = NO;
         }else{
             [searchBtn setTitle:@"投票" forState:UIControlStateNormal];
             searchBtn.enabled = YES;
+            searchBtn1.hidden = YES;
         }
         
         [self.m112tmepArr removeAllObjects];
@@ -578,6 +581,7 @@
         [self hideIndicator];
         [self showTip:@"投票成功"];
 //        [self performSelector:@selector(next) withObject:self afterDelay:2];
+        searchBtn1.hidden = NO;
 
     }else if ([@"M061" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
         //NSArray* dataSource = [responseDict valueForKey:@"units"];
