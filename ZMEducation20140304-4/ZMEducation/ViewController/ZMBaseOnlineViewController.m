@@ -482,20 +482,21 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    UIButton* menuButquanzi = [UIButton buttonWithType:UIButtonTypeCustom]; //我的构思
-    [menuButquanzi setFrame:CGRectMake(710 - 60 - 60, -5, 44, 68)];
-    [menuButquanzi setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_btn_gousi" ofType:@"png"]] forState:UIControlStateNormal];
-    [menuButquanzi setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_btn_gousi" ofType:@"png"]] forState:UIControlStateHighlighted];
-    [menuButquanzi addTarget:self
-                        action:@selector(menuButquanziClick:)
-              forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:menuButquanzi];
-    self.menuButquanzi = menuButquanzi;
+//    UIButton* menuButquanzi = [UIButton buttonWithType:UIButtonTypeCustom]; //我的构思
+//    [menuButquanzi setFrame:CGRectMake(710 - 60 - 60, -5, 44, 68)];
+//    [menuButquanzi setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_btn_gousi" ofType:@"png"]] forState:UIControlStateNormal];
+//    [menuButquanzi setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_btn_gousi" ofType:@"png"]] forState:UIControlStateHighlighted];
+//    [menuButquanzi addTarget:self
+//                        action:@selector(menuButquanziClick:)
+//              forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:menuButquanzi];
+//    self.menuButquanzi = menuButquanzi;
     
     UIButton* menuButshoucang = [UIButton buttonWithType:UIButtonTypeCustom]; //我的构思
     [menuButshoucang setFrame:CGRectMake(710 - 60, -5, 44, 68)];
-    [menuButshoucang setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_btn_gousi" ofType:@"png"]] forState:UIControlStateNormal];
-    [menuButshoucang setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_btn_gousi" ofType:@"png"]] forState:UIControlStateHighlighted];
+
+    [menuButshoucang setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"icon_aaaa" ofType:@"png"]] forState:UIControlStateNormal];
+    [menuButshoucang setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"icon_aaaa" ofType:@"png"]] forState:UIControlStateHighlighted];
     [menuButshoucang addTarget:self
                      action:@selector(menuButshoucangClick:)
            forControlEvents:UIControlEventTouchUpInside];
@@ -516,9 +517,9 @@
     [menuButShiti setFrame:CGRectMake(770, -5, 44, 68)];
     [menuButShiti setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_btn_shiti" ofType:@"png"]] forState:UIControlStateNormal];
     [menuButShiti setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_btn_shiti" ofType:@"png"]] forState:UIControlStateHighlighted];
-//    [menuButShiti addTarget:self
-//                 action:@selector(menuButShitiClick:)
-//       forControlEvents:UIControlEventTouchUpInside];
+    [menuButShiti addTarget:self
+                 action:@selector(menuButquanziClick:)
+       forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:menuButShiti];
     self.menuButShiti = menuButShiti;
     

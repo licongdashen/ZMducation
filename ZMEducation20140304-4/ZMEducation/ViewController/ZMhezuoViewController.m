@@ -264,7 +264,7 @@
         [searchBtn11 addTarget:self action:@selector(commit111:) forControlEvents:UIControlEventTouchUpInside];
         [backview2 addSubview:searchBtn11];
         
-        se3Tabv = [[UITableView alloc]initWithFrame:CGRectMake(0, 50, backview3.frame.size.width, backview3.frame.size.height - 100)];
+        se3Tabv = [[UITableView alloc]initWithFrame:CGRectMake(0, 50, backview3.frame.size.width, backview3.frame.size.height - 200)];
         se3Tabv.delegate = self;
         se3Tabv.dataSource = self;
         se3Tabv.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -306,7 +306,7 @@
 //        se3titleLb1.textAlignment = NSTextAlignmentCenter;
 //        [backview3 addSubview:se3titleLb1];
         
-        UIButton* toupiaoBtn1 = [[UIButton alloc]initWithFrame:CGRectMake(650, se3Tabv.frame.origin.y + se3Tabv.frame.size.height + 20, 60, 30)];
+        UIButton* toupiaoBtn1 = [[UIButton alloc]initWithFrame:CGRectMake(backview3.frame.size.width/2 - 40, se3Tabv.frame.origin.y + se3Tabv.frame.size.height + 20, 60, 30)];
         toupiaoBtn1.tag = 888888 + i;
         [toupiaoBtn1 setTitle:@"投票" forState:UIControlStateNormal];
         [toupiaoBtn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -707,6 +707,7 @@
 //    [tabv reloadData];
     ZMwengaoDetailViewController *vc = [[ZMwengaoDetailViewController alloc]init];
     vc.arr = self.wengaoArr;
+    vc.str111 = self.M125Adic[@"forumTitle"];
     [self presentViewController:vc animated:YES completion:NULL];
     NSLog(@"self.wengaoArr====%@",self.wengaoArr);
     
@@ -733,7 +734,7 @@
     [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
-    [requestDict setValue:[NSString stringWithFormat:@"%@",self.M124dic[@"coType"]] forKey:@"type"];
+    [requestDict setValue:@"1" forKey:@"type"];
     [requestDict setValue:self.M124tempArr forKey:@"voteContent"];
     [requestDict setValue:self.M124dic[@"forumId"] forKey:@"forumId"];
 
@@ -784,14 +785,14 @@
     }else if (seg.selectedSegmentIndex == 2){
         if (tableView.tag == 111111 + self.number) {
             
-            return 80;
+            return 100;
         }
 
         return 40;
     }else if (seg.selectedSegmentIndex == 3){
     
         if (tableView.tag == 3333333 + self.number) {
-            return 100;
+            return 110;
         }else if (tableView.tag == 8888888 + self.number){
             return 40;
         }
@@ -979,7 +980,7 @@
                 nameLb.tag = 55557;
                 [cell.contentView addSubview:nameLb];
                 
-                UITextView *contentTv2 = [[UITextView alloc]initWithFrame:CGRectMake(100, 30, backview2.frame.size.width - 130, 50)];
+                UITextView *contentTv2 = [[UITextView alloc]initWithFrame:CGRectMake(100, 30, backview2.frame.size.width - 130, 70)];
                 contentTv2.editable = NO;
                 contentTv2.tag = 66667;
                 contentTv2.font = [UIFont systemFontOfSize:15];
@@ -1438,7 +1439,7 @@
     
     UIButton *btn = [self.view viewWithTag:888888 + self.number];
 
-    if ([[NSString stringWithFormat:@"%@",self.M125dic[@"forumSubTitles"][0][@"ifVote"]] isEqualToString:@"1"]) {
+    if ([[NSString stringWithFormat:@"%@",self.M125dic[@"forumSubTitles"][0][@"ifVote"]] isEqualToString:@"0"]) {
         [btn setTitle:@"投票" forState:UIControlStateNormal];
         btn.enabled = YES;
     }else {

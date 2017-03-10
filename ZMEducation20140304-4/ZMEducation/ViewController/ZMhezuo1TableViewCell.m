@@ -24,8 +24,10 @@
         self.titleLb.font = [UIFont systemFontOfSize:16];
         [self addSubview:self.titleLb];
         
-        self.contentLb = [[UILabel alloc]initWithFrame:CGRectMake(50, 35, 800, 65)];
+        self.contentLb = [[UITextView alloc]initWithFrame:CGRectMake(50, 35, 800, 75)];
         self.contentLb.font = [UIFont systemFontOfSize:16];
+        self.contentLb.editable = NO;
+        self.contentLb.backgroundColor = [UIColor clearColor];
         [self addSubview:self.contentLb];
 
     }

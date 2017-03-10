@@ -16,6 +16,6 @@
 
 @property (nonatomic, strong) NSMutableArray *hezuoarr;
 
-@property (nonatomic, strong) UILabel *contentLb;
+@property (nonatomic, strong) UITextView *contentLb;
 
 @end

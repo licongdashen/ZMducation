@@ -10,4 +10,6 @@
 
 @interface ZMwengaoDetailViewController : ZMBaseViewController<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) NSMutableArray *arr;
+@property (nonatomic, strong) NSString *str111;
+
 @end

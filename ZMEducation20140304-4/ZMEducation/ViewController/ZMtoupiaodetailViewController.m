@@ -11,6 +11,7 @@
 @interface ZMtoupiaodetailViewController ()
 {
     UITableView* se4Tabv;
+    UILabel *titlelabel;
 }
 @property (nonatomic, strong)NSDictionary *m112Dic;
 @property (nonatomic, strong)NSMutableArray *arr;
@@ -28,7 +29,12 @@
     view.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
     self.view = view;
     
-    se4Tabv = [[UITableView alloc]initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, self.view.frame.size.height - 100)];
+    titlelabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 80, self.view.frame.size.width, 30)];
+    titlelabel.font = [UIFont boldSystemFontOfSize:20];
+    titlelabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:titlelabel];
+    
+    se4Tabv = [[UITableView alloc]initWithFrame:CGRectMake(0, 150, self.view.frame.size.width, self.view.frame.size.height - 100)];
     se4Tabv.delegate = self;
     se4Tabv.dataSource = self;
     se4Tabv.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
@@ -79,7 +85,7 @@
     if (cell == nil){
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        cell.contentView.backgroundColor = [UIColor colorWithRed:248/255.0f green:248/255.0f blue:248/255.0f alpha:1.0];
+        cell.contentView.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
         
         UILabel *labele = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 500, 30)];
         labele.tag = 200;
@@ -109,8 +115,7 @@
     label1.text = [NSString stringWithFormat:@"%@票",self.m112Dic[@"groupNames"][indexPath.row][@"voteCount"]];
     
     UILabel *labe2 = [cell.contentView viewWithTag:202];
-    labe2.frame = CGRectMake(label.frame.size.width + label.frame.origin.x + 20, 0, 80, 40);
-    labe2.frame = CGRectMake(0, 30,[self.m112Dic[@"groupNames"][indexPath.row][@"voteCount"] intValue] * 60, 30);
+    labe2.frame = CGRectMake(0, 30,((float)[self.m112Dic[@"groupNames"][indexPath.row][@"voteCount"] intValue]/self.count1)*800, 30);
     labe2.text = [NSString stringWithFormat:@"%g%%",((float)[self.m112Dic[@"groupNames"][indexPath.row][@"voteCount"] intValue]/self.count1)*100];
     
     return cell;
@@ -183,8 +188,10 @@
         for (NSString *str in self.arr) {
             self.count1 += [str intValue];
         }
-
-        NSLog(@"self.m112Dic===%@",self.m112Dic);
+        
+        titlelabel.text = self.m112Dic[@"voteTitle"];
+        
+         NSLog(@"self.m112Dic===%@",self.m112Dic);
         [se4Tabv reloadData];
 
     }
