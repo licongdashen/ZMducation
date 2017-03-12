@@ -68,6 +68,7 @@
     self.menuButShiti.hidden = YES;
     self.menuButZidian.hidden = YES;
     self.menuButXiaozhushou.hidden = YES;
+    self.menuButshoucang.hidden = YES;
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -76,6 +77,8 @@
     self.menuButShiti.hidden = NO;
     self.menuButZidian.hidden = NO;
     self.menuButXiaozhushou.hidden = NO;
+    self.menuButshoucang.hidden = NO;
+
 }
 
 - (void)viewDidLoad{

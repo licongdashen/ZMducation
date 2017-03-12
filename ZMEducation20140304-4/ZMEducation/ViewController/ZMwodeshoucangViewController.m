@@ -324,7 +324,8 @@
     [requestDict setValue:self.m004Dic[@"courses"][selint][@"courseId"]?self.m004Dic[@"courses"][selint][@"courseId"]:@"" forKey:@"courseId"];
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
-    
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+
     [self showIndicator];
     
     ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];

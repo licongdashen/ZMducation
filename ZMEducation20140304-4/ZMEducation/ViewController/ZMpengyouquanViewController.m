@@ -343,7 +343,7 @@
     [self.view addSubview:article_Category_View];
     [article_Category_View release];
     
-    [self addLabel:@"朋友圈"
+    [self addLabel:@"朋发布浏览"
              frame:CGRectMake(291, 22, 421, 30)
               size:18
           intoView:self.view];

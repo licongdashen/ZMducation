@@ -493,7 +493,7 @@
 //    self.menuButquanzi = menuButquanzi;
     
     UIButton* menuButshoucang = [UIButton buttonWithType:UIButtonTypeCustom]; //我的构思
-    [menuButshoucang setFrame:CGRectMake(710 - 60, -5, 44, 68)];
+    [menuButshoucang setFrame:CGRectMake(830, -5, 44, 68)];
 
     [menuButshoucang setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"icon_aaaa" ofType:@"png"]] forState:UIControlStateNormal];
     [menuButshoucang setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"icon_aaaa" ofType:@"png"]] forState:UIControlStateHighlighted];
@@ -504,7 +504,7 @@
     self.menuButshoucang = menuButshoucang;
     
     UIButton* menuButGousi = [UIButton buttonWithType:UIButtonTypeCustom]; //我的构思
-    [menuButGousi setFrame:CGRectMake(710, -5, 44, 68)];
+    [menuButGousi setFrame:CGRectMake(710 - 60, -5, 44, 68)];
     [menuButGousi setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_btn_gousi" ofType:@"png"]] forState:UIControlStateNormal];
     [menuButGousi setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_btn_gousi" ofType:@"png"]] forState:UIControlStateHighlighted];
     [menuButGousi addTarget:self
@@ -514,7 +514,7 @@
     self.menuButGousi = menuButGousi;
     
     UIButton* menuButShiti = [UIButton buttonWithType:UIButtonTypeCustom]; //我的试题
-    [menuButShiti setFrame:CGRectMake(770, -5, 44, 68)];
+    [menuButShiti setFrame:CGRectMake(770- 60, -5, 44, 68)];
     [menuButShiti setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_btn_shiti" ofType:@"png"]] forState:UIControlStateNormal];
     [menuButShiti setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_btn_shiti" ofType:@"png"]] forState:UIControlStateHighlighted];
     [menuButShiti addTarget:self
@@ -524,7 +524,7 @@
     self.menuButShiti = menuButShiti;
     
     UIButton* menuButZidian = [UIButton buttonWithType:UIButtonTypeCustom]; //字词典
-    [menuButZidian setFrame:CGRectMake(830, -5, 44, 68)];
+    [menuButZidian setFrame:CGRectMake(830- 60, -5, 44, 68)];
     [menuButZidian setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_btn_zidian" ofType:@"png"]] forState:UIControlStateNormal];
     [menuButZidian setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Menu_btn_zidian" ofType:@"png"]] forState:UIControlStateHighlighted];
         [menuButZidian addTarget:self

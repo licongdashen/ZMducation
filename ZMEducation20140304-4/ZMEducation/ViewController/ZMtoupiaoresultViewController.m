@@ -43,13 +43,12 @@
     titlelabel.text = self.dic[@"forumTitle"];
     [self.view addSubview:titlelabel];
 
-    se4Tabv = [[UITableView alloc]initWithFrame:CGRectMake(0, 150, self.view.frame.size.width, self.view.frame.size.height - 100)];
+    se4Tabv = [[UITableView alloc]initWithFrame:CGRectMake(50, 150, self.view.frame.size.width - 100, self.view.frame.size.height - 100)];
     se4Tabv.delegate = self;
     se4Tabv.dataSource = self;
     se4Tabv.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
     se4Tabv.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:se4Tabv];
-    
     
     UIButton* closeBut = [UIButton buttonWithType:UIButtonTypeCustom];
     [closeBut setFrame:CGRectMake(948, 20, 49, 49)];
@@ -100,7 +99,7 @@
         labele.tag = 200;
         [cell.contentView addSubview:labele];
         
-        UILabel *nameLb = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 120, 0, 120, 30)];
+        UILabel *nameLb = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 120 - 100, 0, 120, 30)];
         nameLb.tag = 201;
         nameLb.textAlignment = NSTextAlignmentRight;
         [cell.contentView addSubview:nameLb];
@@ -117,10 +116,10 @@
     }
     
     UILabel *label = [cell.contentView viewWithTag:200];
-    label.text = self.dic[@"groupNames"][indexPath.row][@"groupName"];
+    label.text = [NSString stringWithFormat:@"%@(%@票)",self.dic[@"groupNames"][indexPath.row][@"groupName"],self.dic[@"groupNames"][indexPath.row][@"voteCount"]];
     
-    UILabel *label1 = [cell.contentView viewWithTag:201];
-    label1.text = [NSString stringWithFormat:@"%@票",self.dic[@"groupNames"][indexPath.row][@"voteCount"]];
+//    UILabel *label1 = [cell.contentView viewWithTag:201];
+//    label1.text = [NSString stringWithFormat:@"%@票",self.dic[@"groupNames"][indexPath.row][@"voteCount"]];
 
     UILabel *labe2 = [cell.contentView viewWithTag:202];
     labe2.frame = CGRectMake(0, 30,((float)[self.dic[@"groupNames"][indexPath.row][@"voteCount"] intValue]/self.count1)*800, 30);

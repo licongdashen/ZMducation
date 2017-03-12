@@ -188,6 +188,14 @@
         subtitleLb.font = [UIFont boldSystemFontOfSize:20];
         [backview1 addSubview:subtitleLb];
         
+        UILabel *subtitleLb11 = [[UILabel alloc]initWithFrame:CGRectMake(570, 95, 80, 30)];
+        subtitleLb11.text = @"历史内容";
+        subtitleLb11.font = [UIFont systemFontOfSize:16];
+        subtitleLb11.hidden = YES;
+        subtitleLb11.tag = -44444444 +i;
+        [backview1 addSubview:subtitleLb11];
+
+        
         subtitleLb1 = [[UILabel alloc]initWithFrame:CGRectMake(60, 60, backview1.frame.size.width - 60, 30)];
         subtitleLb1.font = [UIFont boldSystemFontOfSize:20];
         subtitleLb1.tag = -9999 + i;
@@ -198,15 +206,17 @@
         contentLb.font = [UIFont boldSystemFontOfSize:20];
         [backview1 addSubview:contentLb];
         
-        refishBtn = [[UIButton alloc]initWithFrame:CGRectMake(570, 120, 40, 20)];
+        refishBtn = [[UIButton alloc]initWithFrame:CGRectMake(670, 450, 40, 20)];
         [refishBtn setTitle:@"刷新" forState:UIControlStateNormal];
         [refishBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [refishBtn addTarget:self action:@selector(refish) forControlEvents:UIControlEventTouchUpInside];
         refishBtn.layer.borderColor = [UIColor blackColor].CGColor;
         refishBtn.layer.borderWidth = 1;
+        refishBtn.hidden = YES;
+        refishBtn.tag = -33333333 + i;
         [backview1 addSubview:refishBtn];
         
-        contentTv = [[UITextView alloc]initWithFrame:CGRectMake(60, 140, (backview1.frame.size.width - 60)/2 - 40, 250)];
+        contentTv = [[UITextView alloc]initWithFrame:CGRectMake(60, 140, (backview1.frame.size.width - 60)/2 - 70, 250)];
         contentTv.layer.borderColor = [UIColor blackColor].CGColor;
         contentTv.layer.borderWidth = 1;
         contentTv.tag = -99999 + i;
@@ -1528,12 +1538,22 @@
 
     UITextView *tv1 = [self.view viewWithTag:-999999 + self.number];
     
+    UIButton *btn = [self.view viewWithTag:-33333333 + self.number];
+    
+    UILabel *aaa = [self.view viewWithTag:-44444444 + self.number];
+    
     if ([[NSString stringWithFormat:@"%@",self.dic[@"forumType"]] isEqualToString:@"1"]) {
         tv.editable = NO;
         tv1.hidden = NO;
+        btn.hidden = NO;
+        tv.frame = CGRectMake(60, 140, (backview1.frame.size.width - 60)/2 - 70, 250);
+        aaa.hidden = NO;
     }else {
         tv.editable = YES;
         tv1.hidden = YES;
+        btn.hidden = YES;
+        tv.frame = CGRectMake(60, 140, backview1.frame.size.width - 60, 250);
+        aaa.hidden = YES;
     }
     
 }
@@ -1650,7 +1670,7 @@
                     NSString *groupId = [NSString stringWithFormat:@"%@",dicc[@"voteAnswerId"]];
                     NSString *ifSelect = [NSString stringWithFormat:@"%@",dicc[@"ifSelect"]];
                     NSString *content = [NSString stringWithFormat:@"%@",dicc[@"forumContent"]];
-                    NSMutableDictionary *mDic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:groupId,@"optionId",ifSelect,@"flag",content,@"forumContent", nil];
+                    NSMutableDictionary *mDic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:groupId,@"optionId",@"0",@"flag",content,@"forumContent", nil];
                     [arr1 addObject:mDic];
                 }
 
