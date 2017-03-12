@@ -9,6 +9,9 @@
 #import "ZMdianyingzuoyeViewController.h"
 
 @interface ZMdianyingzuoyeViewController ()
+{
+    BOOL shoucangHidden;
+}
 @property (nonatomic, strong) UITextView * TV_Bk1;
 @property (nonatomic, strong) UITextView * TV_Bk2;
 @property (nonatomic, strong) UILabel *titleLb;
@@ -23,9 +26,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    shoucangHidden = YES;
+    
     self.shoucangview = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 60, 210)];
     self.shoucangview.center = self.view.center;
     self.shoucangview.hidden = YES;
+    self.shoucangview.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.shoucangview];
 
     NSArray *arr = @[@"好词语",@"好句子",@"好段落",@"好开头",@"好结尾",@"好题目",@"好文章",];
@@ -120,7 +126,7 @@
     [articleView addSubview:self.shoucangBtn];
     
     
-    if ([((ZMAppDelegate*)[UIApplication sharedApplication].delegate).str isEqualToString:@"2"]) {
+    if ([((ZMAppDelegate*)[UIApplication sharedApplication].delegate).str isEqualToString:@"02"]) {
         UIButton * fabuBtn = [[UIButton alloc]initWithFrame:CGRectMake(100, 15, 50, 40)];
         [fabuBtn setTitle:@"发布" forState:UIControlStateNormal];
         [fabuBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -158,7 +164,13 @@
 }
 -(void)shoucang
 {
-    self.shoucangview.hidden = NO;
+    if (shoucangHidden == YES) {
+        self.shoucangview.hidden = NO;
+        shoucangHidden = NO;
+    }else{
+        self.shoucangview.hidden = YES;
+        shoucangHidden = YES;
+    }
 }
 
 -(void)httpEngine:(ZMHttpEngine *)httpEngine didSuccess:(NSDictionary *)responseDict{

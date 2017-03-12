@@ -17,6 +17,7 @@
         
         self.tv = [[UITextView alloc]initWithFrame:CGRectMake(420 + 20, 5, 250 + 50, 90)];
         self.tv.backgroundColor = [UIColor whiteColor];
+        self.tv.font = [UIFont systemFontOfSize:15];
         [self addSubview:self.tv];
 
         self.baocunBtn = [[UIButton alloc]initWithFrame:CGRectMake(720+ 20+ 10 + 50, 10, 50, 25)];

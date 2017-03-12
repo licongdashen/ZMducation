@@ -62,6 +62,9 @@
     NSInteger secion1;
     NSInteger row1;
     NSString *contentStr;
+    
+    BOOL shoucangHidden;
+    
 }
 
 @property (nonatomic, strong) NSMutableArray *hezuoArr;

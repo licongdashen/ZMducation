@@ -34,7 +34,7 @@
     titlelabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:titlelabel];
     
-    se4Tabv = [[UITableView alloc]initWithFrame:CGRectMake(0, 150, self.view.frame.size.width, self.view.frame.size.height - 100)];
+    se4Tabv = [[UITableView alloc]initWithFrame:CGRectMake(50, 150, self.view.frame.size.width - 100, self.view.frame.size.height - 100)];
     se4Tabv.delegate = self;
     se4Tabv.dataSource = self;
     se4Tabv.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
@@ -91,7 +91,7 @@
         labele.tag = 200;
         [cell.contentView addSubview:labele];
         
-        UILabel *nameLb = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 120, 0, 120, 30)];
+        UILabel *nameLb = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 120 - 100, 0, 120, 30)];
         nameLb.tag = 201;
         nameLb.textAlignment = NSTextAlignmentRight;
         [cell.contentView addSubview:nameLb];
@@ -115,7 +115,7 @@
     label1.text = [NSString stringWithFormat:@"%@票",self.m112Dic[@"groupNames"][indexPath.row][@"voteCount"]];
     
     UILabel *labe2 = [cell.contentView viewWithTag:202];
-    labe2.frame = CGRectMake(0, 30,((float)[self.m112Dic[@"groupNames"][indexPath.row][@"voteCount"] intValue]/self.count1)*800, 30);
+    labe2.frame = CGRectMake(0, 30,((float)[self.m112Dic[@"groupNames"][indexPath.row][@"voteCount"] intValue]/self.count1)*700, 30);
     labe2.text = [NSString stringWithFormat:@"%g%%",((float)[self.m112Dic[@"groupNames"][indexPath.row][@"voteCount"] intValue]/self.count1)*100];
     
     return cell;

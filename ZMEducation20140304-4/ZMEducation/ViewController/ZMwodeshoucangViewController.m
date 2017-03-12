@@ -240,6 +240,10 @@
     tv1.text = @"操作";
     tv1.textAlignment = NSTextAlignmentCenter;
 
+    UIView *line7 = [[UIView alloc]initWithFrame:CGRectMake(0, 39, self.view.frame.size.width - 40, 1)];
+    line7.backgroundColor = [UIColor blackColor];
+    [headerView addSubview:line7];
+    
     [headerView addSubview:tv1];
     
 //    UIView *line5 = [[UIView alloc]initWithFrame:CGRectMake(800, 0, 1, 40)];
@@ -312,11 +316,12 @@
 
 -(void)searchBtn1
 {
+
     NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
     NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
     [requestDict setValue:@"M132" forKey:@"method"];
-    [requestDict setValue:self.m004Dic[@"courses"][selint][@"courseId"] forKey:@"courseId"];
-    [requestDict setValue:self.m004Dic[@"classes"][selint][@"classId"] forKey:@"classId"];
+    [requestDict setValue:self.m004Dic[@"courses"][selint][@"courseId"]?self.m004Dic[@"courses"][selint][@"courseId"]:@"" forKey:@"courseId"];
+    [requestDict setValue:self.m004Dic[@"classes"][selint][@"classId"]?self.m004Dic[@"classes"][selint][@"classId"]:@"" forKey:@"classId"];
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
     
@@ -537,6 +542,7 @@
             UIView *line6 = [[UIView alloc]initWithFrame:CGRectMake(0, 99, titleTabv2.frame.size.width, 1)];
             line6.backgroundColor = [UIColor blackColor];
             [cell.contentView addSubview:line6];
+            
         }
 
         UILabel *type = [cell.contentView viewWithTag:200];

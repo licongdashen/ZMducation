@@ -6,6 +6,7 @@
     NSMutableArray * shitiObjArr;
     NSString *nameStr;
     NSString *contentStr;
+    BOOL shoucangHidden;
 }
 
 @property(nonatomic, retain) NSMutableDictionary* unitDict;

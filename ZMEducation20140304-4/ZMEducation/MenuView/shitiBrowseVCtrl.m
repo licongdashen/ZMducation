@@ -56,7 +56,13 @@
 -(void)shoucang:(NSNotification *)sender
 {
     NSMutableDictionary *dic = (NSMutableDictionary *)[sender userInfo];
-    self.shoucangview.hidden = NO;
+    if (shoucangHidden == YES) {
+        self.shoucangview.hidden = NO;
+        shoucangHidden = NO;
+    }else{
+        self.shoucangview.hidden = YES;
+        shoucangHidden = YES;
+    }
     nameStr = dic[@"userName"];
     contentStr = dic[@"answer"][0];
 }
@@ -65,12 +71,13 @@
     shitiObjArr = [[NSMutableArray alloc]init];
     [self getShitiInfo];
     [super viewDidLoad];
-   
+    shoucangHidden = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shoucang:) name:@"popopo" object:nil];
     
     self.shoucangview = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 60, 210)];
     self.shoucangview.center = self.view.center;
     self.shoucangview.hidden = YES;
+    self.shoucangview.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.shoucangview];
     
     NSArray *arr = @[@"好词语",@"好句子",@"好段落",@"好开头",@"好结尾",@"好题目",@"好文章",];

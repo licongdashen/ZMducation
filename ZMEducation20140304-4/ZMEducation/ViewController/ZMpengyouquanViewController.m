@@ -105,33 +105,50 @@
 }
 
 -(void)queryClick:(id)sender{
+//    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+//    
+//    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+//    [requestDict setValue:@"M016" forKey:@"method"];
+//    [requestDict setValue:[[courseArray objectAtIndex:selectCourseIndex] valueForKey:@"courseId"] forKey:@"courseId"];
+//    if (selectModuleIndex == 0) {
+//        [requestDict setValue:@"01"forKey:@"moduleId"];
+//        
+//    }else{
+//        [requestDict setValue:@"02"forKey:@"moduleId"];
+//    }
+//    
+//    //    NSString* role = [userDict valueForKey:@"role"];
+//    //    if ([@"03" isEqualToString:role] || [@"04" isEqualToString:role]) {
+//    //        [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+//    //    }else if([@"02" isEqualToString:role]){
+//    //        [requestDict setValue:[[studentArray objectAtIndex:selectStudentIndex] valueForKey:@"userId"] forKey:@"userId"];
+//    //    }
+//    [requestDict setValue:[[studentArray objectAtIndex:selectStudentIndex] valueForKey:@"userId"] forKey:@"userId"];
+//    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+//    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+//    
+//    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+//    [httpEngine setDelegate:self];
+//    [httpEngine requestWithDict:requestDict];
+//    [httpEngine release];
+//    [requestDict release];
+    
     NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
-    
     NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
-    [requestDict setValue:@"M016" forKey:@"method"];
-    [requestDict setValue:[[courseArray objectAtIndex:selectCourseIndex] valueForKey:@"courseId"] forKey:@"courseId"];
-    if (selectModuleIndex == 0) {
-        [requestDict setValue:@"01"forKey:@"moduleId"];
-        
-    }else{
-        [requestDict setValue:@"02"forKey:@"moduleId"];
-    }
-    
-    //    NSString* role = [userDict valueForKey:@"role"];
-    //    if ([@"03" isEqualToString:role] || [@"04" isEqualToString:role]) {
-    //        [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
-    //    }else if([@"02" isEqualToString:role]){
-    //        [requestDict setValue:[[studentArray objectAtIndex:selectStudentIndex] valueForKey:@"userId"] forKey:@"userId"];
-    //    }
-    [requestDict setValue:[[studentArray objectAtIndex:selectStudentIndex] valueForKey:@"userId"] forKey:@"userId"];
-    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:@"M136" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
     [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    
+    [self showIndicator];
     
     ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
     [httpEngine setDelegate:self];
     [httpEngine requestWithDict:requestDict];
     [httpEngine release];
     [requestDict release];
+
 }
 
 -(void)detailClick:(id)sender{
@@ -334,42 +351,26 @@
               size:18
           intoView:self.view];
     
-    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
-    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
-    [requestDict setValue:@"M136" forKey:@"method"];
-    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
-    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
-    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
-    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
     
-    [self showIndicator];
-    
-    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
-    [httpEngine setDelegate:self];
-    [httpEngine requestWithDict:requestDict];
-    [httpEngine release];
-    [requestDict release];
+    [self addLabel:@"请选择课程名称:"
+             frame:CGRectMake(50, 100, 140, 30)
+              size:16
+          intoView:self.view];
     
     
-//    [self addLabel:@"请选择课程名称:"
-//             frame:CGRectMake(50, 100, 140, 30)
-//              size:16
-//          intoView:self.view];
-//    
-//    
-//    UIButton* courseSelectBut = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [courseSelectBut setTag:kTagCourseSelectBtn];
-//    [courseSelectBut setFrame:CGRectMake(190, 96, 310, 38)];
-//    [courseSelectBut setTitleEdgeInsets:UIEdgeInsetsMake(0, 0.0, 0.0, 20.0)];
-//    //[courseSelectBut setTitle:@"第一课" forState:UIControlStateNormal];
-//    [courseSelectBut setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
-//    [courseSelectBut setBackgroundImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Work_Browse_Button_01" ofType:@"png"]] forState:UIControlStateNormal];
-//    [courseSelectBut setBackgroundImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Work_Browse_Button_01" ofType:@"png"]] forState:UIControlStateHighlighted];
-//    [courseSelectBut addTarget:self
-//                        action:@selector(courseSelectClick:)
-//              forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:courseSelectBut];
-//    
+    UIButton* courseSelectBut = [UIButton buttonWithType:UIButtonTypeCustom];
+    [courseSelectBut setTag:kTagCourseSelectBtn];
+    [courseSelectBut setFrame:CGRectMake(190, 96, 310, 38)];
+    [courseSelectBut setTitleEdgeInsets:UIEdgeInsetsMake(0, 0.0, 0.0, 20.0)];
+    //[courseSelectBut setTitle:@"第一课" forState:UIControlStateNormal];
+    [courseSelectBut setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
+    [courseSelectBut setBackgroundImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Work_Browse_Button_01" ofType:@"png"]] forState:UIControlStateNormal];
+    [courseSelectBut setBackgroundImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Work_Browse_Button_01" ofType:@"png"]] forState:UIControlStateHighlighted];
+    [courseSelectBut addTarget:self
+                        action:@selector(courseSelectClick:)
+              forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:courseSelectBut];
+//
 //    [self addLabel:@"请选择类型:"
 //             frame:CGRectMake(510, 100, 140, 30)
 //              size:16
@@ -387,14 +388,14 @@
 //              forControlEvents:UIControlEventTouchUpInside];
 //    [self.view addSubview:moduleSelectBut];
 //    
-//    UIButton* query_But = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [query_But setFrame:CGRectMake(890, 85, 71, 61)];
-//    [query_But setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Work_Browse_Query_Btn" ofType:@"png"]] forState:UIControlStateNormal];
-//    [query_But setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Work_Browse_Query_Btn" ofType:@"png"]] forState:UIControlStateHighlighted];
-//    [query_But addTarget:self
-//                  action:@selector(queryClick:)
-//        forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:query_But];
+    UIButton* query_But = [UIButton buttonWithType:UIButtonTypeCustom];
+    [query_But setFrame:CGRectMake(890, 85, 71, 61)];
+    [query_But setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Work_Browse_Query_Btn" ofType:@"png"]] forState:UIControlStateNormal];
+    [query_But setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Work_Browse_Query_Btn" ofType:@"png"]] forState:UIControlStateHighlighted];
+    [query_But addTarget:self
+                  action:@selector(queryClick:)
+        forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:query_But];
 }
 
 -(void)getCourses{

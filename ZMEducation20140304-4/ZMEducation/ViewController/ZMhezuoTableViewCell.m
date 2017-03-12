@@ -27,7 +27,7 @@
         self.shoucangBtn.layer.borderWidth = 1;
         [self addSubview:self.shoucangBtn];
         
-        if ([((ZMAppDelegate*)[UIApplication sharedApplication].delegate).str isEqualToString:@"2"]) {
+        if ([((ZMAppDelegate*)[UIApplication sharedApplication].delegate).str isEqualToString:@"02"]) {
             self.fabuBtn = [[UIButton alloc]initWithFrame:CGRectMake(280,10, 50, 30)];
             [self.fabuBtn setTitle:@"发布" forState:UIControlStateNormal];
             [self.fabuBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];

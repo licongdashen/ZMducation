@@ -279,7 +279,7 @@
 
 -(void)addContentView{
     
-    if ([((ZMAppDelegate*)[UIApplication sharedApplication].delegate).str isEqualToString:@"2"]) {
+    if ([((ZMAppDelegate*)[UIApplication sharedApplication].delegate).str isEqualToString:@"02"]) {
     UIButton * fabuBtn = [[UIButton alloc]initWithFrame:CGRectMake(50, 15, 50, 40)];
     [fabuBtn setTitle:@"发布" forState:UIControlStateNormal];
     [fabuBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -288,6 +288,7 @@
     fabuBtn.layer.borderWidth = 1;
     [articleView addSubview:fabuBtn];
        
+   
     }
 }
 

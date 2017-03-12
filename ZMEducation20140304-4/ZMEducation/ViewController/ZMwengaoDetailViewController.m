@@ -47,6 +47,7 @@
     tvvv.backgroundColor = [UIColor clearColor];
     tvvv.editable = NO;
     tvvv.text = arr111;
+    tvvv.font = [UIFont systemFontOfSize:15];
     [self.view addSubview:tvvv];
     
     UIButton* closeBut = [UIButton buttonWithType:UIButtonTypeCustom];

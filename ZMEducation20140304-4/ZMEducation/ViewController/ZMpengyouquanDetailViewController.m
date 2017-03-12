@@ -21,7 +21,9 @@
 @property (nonatomic ,strong) NSDictionary *m137Dic;
 
 @property (nonatomic ,strong) NSMutableArray *m137tempArr;
+@property (nonatomic, strong)NSMutableArray *arr;
 
+@property int count1;
 @end
 
 @implementation ZMpengyouquanDetailViewController
@@ -62,7 +64,8 @@
     [super viewDidLoad];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notice) name:@"youyouyou" object:nil];
-    
+    self.arr = [[NSMutableArray alloc]init];
+
     self.m137tempArr = [[ NSMutableArray alloc]init];
     
     UIView * view = [[UIView alloc]initWithFrame:[[UIScreen mainScreen] applicationFrame]];
@@ -74,7 +77,7 @@
     label.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:label];
 
-    tabv1 = [[UITableView alloc]initWithFrame:CGRectMake(0, 100, 650, 300)];
+    tabv1 = [[UITableView alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 300)];
     tabv1.delegate = self;
     tabv1.dataSource = self;
     tabv1.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -91,7 +94,7 @@
     [commmitBtn addTarget:self action:@selector(commit) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:commmitBtn];
     
-    tabv2 = [[UITableView alloc]initWithFrame:CGRectMake(0, 450, 650, 300)];
+    tabv2 = [[UITableView alloc]initWithFrame:CGRectMake(0, 450, self.view.frame.size.width, 300)];
     tabv2.delegate = self;
     tabv2.dataSource = self;
     tabv2.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -188,29 +191,37 @@
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             cell.contentView.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
             
-            UILabel *labele = [[UILabel alloc]init];
+            UILabel *labele = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 500, 30)];
             labele.tag = 200;
-            labele.backgroundColor = [UIColor redColor];
             [cell.contentView addSubview:labele];
             
-            UILabel *nameLb = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 80, 40)];
+            UILabel *nameLb = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 120, 0, 120, 30)];
             nameLb.tag = 201;
+            nameLb.textAlignment = NSTextAlignmentRight;
             [cell.contentView addSubview:nameLb];
             
-            UILabel *countLb = [[UILabel alloc]init];
-            countLb.tag = 202;
+            UILabel *countLb = [[UILabel alloc]initWithFrame:CGRectMake(0, 30, self.view.frame.size.width, 30)];
+            countLb.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
             [cell.contentView addSubview:countLb];
             
+            UILabel *countLb1 = [[UILabel alloc]initWithFrame:CGRectZero];
+            countLb1.tag = 202;
+            countLb1.textColor = [UIColor whiteColor];
+            countLb1.backgroundColor = [UIColor colorWithRed:85/255.0f green:166/255.0f blue:239/255.0f alpha:1.0];
+            [cell.contentView addSubview:countLb1];
+
+            
         }
-        UILabel *labeld = [cell.contentView viewWithTag:200];
-        labeld.frame = CGRectMake(80, 5,[self.m137Dic[@"releases"][indexPath.row][@"voteCount"] intValue] * 20, 30);
         
-        UILabel *label1 = [cell.contentView viewWithTag:201];
-        label1.text = self.m137Dic[@"releases"][indexPath.row][@"author"];
+        UILabel *label11 = [cell.contentView viewWithTag:200];
+        label11.text = self.m137Dic[@"releases"][indexPath.row][@"author"];
         
-        UILabel *labe22 = [cell.contentView viewWithTag:202];
-        labe22.frame = CGRectMake(labeld.frame.size.width + labeld.frame.origin.x + 20, 0, 80, 40);
-        labe22.text = [NSString stringWithFormat:@"%d票",[self.m137Dic[@"releases"][indexPath.row][@"voteCount"] intValue]];
+        UILabel *label13 = [cell.contentView viewWithTag:201];
+        label13.text = [NSString stringWithFormat:@"%d票",[self.m137Dic[@"releases"][indexPath.row][@"voteCount"] intValue]];
+        
+        UILabel *labe2 = [cell.contentView viewWithTag:202];
+        labe2.frame = CGRectMake(0, 30,((float)[self.m137Dic[@"releases"][indexPath.row][@"voteCount"] intValue]/self.count1)*800, 30);
+        labe2.text = [NSString stringWithFormat:@"%g%%",((float)[self.m137Dic[@"releases"][indexPath.row][@"voteCount"] intValue]/self.count1)*100];
 
         return cell;
     }
@@ -246,6 +257,18 @@
         }
         
         NSLog(@"self.m137tempArr===%@",self.m137tempArr);
+        
+        self.count1 = 0;
+        
+        [self.arr removeAllObjects];
+        for (NSMutableDictionary *dic in self.m137Dic[@"releases"]) {
+            [self.arr addObject:dic[@"voteCount"]];
+        }
+        
+        for (NSString *str in self.arr) {
+            self.count1 += [str intValue];
+        }
+
         [tabv1 reloadData];
         [tabv2 reloadData];
     }else if ([@"M138" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
