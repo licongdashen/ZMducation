@@ -162,8 +162,8 @@
     NSMutableDictionary* unitDict = [[NSMutableDictionary alloc] initWithCapacity:10];
     [unitDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
     [unitDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
-//    [unitDict setValue:[[courseArray objectAtIndex:selectCourseIndex] valueForKey:@"courseId"] forKey:@"courseId"];
-//    [unitDict setValue:[[moduleArray objectAtIndex:selectModuleIndex] valueForKey:@"moduleId"] forKey:@"moduleId"];
+    [unitDict setValue:[workDict valueForKey:@"courseId"] forKey:@"courseId"];
+    [unitDict setValue:[workDict valueForKey:@"moduleId"] forKey:@"moduleId"];
     
     //    NSString* role = [userDict valueForKey:@"role"];
     //    if ([@"03" isEqualToString:role] || [@"04" isEqualToString:role]) {
@@ -185,13 +185,7 @@
 //        [self.navigationController pushViewController:viewController animated:YES];
 //        [viewController release];
     }else if([@"4" isEqualToString:unitType]){
-        
-        ZMpengyouquanDetailViewController *vc = [[ZMpengyouquanDetailViewController alloc]init];
-        vc.dic = workDict;
-        [self.navigationController pushViewController:vc animated:YES];
-        [vc release];
-        return;
-        
+
         NSString* articleType = [workDict valueForKey:@"articleType"];
         if ([@"01" isEqualToString:articleType]) {
             ZMArticleViewController* viewController = [[ZMArticleViewController alloc] init];
@@ -327,7 +321,10 @@
         
     }else {
     
-        
+        ZMpengyouquanDetailViewController *vc = [[ZMpengyouquanDetailViewController alloc]init];
+        vc.dic = workDict;
+        [self.navigationController pushViewController:vc animated:YES];
+        [vc release];
     }
     
     [unitDict release];

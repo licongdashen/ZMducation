@@ -220,7 +220,11 @@
         label13.text = [NSString stringWithFormat:@"%d票",[self.m137Dic[@"releases"][indexPath.row][@"voteCount"] intValue]];
         
         UILabel *labe2 = [cell.contentView viewWithTag:202];
-        labe2.frame = CGRectMake(0, 30,((float)[self.m137Dic[@"releases"][indexPath.row][@"voteCount"] intValue]/self.count1)*800, 30);
+        if (self.count1 == 0) {
+            labe2.frame = CGRectMake(0, 0, 0, 0);
+        }else{
+            labe2.frame = CGRectMake(0, 30,((float)[self.m137Dic[@"releases"][indexPath.row][@"voteCount"] intValue]/self.count1)*800, 30);
+        }
         labe2.text = [NSString stringWithFormat:@"%g%%",((float)[self.m137Dic[@"releases"][indexPath.row][@"voteCount"] intValue]/self.count1)*100];
 
         return cell;

@@ -198,7 +198,7 @@
         contentLb.font = [UIFont boldSystemFontOfSize:20];
         [backview1 addSubview:contentLb];
         
-        refishBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 170, 40, 30)];
+        refishBtn = [[UIButton alloc]initWithFrame:CGRectMake(570, 120, 40, 20)];
         [refishBtn setTitle:@"刷新" forState:UIControlStateNormal];
         [refishBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [refishBtn addTarget:self action:@selector(refish) forControlEvents:UIControlEventTouchUpInside];
@@ -206,24 +206,24 @@
         refishBtn.layer.borderWidth = 1;
         [backview1 addSubview:refishBtn];
         
-        contentTv = [[UITextView alloc]initWithFrame:CGRectMake(60, 120, backview1.frame.size.width - 60, 150)];
+        contentTv = [[UITextView alloc]initWithFrame:CGRectMake(60, 140, (backview1.frame.size.width - 60)/2 - 40, 250)];
         contentTv.layer.borderColor = [UIColor blackColor].CGColor;
         contentTv.layer.borderWidth = 1;
         contentTv.tag = -99999 + i;
         contentTv.backgroundColor = [UIColor clearColor];
-        contentTv.font = [UIFont systemFontOfSize:20];
+        contentTv.font = [UIFont systemFontOfSize:15];
         [backview1 addSubview:contentTv];
         
-        contentTv1 = [[UITextView alloc]initWithFrame:CGRectMake(60, 300, backview1.frame.size.width - 60, 150)];
+        contentTv1 = [[UITextView alloc]initWithFrame:CGRectMake(contentTv.frame.size.width + contentTv.frame.origin.x + 20,140, (backview1.frame.size.width - 60)/2 - 40, 250)];
         contentTv1.layer.borderColor = [UIColor blackColor].CGColor;
         contentTv1.layer.borderWidth = 1;
         contentTv1.tag = -999999 + i;
         contentTv1.hidden = YES;
-        contentTv1.font = [UIFont systemFontOfSize:20];
+        contentTv1.font = [UIFont systemFontOfSize:15];
         contentTv1.backgroundColor = [UIColor clearColor];
         [backview1 addSubview:contentTv1];
 
-        commmitBtn = [[UIButton alloc]initWithFrame:CGRectMake(backview1.frame.size.width - 60 - 60, 500, 60, 30)];
+        commmitBtn = [[UIButton alloc]initWithFrame:CGRectMake(backview1.frame.size.width/2, 470, 60, 30)];
         [commmitBtn setTitle:@"提交" forState:UIControlStateNormal];
         [commmitBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         commmitBtn.layer.borderColor = [UIColor blackColor].CGColor;
@@ -804,7 +804,7 @@
     }else if (seg.selectedSegmentIndex == 2){
         if (tableView.tag == 111111 + self.number) {
             
-            return 100;
+            return 150;
         }
 
         return 40;
@@ -999,7 +999,7 @@
                 nameLb.tag = 55557;
                 [cell.contentView addSubview:nameLb];
                 
-                UITextView *contentTv2 = [[UITextView alloc]initWithFrame:CGRectMake(100, 30, backview2.frame.size.width - 130, 70)];
+                UITextView *contentTv2 = [[UITextView alloc]initWithFrame:CGRectMake(100, 40, backview2.frame.size.width - 130, 110)];
                 contentTv2.editable = NO;
                 contentTv2.tag = 66667;
                 contentTv2.font = [UIFont systemFontOfSize:15];
@@ -1266,6 +1266,10 @@
     UITextView *tv = [self.view viewWithTag: -99999 + self.number];
     UITextView *tv1 = [self.view viewWithTag:-999999 + self.number];
     
+    if (tv.text == nil||[tv.text isEqualToString:@""]||tv1.text == nil ||[tv1.text isEqualToString:@""]) {
+        [self showTip:@"内容不能为空"];
+        return;
+    }
     NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
     NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
     [requestDict setValue:@"M123" forKey:@"method"];

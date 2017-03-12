@@ -15,12 +15,12 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        self.tv = [[UITextView alloc]initWithFrame:CGRectMake(420 + 20, 5, 250 + 50, 90)];
+        self.tv = [[UITextView alloc]initWithFrame:CGRectMake(420 + 20, 5, 250 + 50 + 40, 130)];
         self.tv.backgroundColor = [UIColor whiteColor];
-        self.tv.font = [UIFont systemFontOfSize:15];
+        self.tv.font = [UIFont systemFontOfSize:17];
         [self addSubview:self.tv];
 
-        self.baocunBtn = [[UIButton alloc]initWithFrame:CGRectMake(720+ 20+ 10 + 50, 10, 50, 25)];
+        self.baocunBtn = [[UIButton alloc]initWithFrame:CGRectMake(720+ 20+ 10 + 50 + 40, 10, 50, 25)];
         [self.baocunBtn setTitle:@"保存" forState:UIControlStateNormal];
         [self.baocunBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         self.baocunBtn.layer.borderColor = [UIColor blackColor].CGColor;
@@ -28,7 +28,7 @@
         [self.baocunBtn addTarget:self action:@selector(save) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.baocunBtn];
         
-        self.shanchuBtn = [[UIButton alloc]initWithFrame:CGRectMake(720+ 20+ 10 + 50, 45, 50, 25)];
+        self.shanchuBtn = [[UIButton alloc]initWithFrame:CGRectMake(720+ 20+ 10 + 50 + 40, 45, 50, 25)];
         [self.shanchuBtn setTitle:@"删除" forState:UIControlStateNormal];
         [self.shanchuBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         self.shanchuBtn.layer.borderColor = [UIColor blackColor].CGColor;

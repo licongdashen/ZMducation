@@ -164,6 +164,7 @@
     contentTv = [[UITextView alloc]initWithFrame:CGRectMake(150, 150, 500, 120)];
     contentTv.layer.borderColor = [UIColor blackColor].CGColor;
     contentTv.layer.borderWidth = 1;
+    contentTv.font = [UIFont systemFontOfSize:17];
     contentTv.backgroundColor = [UIColor clearColor];
     [self.view addSubview:contentTv];
     
@@ -232,11 +233,11 @@
     tv.textAlignment = NSTextAlignmentCenter;
     [headerView addSubview:tv];
     
-    UIView *line4 = [[UIView alloc]initWithFrame:CGRectMake(700+ 10+ 10+ 10+ 10+ 10+ 10+ 10+ 10, 0, 1, 40)];
+    UIView *line4 = [[UIView alloc]initWithFrame:CGRectMake(700+ 10+ 10+ 10+ 10+ 10+ 10+ 10+ 10 + 40, 0, 1, 40)];
     line4.backgroundColor = [UIColor blackColor];
     [headerView addSubview:line4];
 
-    UILabel *tv1 = [[UILabel alloc]initWithFrame:CGRectMake(730 + 50, 0, 60, 40)];
+    UILabel *tv1 = [[UILabel alloc]initWithFrame:CGRectMake(730 + 50 + 40, 0, 60, 40)];
     tv1.text = @"操作";
     tv1.textAlignment = NSTextAlignmentCenter;
 
@@ -321,7 +322,6 @@
     NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
     [requestDict setValue:@"M132" forKey:@"method"];
     [requestDict setValue:self.m004Dic[@"courses"][selint][@"courseId"]?self.m004Dic[@"courses"][selint][@"courseId"]:@"" forKey:@"courseId"];
-    [requestDict setValue:self.m004Dic[@"classes"][selint][@"classId"]?self.m004Dic[@"classes"][selint][@"classId"]:@"" forKey:@"classId"];
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
     
@@ -396,7 +396,10 @@
         NSLog(@"self.m132Arr===%@",self.m132Arr);
 
     }
-    
+    if ([@"M132" isEqualToString:method] && [@"96" isEqualToString:responseCode]) {
+        [self hideIndicator];
+        [self showTip:responseDict[@"responseMessage"]];
+    }
     if ([@"M133" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
         [self hideIndicator];
         [self showTip:@"收藏修改成功"];
@@ -426,7 +429,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     if (tableView == titleTabv2) {
-        return 100;
+        return 140;
     }
     return 40;
 }
@@ -498,40 +501,40 @@
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             cell.contentView.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
             
-            UILabel *type = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 60 + 10, 100)];
+            UILabel *type = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 60 + 10, 140)];
             type.tag = 200;
             type.font = [UIFont systemFontOfSize:16];
             type.textAlignment = NSTextAlignmentCenter;
             [cell.contentView addSubview:type];
             
-            UIView *line1 = [[UIView alloc]initWithFrame:CGRectMake(65+ 10, 0, 1, 100)];
+            UIView *line1 = [[UIView alloc]initWithFrame:CGRectMake(65+ 10, 0, 1, 140)];
             line1.backgroundColor = [UIColor blackColor];
             [cell.contentView addSubview:line1];
             
-            UILabel *titile = [[UILabel alloc]initWithFrame:CGRectMake(70+ 10, 0, 220 + 10+ 10, 100)];
+            UILabel *titile = [[UILabel alloc]initWithFrame:CGRectMake(70+ 10, 0, 220 + 10+ 10, 140)];
             titile.tag = 201;
             titile.font = [UIFont systemFontOfSize:16];
             titile.textAlignment = NSTextAlignmentCenter;
 
             [cell.contentView addSubview:titile];
             
-            UIView *line2 = [[UIView alloc]initWithFrame:CGRectMake(300+ 10+ 10+ 10, 0, 1, 100)];
+            UIView *line2 = [[UIView alloc]initWithFrame:CGRectMake(300+ 10+ 10+ 10, 0, 1, 140)];
             line2.backgroundColor = [UIColor blackColor];
             [cell.contentView addSubview:line2];
             
             
-            UILabel *score = [[UILabel alloc]initWithFrame:CGRectMake(310+ 10+ 10+ 10, 0, 80, 100)];
+            UILabel *score = [[UILabel alloc]initWithFrame:CGRectMake(310+ 10+ 10+ 10, 0, 80, 140)];
             score.tag = 202;
             score.font = [UIFont systemFontOfSize:16];
             score.textAlignment = NSTextAlignmentCenter;
             [cell.contentView addSubview:score];
             
-            UIView *line3 = [[UIView alloc]initWithFrame:CGRectMake(400+ 10+ 10+ 10, 0, 1, 100)];
+            UIView *line3 = [[UIView alloc]initWithFrame:CGRectMake(400+ 10+ 10+ 10, 0, 1, 140)];
             line3.backgroundColor = [UIColor blackColor];
             [cell.contentView addSubview:line3];
             
             
-            UIView *line4 = [[UIView alloc]initWithFrame:CGRectMake(700+ 10+ 10+ 10 + 50, 0, 1, 100)];
+            UIView *line4 = [[UIView alloc]initWithFrame:CGRectMake(700+ 10+ 10+ 10 + 50 + 40, 0, 1, 140)];
             line4.backgroundColor = [UIColor blackColor];
             [cell.contentView addSubview:line4];
             
@@ -539,7 +542,7 @@
 //            line5.backgroundColor = [UIColor blackColor];
 //            [cell.contentView addSubview:line5];
             
-            UIView *line6 = [[UIView alloc]initWithFrame:CGRectMake(0, 99, titleTabv2.frame.size.width, 1)];
+            UIView *line6 = [[UIView alloc]initWithFrame:CGRectMake(0, 139, titleTabv2.frame.size.width, 1)];
             line6.backgroundColor = [UIColor blackColor];
             [cell.contentView addSubview:line6];
             
