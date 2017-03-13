@@ -8,6 +8,7 @@
 
 #import "ZMpengyouquanDetailViewController.h"
 #import "ZMpengyouuanTableViewCell.h"
+#import "ZMpengyouquanjieguoViewController.h"
 
 @interface ZMpengyouquanDetailViewController ()
 {
@@ -15,7 +16,7 @@
     UITableView *tabv1;
     UIButton *commmitBtn;
     UITableView *tabv2;
-
+    UIButton * searchBtn11;
 }
 
 @property (nonatomic ,strong) NSDictionary *m137Dic;
@@ -77,16 +78,14 @@
     label.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:label];
 
-    tabv1 = [[UITableView alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 300)];
+    tabv1 = [[UITableView alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 600)];
     tabv1.delegate = self;
     tabv1.dataSource = self;
     tabv1.separatorStyle = UITableViewCellSeparatorStyleNone;
     tabv1.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
     [self.view addSubview:tabv1];
     
-
-    
-    commmitBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 400, 60, 30)];
+    commmitBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 650, 60, 30)];
     commmitBtn.center = CGPointMake(self.view.center.x, commmitBtn.center.y);
     [commmitBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     commmitBtn.layer.borderColor = [UIColor blackColor].CGColor;
@@ -94,12 +93,21 @@
     [commmitBtn addTarget:self action:@selector(commit) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:commmitBtn];
     
-    tabv2 = [[UITableView alloc]initWithFrame:CGRectMake(0, 450, self.view.frame.size.width, 300)];
-    tabv2.delegate = self;
-    tabv2.dataSource = self;
-    tabv2.separatorStyle = UITableViewCellSeparatorStyleNone;
-    tabv2.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
-    [self.view addSubview:tabv2];
+    
+    searchBtn11 = [[UIButton alloc]initWithFrame:CGRectMake(700, 650, 120 ,30)];
+    [searchBtn11 setTitle:@"查看投票结果" forState:UIControlStateNormal];
+    [searchBtn11 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    searchBtn11.layer.borderColor = [UIColor blackColor].CGColor;
+    searchBtn11.layer.borderWidth = 1;
+    [searchBtn11 addTarget:self action:@selector(commit111) forControlEvents:UIControlEventTouchUpInside];
+    searchBtn11.hidden = YES;
+    [self.view addSubview:searchBtn11];
+//    tabv2 = [[UITableView alloc]initWithFrame:CGRectMake(0, 450, self.view.frame.size.width, 300)];
+//    tabv2.delegate = self;
+//    tabv2.dataSource = self;
+//    tabv2.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    tabv2.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
+//    [self.view addSubview:tabv2];
     
     UIButton* closeBut = [UIButton buttonWithType:UIButtonTypeCustom];
     [closeBut setFrame:CGRectMake(948, 20, 49, 49)];
@@ -110,9 +118,24 @@
        forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:closeBut];
 
-
     [self m137];
 
+}
+
+-(void)commit111
+{
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M137" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    [requestDict setValue:self.dic[@"releaseId"] forKey:@"releaseId"];
+
+    ZMpengyouquanjieguoViewController *vc = [[ZMpengyouquanjieguoViewController alloc]init];
+    vc.dic1 = requestDict;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 -(void)m137
@@ -246,9 +269,11 @@
         if ([[NSString stringWithFormat:@"%@",self.m137Dic[@"ifVote"]] isEqualToString:@"1"]) {
             [commmitBtn setTitle:@"已投票" forState:UIControlStateNormal];
             commmitBtn.enabled = NO;
+            searchBtn11.hidden = NO;
         }else{
             [commmitBtn setTitle:@"投票" forState:UIControlStateNormal];
             commmitBtn.enabled = YES;
+            searchBtn11.hidden = YES;;
         }
         
         [self.m137tempArr removeAllObjects];

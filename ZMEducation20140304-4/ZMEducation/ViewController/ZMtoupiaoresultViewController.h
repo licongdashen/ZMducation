@@ -8,6 +8,8 @@
 
 #import "ZMBaseViewController.h"
 
-@interface ZMtoupiaoresultViewController : ZMBaseViewController<UITableViewDelegate,UITableViewDataSource>
+@interface ZMtoupiaoresultViewController : ZMBaseViewController<UITableViewDelegate,UITableViewDataSource,ZMHttpEngineDelegate>
 @property (nonatomic, strong) NSDictionary *dic;
+@property (nonatomic, strong) NSMutableDictionary *dic1;
+
 @end

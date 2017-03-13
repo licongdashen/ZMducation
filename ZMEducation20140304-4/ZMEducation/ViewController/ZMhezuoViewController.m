@@ -11,6 +11,7 @@
 #import "ZMhezuo1TableViewCell.h"
 #import "ZMwengaoDetailViewController.h"
 #import "ZMtoupiaoresultViewController.h"
+#import "ZMtoupiaojieguoViewController.h"
 
 @implementation ZMhezuoViewController
 -(void)dealloc
@@ -328,15 +329,15 @@
         [backview3 addSubview:toupiaoBtn1];
 
         
-//        UIButton* toupiaoBtn11 = [[UIButton alloc]initWithFrame:CGRectMake(backview3.frame.size.width/2 + 60, se3Tabv.frame.origin.y + se3Tabv.frame.size.height + 20, 140, 30)];
-//        toupiaoBtn11.tag = -88888888 + i;
-//        [toupiaoBtn11 setTitle:@"查看投票结果" forState:UIControlStateNormal];
-//        [toupiaoBtn11 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//        toupiaoBtn11.layer.borderColor = [UIColor blackColor].CGColor;
-//        toupiaoBtn11.layer.borderWidth = 1;
-//        toupiaoBtn11.hidden = YES;
-//        [toupiaoBtn11 addTarget:self action:@selector(toupiaojieguo) forControlEvents:UIControlEventTouchUpInside];
-//        [backview3 addSubview:toupiaoBtn11];
+        UIButton* toupiaoBtn11 = [[UIButton alloc]initWithFrame:CGRectMake(backview3.frame.size.width/2 + 60, se3Tabv.frame.origin.y + se3Tabv.frame.size.height + 20, 140, 30)];
+        toupiaoBtn11.tag = -88888888 + i;
+        [toupiaoBtn11 setTitle:@"查看投票结果" forState:UIControlStateNormal];
+        [toupiaoBtn11 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        toupiaoBtn11.layer.borderColor = [UIColor blackColor].CGColor;
+        toupiaoBtn11.layer.borderWidth = 1;
+        toupiaoBtn11.hidden = YES;
+        [toupiaoBtn11 addTarget:self action:@selector(toupiaojieguo) forControlEvents:UIControlEventTouchUpInside];
+        [backview3 addSubview:toupiaoBtn11];
         
         
         UITableView* se4Tabv = [[UITableView alloc]initWithFrame:CGRectMake(0, 50, backview4.frame.size.width, backview4.frame.size.height - 180)];
@@ -739,9 +740,20 @@
 
 -(void)commit111:(UIButton *)sender
 {
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M124" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    [requestDict setValue:self.hezuoArr[self.number][@"forumId"] forKey:@"forumId"];
+    
     ZMtoupiaoresultViewController * vc = [[ZMtoupiaoresultViewController alloc]init];
     vc.dic = self.M124dic;
+    vc.dic1 = requestDict;
     [self presentViewController:vc animated:YES completion:NULL];
+    
 }
 
 -(void)toupiao
@@ -772,8 +784,27 @@
 
 }
 
+
 -(void)toupiaojieguo
 {
+    NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
+    NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [requestDict setValue:@"M125" forKey:@"method"];
+    [requestDict setValue:[userDict valueForKey:@"currentCourseId"] forKey:@"courseId"];
+    [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
+    [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
+    [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
+    [requestDict setValue:self.hezuoArr[self.number][@"forumId"] forKey:@"forumId"];
+    [requestDict setValue:m126id forKey:@"optionId"];
+
+    UILabel *lablec = [self.view viewWithTag:222222 + self.number];
+    NSString *fff = self.hezuoArr[self.number][@"forumTitle"];
+    
+    ZMtoupiaojieguoViewController * vc = [[ZMtoupiaojieguoViewController alloc]init];
+    vc.dic1 = requestDict;
+    vc.str = [NSString stringWithFormat:@"%@(%@)",fff,lablec.text];
+    
+    [self presentViewController:vc animated:YES completion:NULL];
     
 }
 

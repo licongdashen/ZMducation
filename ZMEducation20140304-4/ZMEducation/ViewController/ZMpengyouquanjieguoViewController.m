@@ -1,26 +1,25 @@
 //
-//  ZMtoupiaoresultViewController.m
+//  ZMpengyouquanjieguoViewController.m
 //  ZMEducation
 //
-//  Created by Queen on 2017/3/10.
+//  Created by Queen on 2017/3/13.
 //  Copyright © 2017年 99Bill. All rights reserved.
 //
 
-#import "ZMtoupiaoresultViewController.h"
+#import "ZMpengyouquanjieguoViewController.h"
 
-@interface ZMtoupiaoresultViewController ()
+@interface ZMpengyouquanjieguoViewController ()
 {
     UITableView* se4Tabv;
     UILabel *titlelabel;
-
+    
 }
 @property (nonatomic, strong)NSMutableArray *arr;
 
 @property int count1;
-
 @end
 
-@implementation ZMtoupiaoresultViewController
+@implementation ZMpengyouquanjieguoViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -28,15 +27,14 @@
     UIView * view = [[UIView alloc]initWithFrame:[[UIScreen mainScreen] applicationFrame]];
     view.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
     self.view = view;
+    
     self.arr = [[NSMutableArray alloc]init];
-    for (NSMutableDictionary *dic in self.dic[@"groupNames"]) {
-        [self.arr addObject:dic[@"voteCount"]];
-    }
     
-    for (NSString *str in self.arr) {
-        self.count1 += [str intValue];
-    }
-    
+    titlelabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 80, self.view.frame.size.width, 30)];
+    titlelabel.font = [UIFont boldSystemFontOfSize:20];
+    titlelabel.textAlignment = NSTextAlignmentCenter;
+    titlelabel.text = self.str;
+    [self.view addSubview:titlelabel];
     
     UIButton* refishBtn = [[UIButton alloc]initWithFrame:CGRectMake(800, 120, 50, 25)];
     [refishBtn setTitle:@"刷新" forState:UIControlStateNormal];
@@ -46,19 +44,19 @@
     refishBtn.layer.borderWidth = 1;
     [self.view addSubview:refishBtn];
     
-    
-    titlelabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 80, self.view.frame.size.width, 30)];
-    titlelabel.font = [UIFont boldSystemFontOfSize:20];
-    titlelabel.textAlignment = NSTextAlignmentCenter;
-    titlelabel.text = self.dic[@"forumTitle"];
-    [self.view addSubview:titlelabel];
-
     se4Tabv = [[UITableView alloc]initWithFrame:CGRectMake(50, 150, self.view.frame.size.width - 100, self.view.frame.size.height - 100)];
     se4Tabv.delegate = self;
     se4Tabv.dataSource = self;
     se4Tabv.backgroundColor = [UIColor colorWithRed:217/255.0f green:217/255.0f blue:217/255.0f alpha:1.0];
     se4Tabv.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:se4Tabv];
+    
+    [self showIndicator];
+    
+    ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
+    [httpEngine setDelegate:self];
+    [httpEngine requestWithDict:self.dic1];
+    [httpEngine release];
     
     UIButton* closeBut = [UIButton buttonWithType:UIButtonTypeCustom];
     [closeBut setFrame:CGRectMake(948, 20, 49, 49)];
@@ -69,6 +67,7 @@
        forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:closeBut];
 }
+
 -(void)refish
 {
     ZMHttpEngine* httpEngine = [[ZMHttpEngine alloc] init];
@@ -99,7 +98,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
 {
-    return [self.dic[@"groupNames"] count];
+    return [self.dic[@"releases"] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
@@ -129,18 +128,18 @@
         countLb1.tag = 202;
         countLb1.backgroundColor = [UIColor colorWithRed:85/255.0f green:166/255.0f blue:239/255.0f alpha:1.0];
         [cell.contentView addSubview:countLb1];
-
+        
     }
     
     UILabel *label = [cell.contentView viewWithTag:200];
-    label.text = [NSString stringWithFormat:@"%@(%@票)",self.dic[@"groupNames"][indexPath.row][@"groupName"],self.dic[@"groupNames"][indexPath.row][@"voteCount"]];
+    label.text = [NSString stringWithFormat:@"%@(%@):%@票",self.dic[@"releases"][indexPath.row][@"author"],self.dic[@"releases"][indexPath.row][@"detailTitle"],[NSString stringWithFormat:@"%@",self.dic[@"releases"][indexPath.row][@"voteCount"]]];;
     
-//    UILabel *label1 = [cell.contentView viewWithTag:201];
-//    label1.text = [NSString stringWithFormat:@"%@票",self.dic[@"groupNames"][indexPath.row][@"voteCount"]];
-
+    //    UILabel *label1 = [cell.contentView viewWithTag:201];
+    //    label1.text = [NSString stringWithFormat:@"%@票",self.dic[@"groupNames"][indexPath.row][@"voteCount"]];
+    
     UILabel *labe2 = [cell.contentView viewWithTag:202];
-    labe2.frame = CGRectMake(0, 30,((float)[self.dic[@"groupNames"][indexPath.row][@"voteCount"] intValue]/self.count1)*800, 30);
-    labe2.text = [NSString stringWithFormat:@"%g%%",((float)[self.dic[@"groupNames"][indexPath.row][@"voteCount"] intValue])/self.count1*100];
+    labe2.frame = CGRectMake(0, 30,((float)[self.dic[@"releases"][indexPath.row][@"voteCount"] intValue]/self.count1)*800, 30);
+    labe2.text = [NSString stringWithFormat:@"%g%%",((float)[self.dic[@"releases"][indexPath.row][@"voteCount"] intValue])/self.count1*100];
     
     return cell;
 }
@@ -150,19 +149,16 @@
     
     NSString* method = [responseDict valueForKey:@"method"];
     NSString* responseCode = [responseDict valueForKey:@"responseCode"];
-    if ([@"M124" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
+    if ([@"M137" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
         [self hideIndicator];
-        self.dic = responseDict;
-        NSLog(@"m124dic===%@",self.dic);
+        self.dic = (NSMutableDictionary *)responseDict;
+        NSLog(@"M137dic===%@",self.dic);
         self.count1 = 0;
         
-        [self.arr removeAllObjects];
-        for (NSMutableDictionary *dic in self.dic[@"groupNames"]) {
-            [self.arr addObject:dic[@"voteCount"]];
+        for (NSDictionary *dic in self.dic[@"releases"]) {
+            self.count1 += [dic[@"voteCount"] intValue];
         }
-        for (NSString *str in self.arr) {
-            self.count1 += [str intValue];
-        }
+        
         [se4Tabv reloadData];
     }
 }
@@ -183,13 +179,11 @@
         int tag = alertView.tag;
         if (tag == 100) {
             //            [self.delegate ZMGousiSwipeViewDidClose:self];
-            [self dismissViewControllerAnimated:YES completion:^{
-                
-                
-            }];
+            [self.navigationController popViewControllerAnimated:YES];
         }
     }
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
