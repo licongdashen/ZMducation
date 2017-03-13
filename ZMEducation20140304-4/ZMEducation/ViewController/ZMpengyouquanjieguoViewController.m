@@ -158,7 +158,7 @@
         for (NSDictionary *dic in self.dic[@"releases"]) {
             self.count1 += [dic[@"voteCount"] intValue];
         }
-        
+        titlelabel.text = self.dic[@"sourceName"];
         [se4Tabv reloadData];
     }
 }
