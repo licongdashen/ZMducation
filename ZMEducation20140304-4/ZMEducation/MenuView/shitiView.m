@@ -52,10 +52,10 @@
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
     [requestDict setValue:self.shiti[@"userAnswers"][sender.tag - 10000][@"userName"] forKey:@"collectTitile"];
-    [requestDict setValue:self.shiti[@"userAnswers"][sender.tag - 10000][@"answer"][0] forKey:@"collectContent"];
-    [requestDict setValue:@"3" forKey:@"sourceId"];
-//    [requestDict setValue:((ZMAppDelegate*)[UIApplication sharedApplication].delegate).authorId forKey:@"authorId"];
-//    [requestDict setValue:((ZMAppDelegate*)[UIApplication sharedApplication].delegate).unitId forKey:@"recordId"];
+    [requestDict setValue:self.shiti[@"questionContent"] forKey:@"collectContent"];
+    [requestDict setValue:@"2" forKey:@"sourceId"];
+    [requestDict setValue:self.shiti[@"userAnswers"][sender.tag - 10000][@"authorId"] forKey:@"authorId"];
+    [requestDict setValue:self.shiti[@"userAnswers"][sender.tag - 10000][@"recordId"] forKey:@"recordId"];
     
     [self showIndicator];
     

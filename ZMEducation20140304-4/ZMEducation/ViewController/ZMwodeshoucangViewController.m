@@ -512,17 +512,17 @@
             line1.backgroundColor = [UIColor blackColor];
             [cell.contentView addSubview:line1];
             
-            UILabel *titile = [[UILabel alloc]initWithFrame:CGRectMake(70+ 10, 0, 220 + 10+ 10, 140)];
+            UITextView *titile = [[UITextView alloc]initWithFrame:CGRectMake(70+ 10, 0, 220 + 10+ 10, 140)];
             titile.tag = 201;
             titile.font = [UIFont systemFontOfSize:16];
+            titile.editable = NO;
+            titile.backgroundColor = [UIColor clearColor];
             titile.textAlignment = NSTextAlignmentCenter;
-
             [cell.contentView addSubview:titile];
             
             UIView *line2 = [[UIView alloc]initWithFrame:CGRectMake(300+ 10+ 10+ 10, 0, 1, 140)];
             line2.backgroundColor = [UIColor blackColor];
             [cell.contentView addSubview:line2];
-            
             
             UILabel *score = [[UILabel alloc]initWithFrame:CGRectMake(310+ 10+ 10+ 10, 0, 80, 140)];
             score.tag = 202;
@@ -553,7 +553,7 @@
         
         type.text = self.m132Arr[indexPath.row][@"typeName"];
         
-        UILabel *type1 = [cell.contentView viewWithTag:201];
+        UITextView *type1 = [cell.contentView viewWithTag:201];
         type1.text = [NSString stringWithFormat:@"%@(%@)",self.m132Arr[indexPath.row][@"collectTitle"],self.m132Arr[indexPath.row][@"author"]];
 
         UILabel *type2 = [cell.contentView viewWithTag:202];

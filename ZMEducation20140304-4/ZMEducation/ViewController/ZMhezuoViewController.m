@@ -189,7 +189,7 @@
         subtitleLb.font = [UIFont boldSystemFontOfSize:20];
         [backview1 addSubview:subtitleLb];
         
-        UILabel *subtitleLb11 = [[UILabel alloc]initWithFrame:CGRectMake(570, 95, 80, 30)];
+        UILabel *subtitleLb11 = [[UILabel alloc]initWithFrame:CGRectMake(450, 105, 80, 30)];
         subtitleLb11.text = @"历史内容";
         subtitleLb11.font = [UIFont systemFontOfSize:16];
         subtitleLb11.hidden = YES;
@@ -207,7 +207,7 @@
         contentLb.font = [UIFont boldSystemFontOfSize:20];
         [backview1 addSubview:contentLb];
         
-        refishBtn = [[UIButton alloc]initWithFrame:CGRectMake(670, 450, 40, 20)];
+        refishBtn = [[UIButton alloc]initWithFrame:CGRectMake(670, 105, 40, 20)];
         [refishBtn setTitle:@"刷新" forState:UIControlStateNormal];
         [refishBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [refishBtn addTarget:self action:@selector(refish) forControlEvents:UIControlEventTouchUpInside];
@@ -1159,6 +1159,12 @@
 
 -(void)action:(UIButton *)sender
 {
+    int tag = sender.tag;
+    int count = self.shoucangview.tag  - 444444444;
+    
+    UILabel *lablec = [self.view viewWithTag:222222 + self.number];
+    NSString *fff = self.hezuoArr[self.number][@"forumTitle"];
+
     self.shoucangview.hidden = YES;
     NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
     NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
@@ -1167,10 +1173,12 @@
     [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
-    [requestDict setValue:self.nameStr forKey:@"collectTitile"];
+    [requestDict setValue:[NSString stringWithFormat:@"%@:%@",fff,lablec.text] forKey:@"collectTitile"];
     [requestDict setValue:contentStr forKey:@"collectContent"];
     [requestDict setValue:[NSString stringWithFormat:@"%ld",(long)sender.tag + 1 + 7777777] forKey:@"typeId"];
     [requestDict setValue:@"3" forKey:@"sourceId"];
+    [requestDict setValue:self.M125dic[@"forumSubTitles"][0][@"forumContents"][count][@"authorId"] forKey:@"authorId"];
+    [requestDict setValue:self.M125dic[@"forumSubTitles"][0][@"forumContents"][count][@"voteAnswerId"] forKey:@"recordId"];
     
     [self showIndicator];
     
@@ -1186,6 +1194,9 @@
     int tag = sender.tag;
     int count = tag - 999999999 - self.number*100;
     
+    UILabel *lablec = [self.view viewWithTag:222222 + self.number];
+    NSString *fff = self.hezuoArr[self.number][@"forumTitle"];
+
     
     NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
     NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
@@ -1194,13 +1205,11 @@
     [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
-    [requestDict setValue:[NSString stringWithFormat:@"%@(%@)",self.M125dic[@"forumSubTitles"][0][@"forumContents"][count][@"author"],self.M125dic[@"forumSubTitles"][0][@"forumContents"][count][@"groupName"]] forKey:@"collectTitile"];
+    [requestDict setValue:[NSString stringWithFormat:@"%@:%@",fff,lablec.text] forKey:@"collectTitile"];
     [requestDict setValue:[NSString stringWithFormat:@"%@",self.M125dic[@"forumSubTitles"][0][@"forumContents"][count][@"forumContent"]] forKey:@"collectContent"];
     [requestDict setValue:@"3" forKey:@"sourceId"];
     [requestDict setValue:self.M125dic[@"forumSubTitles"][0][@"forumContents"][count][@"authorId"] forKey:@"authorId"];
-
-    //    [requestDict setValue:((ZMAppDelegate*)[UIApplication sharedApplication].delegate).authorId forKey:@"authorId"];
-    //    [requestDict setValue:((ZMAppDelegate*)[UIApplication sharedApplication].delegate).unitId forKey:@"recordId"];
+    [requestDict setValue:self.M125dic[@"forumSubTitles"][0][@"forumContents"][count][@"voteAnswerId"] forKey:@"recordId"];
     
     [self showIndicator];
     
@@ -1218,6 +1227,7 @@
     int count = tag - 55555555 - self.number*100;
 
 
+    self.shoucangview.tag = count + 444444444;
     if (shoucangHidden == YES) {
         self.shoucangview.hidden = NO;
         shoucangHidden = NO;
@@ -1307,9 +1317,15 @@
     UITextView *tv = [self.view viewWithTag: -99999 + self.number];
     UITextView *tv1 = [self.view viewWithTag:-999999 + self.number];
     
-    if (tv.text == nil||[tv.text isEqualToString:@""]||tv1.text == nil ||[tv1.text isEqualToString:@""]) {
+    if (tv.text == nil||[tv.text isEqualToString:@""]) {
         [self showTip:@"内容不能为空"];
         return;
+    }
+    if ([[NSString stringWithFormat:@"%@",self.dic[@"forumType"]] isEqualToString:@"1"]) {
+        if (tv1.text == nil||[tv1.text isEqualToString:@""]) {
+            [self showTip:@"内容不能为空"];
+            return;
+        }
     }
     NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
     NSMutableDictionary* requestDict = [[NSMutableDictionary alloc] initWithCapacity:10];
@@ -1577,7 +1593,8 @@
         tv.editable = NO;
         tv1.hidden = NO;
         btn.hidden = NO;
-        tv.frame = CGRectMake(60, 140, (backview1.frame.size.width - 60)/2 - 70, 250);
+        tv1.frame = CGRectMake(60, 140, (backview1.frame.size.width - 60)/2 - 70, 250);
+        tv.frame = CGRectMake(tv1.frame.size.width + tv1.frame.origin.x + 20,140, (backview1.frame.size.width - 60)/2 - 40, 250);
         aaa.hidden = NO;
     }else {
         tv.editable = YES;

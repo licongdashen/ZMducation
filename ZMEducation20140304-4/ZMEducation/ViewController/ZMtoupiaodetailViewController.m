@@ -34,6 +34,14 @@
     titlelabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:titlelabel];
     
+    UIButton* refishBtn = [[UIButton alloc]initWithFrame:CGRectMake(800, 120, 50, 25)];
+    [refishBtn setTitle:@"刷新" forState:UIControlStateNormal];
+    [refishBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [refishBtn addTarget:self action:@selector(refish) forControlEvents:UIControlEventTouchUpInside];
+    refishBtn.layer.borderColor = [UIColor blackColor].CGColor;
+    refishBtn.layer.borderWidth = 1;
+    [self.view addSubview:refishBtn];
+
     se4Tabv = [[UITableView alloc]initWithFrame:CGRectMake(50, 150, self.view.frame.size.width - 100, self.view.frame.size.height - 100)];
     se4Tabv.delegate = self;
     se4Tabv.dataSource = self;
@@ -49,6 +57,11 @@
        forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:closeBut];
     
+    [self loadM112];
+}
+
+-(void)refish
+{
     [self loadM112];
 }
 
@@ -109,10 +122,10 @@
     }
     
     UILabel *label = [cell.contentView viewWithTag:200];
-    label.text = self.m112Dic[@"groupNames"][indexPath.row][@"optionName"];
+    label.text = [NSString stringWithFormat:@"%@:%@票",self.m112Dic[@"groupNames"][indexPath.row][@"optionName"],self.m112Dic[@"groupNames"][indexPath.row][@"voteCount"]];
     
-    UILabel *label1 = [cell.contentView viewWithTag:201];
-    label1.text = [NSString stringWithFormat:@"%@票",self.m112Dic[@"groupNames"][indexPath.row][@"voteCount"]];
+//    UILabel *label1 = [cell.contentView viewWithTag:201];
+//    label1.text = [NSString stringWithFormat:@"%@票",self.m112Dic[@"groupNames"][indexPath.row][@"voteCount"]];
     
     UILabel *labe2 = [cell.contentView viewWithTag:202];
     labe2.frame = CGRectMake(0, 30,((float)[self.m112Dic[@"groupNames"][indexPath.row][@"voteCount"] intValue]/self.count1)*700, 30);

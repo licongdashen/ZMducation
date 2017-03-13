@@ -37,12 +37,12 @@
     [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
-    [requestDict setValue:nameStr forKey:@"collectTitile"];
+    [requestDict setValue:shitiArr[0][@"questionContent"] forKey:@"collectTitile"];
     [requestDict setValue:contentStr forKey:@"collectContent"];
     [requestDict setValue:[NSString stringWithFormat:@"%ld",(long)sender.tag + 1] forKey:@"typeId"];
     [requestDict setValue:@"2" forKey:@"sourceId"];
-    [requestDict setValue:self.shiti[@"userAnswers"][sender.tag][@"authorId"] forKey:@"authorId"];
-    [requestDict setValue:self.shiti[@"userAnswers"][sender.tag][@"recordId"] forKey:@"recordId"];
+    [requestDict setValue:shitiArr[0][@"userAnswers"][sender.tag][@"authorId"] forKey:@"authorId"];
+    [requestDict setValue:shitiArr[0][@"userAnswers"][sender.tag][@"recordId"] forKey:@"recordId"];
     
     [self showIndicator];
     

@@ -459,6 +459,12 @@
 
 - (void)viewDidLoad{
     
+    self.menuButGousi.hidden = NO;
+    self.menuButShiti.hidden = NO;
+    self.menuButZidian.hidden = NO;
+    self.menuButXiaozhushou.hidden = NO;
+    self.menuButshoucang.hidden = NO;
+
     [self getArticleInfo];
 
     NSMutableDictionary* userDict = [(ZMAppDelegate*)[UIApplication sharedApplication].delegate userDict];
