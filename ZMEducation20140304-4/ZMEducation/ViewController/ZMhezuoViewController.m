@@ -222,7 +222,7 @@
         contentTv.layer.borderWidth = 1;
         contentTv.tag = -99999 + i;
         contentTv.backgroundColor = [UIColor clearColor];
-        contentTv.font = [UIFont systemFontOfSize:15];
+        contentTv.font = [UIFont systemFontOfSize:17];
         [backview1 addSubview:contentTv];
         
         contentTv1 = [[UITextView alloc]initWithFrame:CGRectMake(contentTv.frame.size.width + contentTv.frame.origin.x + 20,140, (backview1.frame.size.width - 60)/2 - 40, 250)];
@@ -230,7 +230,7 @@
         contentTv1.layer.borderWidth = 1;
         contentTv1.tag = -999999 + i;
         contentTv1.hidden = YES;
-        contentTv1.font = [UIFont systemFontOfSize:15];
+        contentTv1.font = [UIFont systemFontOfSize:17];
         contentTv1.backgroundColor = [UIColor clearColor];
         [backview1 addSubview:contentTv1];
 
@@ -1317,10 +1317,14 @@
     UITextView *tv = [self.view viewWithTag: -99999 + self.number];
     UITextView *tv1 = [self.view viewWithTag:-999999 + self.number];
     
-    if (tv.text == nil||[tv.text isEqualToString:@""]) {
-        [self showTip:@"内容不能为空"];
-        return;
+    
+    if ([[NSString stringWithFormat:@"%@",self.dic[@"forumType"]] isEqualToString:@"2"]) {
+        if (tv.text == nil||[tv.text isEqualToString:@""]) {
+            [self showTip:@"内容不能为空"];
+            return;
+        }
     }
+
     if ([[NSString stringWithFormat:@"%@",self.dic[@"forumType"]] isEqualToString:@"1"]) {
         if (tv1.text == nil||[tv1.text isEqualToString:@""]) {
             [self showTip:@"内容不能为空"];

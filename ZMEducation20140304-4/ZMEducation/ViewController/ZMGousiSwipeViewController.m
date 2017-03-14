@@ -114,7 +114,7 @@
    
     {
         UIButton* closeBut = [UIButton buttonWithType:UIButtonTypeCustom];
-        [closeBut setFrame:CGRectMake(948, 20, 49, 49)];
+        [closeBut setFrame:CGRectMake(948, 10, 49, 49)];
         [closeBut setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Close_Btn" ofType:@"png"]] forState:UIControlStateNormal];
         [closeBut setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Close_Btn" ofType:@"png"]] forState:UIControlStateHighlighted];
         [closeBut addTarget:self

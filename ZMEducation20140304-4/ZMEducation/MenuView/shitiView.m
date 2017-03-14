@@ -51,8 +51,8 @@
     [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
-    [requestDict setValue:self.shiti[@"userAnswers"][sender.tag - 10000][@"userName"] forKey:@"collectTitile"];
-    [requestDict setValue:self.shiti[@"questionContent"] forKey:@"collectContent"];
+    [requestDict setValue:self.shiti[@"questionContent"] forKey:@"collectTitile"];
+    [requestDict setValue:self.shiti[@"userAnswers"][sender.tag - 10000][@"answer"][0] forKey:@"collectContent"];
     [requestDict setValue:@"2" forKey:@"sourceId"];
     [requestDict setValue:self.shiti[@"userAnswers"][sender.tag - 10000][@"authorId"] forKey:@"authorId"];
     [requestDict setValue:self.shiti[@"userAnswers"][sender.tag - 10000][@"recordId"] forKey:@"recordId"];
@@ -117,6 +117,11 @@
              NSString * answerText = @"";
             int y = 0;
             int i= 0;
+            
+            UILabel * labelll = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 500, 30)];
+            labelll.text = questionText;
+            [self.scro addSubview:labelll];
+            
              for (NSDictionary * item in [question objectForKey:@"userAnswers"]) {
              NSString * tempStr = [NSString stringWithFormat:@"%@：\n%@\n\n",[item objectForKey:@"userName"],[item objectForKey:@"answer"][0]];
              answerText = [answerText stringByAppendingString:tempStr];

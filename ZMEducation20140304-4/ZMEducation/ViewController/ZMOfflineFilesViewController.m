@@ -285,6 +285,12 @@
             NSLog(@"module:%@",[_moduleArray objectAtIndex:i]);
         }
         
+        self.menuButGousi.hidden = NO;
+        self.menuButShiti.hidden = NO;
+        self.menuButZidian.hidden = NO;
+        self.menuButXiaozhushou.hidden = NO;
+        self.menuButshoucang.hidden = NO;
+        
         ZMHomeViewController* homeView = [[ZMHomeViewController alloc] init];
         [homeView setModuleArray:_moduleArray];
         

@@ -458,7 +458,7 @@
 }
 
 - (void)viewDidLoad{
-    
+    [super viewDidLoad];
     self.menuButGousi.hidden = NO;
     self.menuButShiti.hidden = NO;
     self.menuButZidian.hidden = NO;

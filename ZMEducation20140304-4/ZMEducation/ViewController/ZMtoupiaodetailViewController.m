@@ -122,7 +122,7 @@
     }
     
     UILabel *label = [cell.contentView viewWithTag:200];
-    label.text = [NSString stringWithFormat:@"%@:%@票",self.m112Dic[@"groupNames"][indexPath.row][@"optionName"],self.m112Dic[@"groupNames"][indexPath.row][@"voteCount"]];
+    label.text = [NSString stringWithFormat:@"%@：%@票",self.m112Dic[@"groupNames"][indexPath.row][@"optionName"],self.m112Dic[@"groupNames"][indexPath.row][@"voteCount"]];
     
 //    UILabel *label1 = [cell.contentView viewWithTag:201];
 //    label1.text = [NSString stringWithFormat:@"%@票",self.m112Dic[@"groupNames"][indexPath.row][@"voteCount"]];

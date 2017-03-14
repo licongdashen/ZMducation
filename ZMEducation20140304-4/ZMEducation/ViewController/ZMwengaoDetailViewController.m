@@ -98,7 +98,7 @@
         
         UITextView *labele = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 60)];
         labele.tag = 200;
-        labele.font = [UIFont systemFontOfSize:15];
+        labele.font = [UIFont systemFontOfSize:17];
         labele.backgroundColor = [UIColor clearColor];
         labele.editable = NO;
         [cell.contentView addSubview:labele];
