@@ -1287,11 +1287,11 @@
     UITableView *tabv = [self.view viewWithTag: 111111 + self.number];
     tabv.hidden = NO;
     
-    UIButton *btn = [self.view viewWithTag:888888 + self.number];
-    UIButton *btn1 = [self.view viewWithTag:-88888888 + self.number];
-    
-    btn.hidden = NO;
-    btn1.hidden = NO;
+//    UIButton *btn = [self.view viewWithTag:888888 + self.number];
+//    UIButton *btn1 = [self.view viewWithTag:-88888888 + self.number];
+//    
+//    btn.hidden = NO;
+//    btn1.hidden = NO;
 }
 
 -(void)loadM124View
@@ -1423,7 +1423,11 @@
         [tabv1 reloadData];
         [self loadM126SubView];
 //        [self loadM125SubView];
-
+        UIButton *btn = [self.view viewWithTag:888888 + self.number];
+        UIButton *btn1 = [self.view viewWithTag:-88888888 + self.number];
+        
+        btn.hidden = YES;
+        btn1.hidden = YES;
 
     }else if (Seg.selectedSegmentIndex == 3) {
         UIView *backview = [self.scro viewWithTag:Seg.tag - 9999 + 999];
@@ -1639,11 +1643,7 @@
         UITableView *tabv = [self.view viewWithTag: 111111 + self.number];
         tabv.hidden = YES;
         
-        UIButton *btn = [self.view viewWithTag:888888 + self.number];
-        UIButton *btn1 = [self.view viewWithTag:-88888888 + self.number];
-
-        btn.hidden = YES;
-        btn1.hidden = YES;
+        
     }
 }
 
