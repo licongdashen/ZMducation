@@ -770,7 +770,7 @@
     [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
-    [requestDict setValue:@"2" forKey:@"type"];
+    [requestDict setValue:@"1" forKey:@"type"];
     [requestDict setValue:self.M124tempArr forKey:@"voteContent"];
     [requestDict setValue:self.M124dic[@"forumId"] forKey:@"forumId"];
 
@@ -821,9 +821,11 @@
     [requestDict setValue:[userDict valueForKey:@"currentClassId"] forKey:@"classId"];
     [requestDict setValue:[userDict valueForKey:@"currentGradeId"] forKey:@"gradeId"];
     [requestDict setValue:[userDict valueForKey:@"userId"] forKey:@"userId"];
-    [requestDict setValue:[NSString stringWithFormat:@"%@",self.M125dic[@"coType"]] forKey:@"type"];
+    [requestDict setValue:@"2" forKey:@"type"];
     [requestDict setValue:self.M125tempArr forKey:@"voteContent"];
     [requestDict setValue:self.M125dic[@"forumId"] forKey:@"forumId"];
+    [requestDict setValue:m126id forKey:@"optionId"];
+
     
     [self showIndicator];
     
@@ -1415,6 +1417,11 @@
         [tabv1 reloadData];
         [self loadM126SubView];
 //        [self loadM125SubView];
+        
+        UIButton *btn = [self.view viewWithTag:888888 + self.number];
+        UIButton *btn1 = [self.view viewWithTag:-88888888 + self.number];
+        btn.hidden = YES;
+        btn1.hidden = YES;
 
     }else if (Seg.selectedSegmentIndex == 3) {
         UIView *backview = [self.scro viewWithTag:Seg.tag - 9999 + 999];
@@ -1676,6 +1683,7 @@
     }else if ([@"M127" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
         [self hideIndicator];
         [self showTip:@"投票成功"];
+        [self loadM124];
         [self loadM125];
     }else if ([@"M125" isEqualToString:method] && [@"00" isEqualToString:responseCode]){
         [self hideIndicator];

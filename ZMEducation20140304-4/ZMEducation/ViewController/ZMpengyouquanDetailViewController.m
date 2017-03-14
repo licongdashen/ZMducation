@@ -78,7 +78,7 @@
     label.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:label];
 
-    tabv1 = [[UITableView alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 600)];
+    tabv1 = [[UITableView alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 500)];
     tabv1.delegate = self;
     tabv1.dataSource = self;
     tabv1.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -160,7 +160,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-    return 80;
+    return 130;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section;

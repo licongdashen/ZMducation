@@ -25,8 +25,9 @@
         self.nameLb.font = [UIFont systemFontOfSize:16];
         [self addSubview:self.nameLb];
 
-        self.contentLb = [[UILabel alloc]initWithFrame:CGRectMake(50, 30, 900, 50)];
+        self.contentLb = [[UILabel alloc]initWithFrame:CGRectMake(50, 30, 900, 100)];
         self.contentLb.font = [UIFont systemFontOfSize:16];
+        self.contentLb.numberOfLines = 6;
         [self addSubview:self.contentLb];
 
     }
