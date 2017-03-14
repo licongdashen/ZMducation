@@ -1286,6 +1286,12 @@
     [self loadM125];
     UITableView *tabv = [self.view viewWithTag: 111111 + self.number];
     tabv.hidden = NO;
+    
+    UIButton *btn = [self.view viewWithTag:888888 + self.number];
+    UIButton *btn1 = [self.view viewWithTag:-88888888 + self.number];
+    
+    btn.hidden = NO;
+    btn1.hidden = NO;
 }
 
 -(void)loadM124View
@@ -1417,11 +1423,7 @@
         [tabv1 reloadData];
         [self loadM126SubView];
 //        [self loadM125SubView];
-        
-        UIButton *btn = [self.view viewWithTag:888888 + self.number];
-        UIButton *btn1 = [self.view viewWithTag:-88888888 + self.number];
-        btn.hidden = YES;
-        btn1.hidden = YES;
+
 
     }else if (Seg.selectedSegmentIndex == 3) {
         UIView *backview = [self.scro viewWithTag:Seg.tag - 9999 + 999];
@@ -1636,7 +1638,21 @@
 
         UITableView *tabv = [self.view viewWithTag: 111111 + self.number];
         tabv.hidden = YES;
+        
+        UIButton *btn = [self.view viewWithTag:888888 + self.number];
+        UIButton *btn1 = [self.view viewWithTag:-88888888 + self.number];
+
+        btn.hidden = YES;
+        btn1.hidden = YES;
     }
+}
+
+-(void)pop
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+        
+    }];
 }
 
 -(void)httpEngine:(ZMHttpEngine *)httpEngine didSuccess:(NSDictionary *)responseDict{
@@ -1646,8 +1662,15 @@
     NSString* responseCode = [responseDict valueForKey:@"responseCode"];
     if ([@"M121" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
         self.hezuoArr = responseDict[@"forumTitles"];
-        [self loadSubViews];
         [self hideIndicator];
+
+        if ([self.hezuoArr count] == 0) {
+            [self showTip:@"暂无内容"];
+            [self performSelector:@selector(pop) withObject:nil afterDelay:2];
+            return;
+        }
+
+        [self loadSubViews];
         [self loadM122];
         [self loadM124];
         [self loadM126];

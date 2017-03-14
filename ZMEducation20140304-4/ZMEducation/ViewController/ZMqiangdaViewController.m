@@ -575,6 +575,14 @@
     raceId = self.m116dic[@"races"][0][@"raceId"];
 }
 
+-(void)pop
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+        
+    }];
+}
+
 -(void)httpEngine:(ZMHttpEngine *)httpEngine didSuccess:(NSDictionary *)responseDict{
     [super httpEngine:httpEngine didSuccess:responseDict];
     
@@ -583,6 +591,12 @@
     if ([@"M116" isEqualToString:method] && [@"00" isEqualToString:responseCode]) {
         [self hideIndicator];
         self.m116dic = responseDict;
+        if ([self.m116dic[@"races"] count] == 0) {
+            [self showTip:@"暂无内容"];
+            self.view.userInteractionEnabled = NO;
+            [self performSelector:@selector(pop) withObject:nil afterDelay:2];
+            return;
+        }
         [self loadM116SubView];
         [tabv reloadData];
         NSLog(@"self.m116dic====%@",self.m116dic);

@@ -534,6 +534,14 @@
     }
 }
 
+-(void)pop
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+        
+    }];
+}
+
 -(void)httpEngine:(ZMHttpEngine *)httpEngine didSuccess:(NSDictionary *)responseDict{
     [super httpEngine:httpEngine didSuccess:responseDict];
     
@@ -543,6 +551,12 @@
         [self hideIndicator];
 
         self.m113Arr = responseDict[@"votes"];
+        
+        if ([self.m113Arr count] == 0) {
+            [self showTip:@"暂无内容"];
+            [self performSelector:@selector(pop) withObject:nil afterDelay:2];
+            return;
+        }
         [self loadSubView];
         [self loadM112];
         NSLog(@"self.m113Arr====%@",self.m113Arr);
