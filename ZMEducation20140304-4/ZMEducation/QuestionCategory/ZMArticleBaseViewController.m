@@ -459,11 +459,11 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    self.menuButGousi.hidden = NO;
-    self.menuButShiti.hidden = NO;
-    self.menuButZidian.hidden = NO;
-    self.menuButXiaozhushou.hidden = NO;
-    self.menuButshoucang.hidden = NO;
+    self.menuButGousi.hidden = YES;
+    self.menuButShiti.hidden = YES;
+    self.menuButZidian.hidden = YES;
+    self.menuButXiaozhushou.hidden = YES;
+    self.menuButshoucang.hidden = YES;
 
     [self getArticleInfo];
 

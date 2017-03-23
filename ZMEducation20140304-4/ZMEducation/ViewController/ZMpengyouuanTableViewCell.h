@@ -16,7 +16,7 @@
 
 @property (nonatomic, strong) UILabel *nameLb;
 
-@property (nonatomic, strong) UILabel *contentLb;
+@property (nonatomic, strong) UITextView *contentLb;
 
 @property (nonatomic, strong) NSMutableArray *arr;
 
